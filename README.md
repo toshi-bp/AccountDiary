@@ -43,28 +43,41 @@
 
 ## データベースの構造
 ### テーブル名
-| カラム名 | データ型 | キー |
+| カラム名 | データ型 | 主キーか |
 | --- | --- | --- |
 ||||
 
 ### membership
-| カラム名 | データ型 | キー |
+| カラム名 | データ型 | 備考 |
 | --- | --- | --- |
-| id | INTEGER ||
+| id | INTEGER | 主キー |
+| mail | TEXT | メアド |
+| pwd | TEXT | パスワード |
+| birthday | DATE | 生年月日 |
+| gender | TEXT | 性別 |
+| phonenumber | TEXT | 電話番号 |
 
-### images
-| カラム名 | データ型 | キー |
+### images(インスタ的な部分)
+| カラム名 | データ型 | 備考 |
 | --- | --- | --- |
-| id | INTEGER |  |
-| memberId | INTEGER |  |
-| imageUrl | TEXT ||
-| date | DATE ||
-| diary | TEXT ||
+| id | INTEGER | 主キー |
+| memberId | INTEGER | membershipのidと照会 |
+| imageUrl | TEXT |  |
+| act_time | DATE | 初回投稿の際の日付orその行動を行なった日付 |
+| update_time | DATE | 更新した際の日付 |
+| diary | TEXT |  |
 
-### money
-| カラム名 | データ型 | キー |
+### history(行動履歴)
+| カラム名 | データ型 | 備考 |
 | --- | --- | --- |
-||||
+| id | INTEGER | 主キー |
+| memberId | INTEGER | membershipのidと照会 |
+| action | TEXT |  |
+| result | INTEGER | 行動の結果による収入or支出 |
+| act_time | DATE | 初回投稿の際の日付orその行動を行なった日付 |
+| update_time | DATE | 更新した際の日付 |
+| type | TEXT | カテゴリ |
+
 
 ## 必要となる画面
 1. ログイン画面

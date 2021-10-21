@@ -1,4 +1,4 @@
-# vue-flask
+# AccountDiary
 ## 概要
 家計簿と思い出を一緒に記録するサービス
 

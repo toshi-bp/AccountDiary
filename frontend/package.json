@@ -10,9 +10,12 @@
   "dependencies": {
     "axios": "^0.23.0",
     "core-js": "^3.6.5",
+    "element-plus": "^1.1.0-beta.24",
     "node-sass": "^6.0.1",
+    "sass-loader": "^10",
     "vue": "^3.0.0",
-    "vue-router": "^3.5.2"
+    "vue-router": "^4.0.12",
+    "vuex": "^3.6.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

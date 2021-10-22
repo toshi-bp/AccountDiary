@@ -1,6 +1,6 @@
 <template>
     <div>
-        <!-- 会員情報を各コンポーネントに受け渡す -->
+        <!-- 行動履歴をするページ -->
     </div>
 </template>
 
@@ -10,6 +10,6 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="sass" scoped>
 
 </style>

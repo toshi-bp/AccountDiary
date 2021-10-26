@@ -9,5 +9,7 @@
   $row-gutter: 0.5rem
   display: flex
   flex-wrap: wrap
-  margin: 0 #{-$row-gutter}
+  margin: 0
+  justify-content: center
+  align-items: center
 </style>

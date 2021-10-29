@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>記録</h3>  
+    <!-- <h3>記録</h3>  
     
     <div>
       <el-select v-model="value" placeholder="Select">
@@ -27,53 +27,53 @@
         >
         </el-date-picker>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
 
-import { defineComponent, reactive, toRefs } from 'vue'
+// import { defineComponent, reactive, toRefs } from 'vue'
 
-export default defineComponent({
-  setup() {
-    const state = reactive({
-      disabledDate(time) {
-        return time.getTime() > Date.now()
-      },
-      shortcuts: [
-        {
-          text: 'Today',
-          value: new Date(),
-        },
-        {
-          text: 'Yesterday',
-          value: () => {
-            const date = new Date()
-            date.setTime(date.getTime() - 3600 * 1000 * 24)
-            return date
-          },
-        },
-        {
-          text: 'A week ago',
-          value: () => {
-            const date = new Date()
-            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
-            return date
-          },
-        },
-      ],
-      value1: '',
-      value2: '',
-    })
+// export default defineComponent({
+//   setup() {
+//     const state = reactive({
+//       disabledDate(time) {
+//         return time.getTime() > Date.now()
+//       },
+//       shortcuts: [
+//         {
+//           text: 'Today',
+//           value: new Date(),
+//         },
+//         {
+//           text: 'Yesterday',
+//           value: () => {
+//             const date = new Date()
+//             date.setTime(date.getTime() - 3600 * 1000 * 24)
+//             return date
+//           },
+//         },
+//         {
+//           text: 'A week ago',
+//           value: () => {
+//             const date = new Date()
+//             date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
+//             return date
+//           },
+//         },
+//       ],
+//       value1: '',
+//       value2: '',
+//     })
 
-    return {
-      ...toRefs(state),
-    }
-  },
+//     return {
+//       ...toRefs(state),
+//     }
+//   },
 
 
-
+// })
 </script>
 
 

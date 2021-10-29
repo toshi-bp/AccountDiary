@@ -6,7 +6,9 @@
         v-for="item in menu" :key="item.id"
         class="side-bar__list__body"
       >
-        <li>{{ item.title }}</li>
+        <router-link :to="item.path">
+          <li class="side-bar__list__body__item">{{ item.title }}</li>
+        </router-link>
       </ul>
     </div>
     <div>
@@ -47,22 +49,22 @@ export default {
         {
           id: 2,
           title: "入力",
-          path: "/"
+          path: "/mypage/memory"
         },
         {
           id: 3,
           title: "履歴",
-          path: "/"
+          path: "/mypage/memory"
         },
         {
           id: 4,
           title: "分析",
-          path: "/"
+          path: "/mypage/memory"
         },
         {
           id: 5,
           title: "設定",
-          path: "/"
+          path: "/mypage/memory"
         }
       ]
     }
@@ -98,6 +100,9 @@ export default {
     &__body
       list-style: none
       margin-left: -2.7rem
+      &__item
+        color: #fff
+        text-decoration: none
   &__money
     color: #fff
     text-align: center

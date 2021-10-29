@@ -17,6 +17,18 @@
                 class="mypage__img__body"
                 @click="onModal"
               />
+              <div>
+                <memory-modal
+                  :cost="1000"
+                  :description="'今日はタカシとカレー。美味しかった。'"
+                  :date="new Date('July 20, 69 00:20:18')"
+                  :imageUrl="'https://1.bp.blogspot.com/-tVeC6En4e_E/X96mhDTzJNI/AAAAAAABdBo/jlD_jvZvMuk3qUcNjA_XORrA4w3lhPkdQCNcBGAsYHQ/s1048/onepiece01_luffy.png'"
+                  :hashTags="['タカシ', '洋風カレー']"
+                  :isVisible="visible"
+                  :name="'洋風カレー'"
+                  :title="'ABCカレー'"
+                />
+              </div>
             </div>
           </div>
         </the-row>
@@ -29,6 +41,7 @@
 import Header from '../../src/components/Header.vue'
 import SideBar from '../../src/components/SideBar.vue'
 import TheRow from '../../src/components/TheRow.vue'
+import MemoryModal from '../../src/components/MemoryModal.vue'
 // import TheColumn from '../../src/components/TheColumn.vue'
 // import TheSection from '../../src/components/TheSection.vue'
 
@@ -37,6 +50,7 @@ export default {
     Header,
     SideBar,
     TheRow,
+    MemoryModal,
     // TheColumn,
     // TheSection,
   },

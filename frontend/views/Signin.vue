@@ -39,7 +39,9 @@
     </i>
     <div>
       <div class="login__button">
-        <el-button type="primary" plain>LOGIN</el-button>
+        <router-link to="/mypage">
+          <el-button type="primary" plain>LOGIN</el-button>
+        </router-link>
       </div>
       <div class="login__button">
         <router-link to="/register">

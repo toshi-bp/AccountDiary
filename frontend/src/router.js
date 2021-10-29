@@ -3,6 +3,7 @@ import Home from '../views/Home'
 import Signin from '../views/Signin'
 import MyPage from '../views/Mypage/'
 import Register from '../views/Register'
+import Memory from '../views/Mypage/Memory'
 
 const routes = [
   {
@@ -24,7 +25,12 @@ const routes = [
     path: '/mypage',
     name: 'MyPage',
     component: MyPage,
-  }
+  },
+  {
+    path: '/mypage/memory',
+    name: 'Memory',
+    component: Memory,
+  },
 ]
 
 const router  = createRouter({

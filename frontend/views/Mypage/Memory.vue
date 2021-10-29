@@ -74,9 +74,6 @@ export default defineComponent({
 
 
 
-  
-})
-
 </script>
 
 
@@ -88,4 +85,3 @@ export default defineComponent({
     &__input
       // 何か書く
 </style>
-

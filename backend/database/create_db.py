@@ -8,6 +8,7 @@ def connect_to_db():
         "AccountDiary.db",
         isolation_level=None,
     )
+    return db
 
 def create_tables():
     #フィールド作成用SQL文
@@ -15,10 +16,10 @@ def create_tables():
         conn = connect_to_db()
         # ユーザー情報テーブル
         conn.execute('''
-            CREATE TABLE user (
+            CREATE TABLE users (
                 id Integer primary key,
                 mail TEXT not null,
-                pwd TEXT not null,
+                password TEXT not null,
                 name TEXT not null,
                 birthday TEXT not null,
                 gender TEXT not null,
@@ -35,20 +36,20 @@ def create_tables():
                 update_time DateTime not null,
                 diary TEXT not null,
                 score Integer,
-                foreign key (memberid) references membership(id)
+                foreign key (user_id) references membership(id)
             );
         ''')
         # 行動履歴テーブル
         conn.execute('''
             CREATE TABLE history (
                 id Integer primary key, 
-                memberid Integer,
+                user_id Integer,
                 action TEXT not null,
                 result Integer not null, 
                 act_time Date not null, 
                 update_time Date not null,
                 category TEXT not null,
-                foreign key (memberid) references membership(id)
+                foreign key (user_id) references membership(id)
             );
         ''')
         conn.commit()
@@ -57,24 +58,6 @@ def create_tables():
         print('Tables creation failed...')
     finally:
         conn.close()
-
-# ユーザー情報を挿入するための関数
-def insert_user(user):
-    inserted_user = {}
-    try:
-        conn = connect_to_db()
-        cur = conn.cursor()
-        cur.execute(
-            ""
-        )
-        conn.commit()
-        inserted_user = get_user_by_id(cur.lastrowid)
-    except:
-        conn().rollback()
-    finally:
-        conn.close()
-    return inserted_user
-
 
 sql_membership = """
     CREATE TABLE membership (
@@ -134,9 +117,9 @@ sql3 = """
 # db.execute(sql_images)
 # db.execute(sql_history)
 
-db.execute(sql2)
+# db.execute(sql2)
 
-for i in db.execute(sql3):
-    print(i)
+# for i in db.execute(sql3):
+#     print(i)
 
-db.close()         
+# db.close()         

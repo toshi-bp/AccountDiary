@@ -5,14 +5,14 @@ db = SQLAlchemy()
 # データベースの定義を行うモジュール
 class User(db.Model):
     # テーブル名
-    __tablename__ = 'user'
+    __tablename__ = 'users'
 
     # カラム情報
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
     mail = db.Column(db.String(255), nullable=False)
     pwd = db.Column(db.String(255), nullable=False)
-    birthday = db.Column(db.DateTime)
+    birthday = db.Column(db.Date)
     gender = db.Column(db.String)
     phonenumber = db.Column(db.String(255))
     create_time = db.Column(db.DateTime, nullable=False)
@@ -47,6 +47,7 @@ class images(db.Model):
     act_time = db.Column(db.DateTime, nullable=False)
     update_time = db.Column(db.DateTime, nullable=False)
     diary = db.Column(db.String(255), nullable=False)
+    score = db.Column(db.Integer, nullable=False)
 
     def __init__(self, id, member_id, image_url, act_time, update_time, diary):
         self.id = id
@@ -55,6 +56,7 @@ class images(db.Model):
         self.act_time = act_time
         self.update_time = update_time
         self.diary = diary
+        self.score = score
     
     # 抽象クラスを作成した方がわかりやすい...？
 
@@ -103,4 +105,15 @@ class history(db.Model):
 
 # default = datetime.now を使用するとわかりやすいかも
 
+def init_db(app):
+    db.init_app(app)
+    db.create_all()
+
+def get_all():
+    return User.query.order_by(User.id).all()
+
+def insert_user(name):
+    model = User(name=name)
+    db.session.add(model)
+    db.session.commit()
 

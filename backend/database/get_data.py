@@ -11,16 +11,16 @@ def get_users():
         cur.execute("SELECT * FROM users")
         rows = cur.fetchall()
 
-        for i in rows:
+        for row in rows:
             # カラム情報を取得する
             user = {}
-            user["id"] = i["id"]
-            user["mail"] = i["mail"]
-            user["password"] = i["password"]
-            user["name"] = i["name"]
-            user["birthday"] = i["birthday"]
-            user["gender"] = i["gender"]
-            user["phonenumber"] = i["phonenumber"]
+            user["id"] = row["id"]
+            user["mail"] = row["mail"]
+            user["password"] = row["password"]
+            user["name"] = row["name"]
+            user["birthday"] = row["birthday"]
+            user["gender"] = row["gender"]
+            user["phonenumber"] = row["phonenumber"]
             users.append(user)
     except:
         users = []
@@ -32,7 +32,7 @@ def get_user_by_id(user_id):
         conn = connect_to_db()
         conn.row_factory = sqlite3.Row
         cur = conn.cursor()
-        cur.execute("SELECT * FROM users WHERE user_id = ?", (user_id))
+        cur.execute("SELECT * FROM users WHERE id = ?", (user_id))
         row = cur.fetchone()
 
         # 辞書型に変換
@@ -48,15 +48,97 @@ def get_user_by_id(user_id):
     return user
 
 def get_images():
-    return
+    images = []
+    try:
+        conn = connect_to_db()
+        conn.row_factory = sqlite3.Row
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM images")
+        rows = cur.fetchall()
+
+        for row in rows:
+            image = {}
+            image["id"] = row["id"]
+            image["user_id"] = row["user_id"]
+            image["image_url"] = row["image_url"]
+            image["act_time"] = row["act_time"]
+            image["update_time"] = row["update_time"]
+            image["update_time"] = row["update_time"]
+            image["diary"] = row["diary"]
+            image["score"] = row["score"]
+            images.append(image)
+    except:
+        images = []
+    return images
 
 def get_images_by_id(user_id):
     images = []
-    return
+    try:
+        conn = connect_to_db()
+        conn.row_factory = sqlite3.Row
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM images WHERE user_id = ?", (user_id))
+        rows = cur.fetchall()
+
+        for row in rows:
+            image = {}
+            image["id"] = row["id"]
+            image["user_id"] = row["user_id"]
+            image["image_url"] = row["image_url"]
+            image["act_time"] = row["act_time"]
+            image["update_time"] = row["update_time"]
+            image["update_time"] = row["update_time"]
+            image["diary"] = row["diary"]
+            image["score"] = row["score"]
+            images.append(image)
+    except:
+        images = []
+    return images
 
 def get_histories():
-    return
+    histories = []
+    try:
+        conn = connect_to_db()
+        conn.row_factory = sqlite3.Row
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM histories")
+        rows = cur.fetchall()
+
+        for row in rows:
+            # カラム情報を取得する
+            history = {}
+            history["id"] = row["id"]
+            history["user_id"] = row["user_id"]
+            history["action"] = row["action"]
+            history["result"] = row["result"]
+            history["act_time"] = row["act_time"]
+            history["update_time"] = row["update_time"]
+            history["category"] = row["category"]
+            histories.append(history)
+    except:
+        histories = []
+    return histories
 
 def get_histories_by_id(user_id):
-    images = []
-    return
+    histories = []
+    try:
+        conn = connect_to_db()
+        conn.row_factory = sqlite3.Row
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM histories WHERE user_id = ?", (user_id))
+        rows = cur.fetchall()
+
+        for row in rows:
+            # カラム情報を取得する
+            history = {}
+            history["id"] = row["id"]
+            history["user_id"] = row["user_id"]
+            history["action"] = row["action"]
+            history["result"] = row["result"]
+            history["act_time"] = row["act_time"]
+            history["update_time"] = row["update_time"]
+            history["category"] = row["category"]
+            histories.append(history)
+    except:
+        histories = []
+    return histories

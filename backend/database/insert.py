@@ -32,7 +32,7 @@ def insert_image(image):
             INSERT INTO
                 images(id, user_id, image_url, act_time, update_time, diary, score)
                 VALUES(?, ?, ?, ?, ?, ?, ?),
-                (image['id'], image['image_id'], image['image_url'], image['act_time'], image['update_time'], image['diary'], image['score'])
+                (image['id'], image['user_id'], image['image_url'], image['act_time'], image['update_time'], image['diary'], image['score'])
             """)
         conn.commit()
         inserted_image = get_images_by_id(cur.lastrowid)
@@ -40,7 +40,7 @@ def insert_image(image):
         conn().rollback()
     finally:
         conn.close()
-    return inserted_image[0]
+    return inserted_image[len(inserted_image)-1]
 
 def insert_history():
     inserted_history = []
@@ -60,4 +60,4 @@ def insert_history():
         conn().rollback()
     finally:
         conn.close()
-    return inserted_history[0]
+    return inserted_history[len(inserted_history)-1]

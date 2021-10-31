@@ -14,8 +14,30 @@ def delete_user(user_id):
         conn.close()
     return message
 
-def delete_images(user_id):
+def delete_images(id):
     message = {}
+    try:
+        conn = connect_to_db()
+        conn.execute("DELETE from images WHERE id = ?", (id))
+        conn.commit()
+        message["status"] = "success"
+    except:
+        conn.rollback()
+        message["status"] = "failed"
+    finally:
+        conn.close()
+    return message
 
-def delete_histories(user_id):
+def delete_histories(id):
     message = {}
+    try:
+        conn = connect_to_db()
+        conn.execute("DELETE from histories WHERE id = ?", (id))
+        conn.commit()
+        message["status"] = "success"
+    except:
+        conn.rollback()
+        message["status"] = "failed"
+    finally:
+        conn.close()
+    return message

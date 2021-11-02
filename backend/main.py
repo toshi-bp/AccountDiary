@@ -1,22 +1,34 @@
 from flask import Flask, render_template, request, jsonify
-from flask_jwt_extended import JWTManager
+# from flask_jwt_extended import JWTManager
 from flask_cors import CORS
-from views.auth import *
+# from views.auth import *
 
-from database.get_data import *
-from database.insert import *
-from database.update import *
-from database.delete import *
+from get_data import *
+from insert import *
+from update import *
+from delete import *
 
 # API設定
 app = Flask(__name__, static_folder='../frontend/dist/static', template_folder='../frontend/dist')
-jwt = JWTManager
+# jwt = JWTManager
 CORS(app, resources={r"/*": {"origins": "*"}})
 
 # views読み込み
-app.register_blueprint(auth)
+# app.register_blueprint(auth)
 
 @app.route('/', defaults={'path': ''})
+
+# 認証部分
+@app.route('/login', methods=['POST'])
+def login():
+    username = request.json.get("name", None)
+    password = request.json.get("password", None)
+    if not username or password:
+        return jsonify({"message": "Format does not match"}), 400
+
+    user_data = api_get_status()
+
+    return
 
 # users
 @app.route('/api/users', methods=['GET'])
@@ -30,6 +42,7 @@ def api_get_user(user_id):
 @app.route('/api/users/add', methods=['POST'])
 def api_add_user():
     user = request.get_json()
+    print(user)
     return jsonify(insert_user(user))
 
 @app.route('/api/users/update', methods=['PUT'])

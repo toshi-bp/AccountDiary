@@ -4,22 +4,19 @@ from get_data import get_user_by_id, get_images_by_id, get_histories_by_id
 # ユーザー情報を挿入するための関数
 def insert_user(user):
     inserted_user = {}
+    print(user["id"])
     try:
         conn = connect_to_db()
         cur = conn.cursor()
-        cur.execute(
-            """
-            INSERT INTO
-                users(id, mail, password, name, birthday, gender, phonenumber)
-                VALUES(?, ?, ?, ?, ?, ?, ?),
-                (user['id'], user['mail'], user['password'], user['name'], user['birthday'], user['gender'], user['phonenumber'])
-            """)
+        cur.execute("INSERT INTO users(id, mail, password, name, birthday, gender, phonenumber) VALUES(?, ?, ?, ?, ?, ?, ?)", (user['id'], user['mail'], user['password'], user['name'], user['birthday'], user['gender'], user['phone']))
         conn.commit()
         inserted_user = get_user_by_id(cur.lastrowid)
     except:
+        print("no data")
         conn().rollback()
     finally:
         conn.close()
+    print(inserted_user)
     return inserted_user
 
 def insert_image(image):

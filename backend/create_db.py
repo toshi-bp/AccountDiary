@@ -41,7 +41,7 @@ def create_tables():
         ''')
         # 行動履歴テーブル
         conn.execute('''
-            CREATE TABLE history (
+            CREATE TABLE histories (
                 id Integer primary key not null,
                 user_id Integer,
                 action TEXT not null,

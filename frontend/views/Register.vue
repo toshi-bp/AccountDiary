@@ -15,6 +15,10 @@
         <el-input v-model="mail" class="register__input" />
       </div>
       <div>
+        NAME
+        <el-input v-model="name" class="register__input" />
+      </div>
+      <div>
         PASSWORD
         <el-input v-model="password" class="register__input" />
       </div>
@@ -44,7 +48,7 @@
         </el-input>
       </div>
       <div>
-        <div><el-button type="primary" plain>SEND</el-button></div>
+        <div><el-button type="primary" plain @click="register">SEND</el-button></div>
       </div>
       </i>
       </center>
@@ -63,7 +67,7 @@ export default {
       mail: '',
       password: '',
       passwordConf: '',
-      birthday: new Date(),
+      birthday: '',
       genders: [
         {
           value: 'male',
@@ -78,11 +82,12 @@ export default {
           label: 'その他'
         }
       ],
+      name: '',
       gender: '',
       phone: '',
-      phone1: '',
-      phone2: '',
-      phone3: '',
+      phone1: '000',
+      phone2: '111',
+      phone3: '2222',
       alertMessage: '',
       alertType: '',
     }
@@ -93,12 +98,17 @@ export default {
   methods: {
     register () {
       const BASE_URL = 'http://localhost:5000'
-      if (this.mail === '') {
+      if (this.mail === '' || this.birthday === '') {
         return
       }
       if (this.password !== this.passwordConf) {
         return
       }
+      // 誕生日は文字列+/として格納
+      const year = this.birthday.getFullYear()
+      const month = this.birthday.getMonth() + 1
+      const date = this.birthday.getDate()
+      const birthday = year.toString() + '/' + month.toString() + '/' + date.toString()
       let sha256 = crypto.createHash('sha256')
       sha256.update(this.password)
       const hashPass = sha256.digest('base64')
@@ -106,9 +116,9 @@ export default {
       let sha256Conf = crypto.createHash('sha256')
       sha256Conf.update(this.passwordConf)
       const hashPassConf = sha256.digest('base64')
+      console.log(hashPassConf)
 
       const phoneNumber = this.phone1 + this.phone2 + this.phone3
-
       let axios = Axios.create({
         baseURL: BASE_URL,
         headers: {
@@ -118,12 +128,14 @@ export default {
         responseType: 'json'
       })
       let self = this
-      axios.post('/register', {
+      axios.post('/api/users/add', {
+        id: 1,
         mail: self.mail,
         password: hashPass,
-        passwordConf: hashPassConf,
+        name: self.name,
+        birthday: birthday,
         gender: self.gender,
-        phone: phoneNumber
+        phone: phoneNumber,
       })
       .then(res => {
         console.log(res)
@@ -135,6 +147,7 @@ export default {
         }, 1500)
       })
       .catch(() => {
+        console.log('error')
         this.alertMessage = 'エラー'
         this.alertType = 'error'
       })

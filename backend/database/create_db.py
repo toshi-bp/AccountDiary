@@ -17,7 +17,7 @@ def create_tables():
         # ユーザー情報テーブル
         conn.execute('''
             CREATE TABLE users (
-                id Integer primary key,
+                id Integer primary key not null,
                 mail TEXT not null,
                 password TEXT not null,
                 name TEXT not null,
@@ -36,20 +36,20 @@ def create_tables():
                 update_time DateTime not null,
                 diary TEXT not null,
                 score Integer,
-                foreign key (user_id) references membership(id)
+                foreign key (user_id) references users(id)
             );
         ''')
         # 行動履歴テーブル
         conn.execute('''
             CREATE TABLE history (
-                id Integer primary key, 
+                id Integer primary key not null,
                 user_id Integer,
                 action TEXT not null,
                 result Integer not null, 
                 act_time Date not null, 
                 update_time Date not null,
                 category TEXT not null,
-                foreign key (user_id) references membership(id)
+                foreign key (user_id) references users(id)
             );
         ''')
         conn.commit()
@@ -122,4 +122,7 @@ sql3 = """
 # for i in db.execute(sql3):
 #     print(i)
 
-# db.close()         
+# db.close()
+
+if __name__ == '__main__':
+    create_tables()

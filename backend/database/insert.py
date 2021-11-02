@@ -42,7 +42,7 @@ def insert_image(image):
         conn.close()
     return inserted_image[len(inserted_image)-1]
 
-def insert_history():
+def insert_history(history):
     inserted_history = []
     try:
         conn = connect_to_db()

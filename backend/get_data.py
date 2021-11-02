@@ -47,6 +47,28 @@ def get_user_by_id(user_id):
         user = {}
     return user
 
+# 認証に利用
+def get_user_by_name_and_pwd(username, password):
+    user = {}
+    try:
+        conn = connect_to_db()
+        conn.row_factory = sqlite3.Row
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM users WHERE name = ? AND password = ?", (username, password))
+        row = cur.fetchone()
+
+        # 辞書型に変換
+        user["id"] = row["id"]
+        user["mail"] = row["mail"]
+        user["password"] = row["password"]
+        user["name"] = row["name"]
+        user["birthday"] = row["birthday"]
+        user["gender"] = row["gender"]
+        user["phonenumber"] = row["phonenumber"]
+    except:
+        user = {}
+    return user
+
 def get_images():
     images = []
     try:

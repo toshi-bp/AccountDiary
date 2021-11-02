@@ -95,6 +95,12 @@ export default {
   components: {
     Header,
   },
+  computed: {
+    generateUserId() {
+      const strong = 1000
+      return new Date().getTime().toString(16)  + Math.floor(strong*Math.random()).toString(16)
+    },
+  },
   methods: {
     register () {
       const BASE_URL = 'http://localhost:5000'
@@ -117,6 +123,8 @@ export default {
       sha256Conf.update(this.passwordConf)
       const hashPassConf = sha256.digest('base64')
       console.log(hashPassConf)
+      const user_id = this.generateUserId
+      console.log(user_id)
 
       const phoneNumber = this.phone1 + this.phone2 + this.phone3
       let axios = Axios.create({
@@ -129,7 +137,7 @@ export default {
       })
       let self = this
       axios.post('/api/users/add', {
-        id: 1,
+        id: user_id,
         mail: self.mail,
         password: hashPass,
         name: self.name,

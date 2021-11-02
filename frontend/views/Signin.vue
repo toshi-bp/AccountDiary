@@ -13,11 +13,10 @@
     </div>
     <div>
       <h3 size="10">
-        <!-- ユーザー名の方がわかりやすいのではないか？と思った -->
-        USER ID
+        USER NAME
         <el-input
           placeholder="input id"
-          v-model="userId"
+          v-model="username"
           clearable
           class="login__input"
         />
@@ -40,7 +39,7 @@
     <div>
       <div class="login__button">
         <router-link to="/mypage">
-          <el-button type="primary" plain>LOGIN</el-button>
+          <el-button type="primary" plain @click="login">LOGIN</el-button>
         </router-link>
       </div>
       <div class="login__button">
@@ -74,9 +73,9 @@ export default {
     Header,
   },
   methods: {
-    signin () {
+    login () {
       // BASE_URL→公開時とlocalhost時で適宜変更する必要がある
-      const BASE_URL = "http://loalhost/3000"
+      const BASE_URL = "http://localhost:5000"
       let sha256 = crypto.createHash('sha256')
       sha256.update(this.password)
       const hashPass = sha256.digest('base64')
@@ -91,9 +90,9 @@ export default {
       })
       let self = this
       axios.post(
-        'signin',
+        '/login',
         {
-          userId: self.userId,
+          username: self.username,
           password: hashPass
         },
         {
@@ -105,8 +104,8 @@ export default {
       .then(res  => {
         if (res.data.access_token) {
           cookie.set('jwt_token', res.data.access_token)
-          // TODO:ルーターの設定を見直す
-          router.push({ name: 'user' })
+          // TODO:ルーターを介してユーザー情報をpropsで渡す
+          router.push({ name: 'Mypage' })
         } else if (res.status === 401) {
           // ユーザー名とパスワードが間違っていた場合
           self.snackbarText = 'ユーザー名またはパスワードが違います'

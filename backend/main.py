@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, jsonify
-# from flask_jwt_extended import JWTManager
+from flask_jwt_extended import JWTManager
 from flask_cors import CORS
-# from views.auth import *
 
 from get_data import *
 from insert import *
@@ -10,7 +9,7 @@ from delete import *
 
 # API設定
 app = Flask(__name__, static_folder='../frontend/dist/static', template_folder='../frontend/dist')
-# jwt = JWTManager
+jwt = JWTManager
 CORS(app, resources={r"/*": {"origins": "*"}})
 
 # views読み込み
@@ -21,14 +20,18 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 # 認証部分
 @app.route('/login', methods=['POST'])
 def login():
-    username = request.json.get("name", None)
-    password = request.json.get("password", None)
+    user = request.get_json()
+    username = user['name']
+    password = user['password']
     if not username or password:
         return jsonify({"message": "Format does not match"}), 400
-
-    user_data = api_get_status()
-
-    return
+    try:
+        result = jsonify(get_user_by_name_and_pwd(username, password))
+        if not result:
+            return jsonify({"message": "username or password is wrong"}), 401
+    except:
+        return jsonify( {"message": "An error occurred"} ), 500
+    return jsonify({"message": "Success!"}), 200
 
 # users
 @app.route('/api/users', methods=['GET'])
@@ -39,6 +42,7 @@ def api_get_status():
 def api_get_user(user_id):
     return jsonify(get_user_by_id(user_id))
 
+# 新規登録の際に利用
 @app.route('/api/users/add', methods=['POST'])
 def api_add_user():
     user = request.get_json()

@@ -7,6 +7,7 @@
       <!-- マイページのトップページ -->
       <side-bar />
       <div class="mypage__main">
+        {{ username }}さんのマイページ
         <the-row>
           <div
             v-for="i in 21" :key="i"
@@ -44,6 +45,7 @@ import TheRow from '../../src/components/TheRow.vue'
 import MemoryModal from '../../src/components/MemoryModal.vue'
 // import TheColumn from '../../src/components/TheColumn.vue'
 // import TheSection from '../../src/components/TheSection.vue'
+import axios from 'axios'
 
 export default {
   components: {
@@ -56,15 +58,31 @@ export default {
   },
   data () {
     return {
-      visible: false
+      visible: false,
+      images: {},
     }
+  },
+  props: {
+    username: {
+      type: String
+    },
+    userId: {
+      type: String
+    },
   },
   methods: {
     onModal() {
       this.visible = !this.visible
       console.log(this.visible)
     }
-  }
+  },
+  mounted () {
+    // TODO:デプロイする際にurlを変更する
+    const BASE_URL = "http://localhost:5000"
+    axios.get(BASE_URL + `api/images/${userId}`).then(res => {
+      this.images = res.data
+    })
+  },
 }
 </script>
 

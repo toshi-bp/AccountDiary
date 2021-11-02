@@ -17,7 +17,7 @@ def create_tables():
         # ユーザー情報テーブル
         conn.execute('''
             CREATE TABLE users (
-                id Integer primary key not null,
+                id TEXT primary key not null,
                 mail TEXT not null,
                 password TEXT not null,
                 name TEXT not null,
@@ -30,7 +30,7 @@ def create_tables():
         conn.execute('''
             CREATE TABLE images (
                 id Integer primary key not null,
-                user_id Integer,
+                user_id TEXT,
                 image_url TEXT not null,
                 act_time DataTime not null,
                 update_time DateTime not null,
@@ -43,7 +43,7 @@ def create_tables():
         conn.execute('''
             CREATE TABLE histories (
                 id Integer primary key not null,
-                user_id Integer,
+                user_id TEXT,
                 action TEXT not null,
                 result Integer not null, 
                 act_time Date not null, 

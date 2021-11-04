@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, redirect
 from flask_jwt_extended import JWTManager, create_access_token
 from flask_cors import CORS
 
@@ -16,7 +16,10 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 # views読み込み
 # app.register_blueprint(auth)
 
-@app.route('/', defaults={'path': ''})
+# ログインページにリダイレクトするための関数
+@app.route('/')
+def redirect_login():
+    return redirect('http://localhost:5000/login')
 
 # 認証部分
 @app.route('/api/login', methods=['POST'])

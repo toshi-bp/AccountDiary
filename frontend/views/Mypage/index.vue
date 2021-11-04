@@ -101,6 +101,8 @@ export default {
       console.table(res.data)
       this.imageData = res.data
     })
+    cookie.set(this.userData)
+    cookie.set(this.imageData)
   },
 }
 </script>

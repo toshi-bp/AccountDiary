@@ -31,12 +31,15 @@ def get_users():
 
 def get_user_by_id(user_id):
     user = {}
+    print("user_id:" + user_id)
     try:
         conn = connect_to_db()
         conn.row_factory = sqlite3.Row
         cur = conn.cursor()
-        cur.execute("SELECT * FROM users WHERE id = ?", (user_id))
+        cur.execute("SELECT * FROM users WHERE id = ?", (user_id,))
         row = cur.fetchone()
+        print("row:")
+        print(row)
 
         # 辞書型に変換
         user["id"] = row["id"]
@@ -50,7 +53,10 @@ def get_user_by_id(user_id):
         user["used_money"] = row["used_money"]
         user["jti"] = row["jti"]
     except:
+        print("error")
         user = {}
+    print("user:")
+    print(user)
     return user
 
 # 認証に利用

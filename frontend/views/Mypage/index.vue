@@ -10,7 +10,7 @@
         :used_money="userData.used_money"
       />
       <div class="mypage__main">
-        {{ username }}さんのマイページ
+        {{ userData.name }}さんのマイページ
         <the-row>
           <div
             v-for="i in 21" :key="i"
@@ -48,7 +48,8 @@ import TheRow from '../../src/components/TheRow.vue'
 import MemoryModal from '../../src/components/MemoryModal.vue'
 // import TheColumn from '../../src/components/TheColumn.vue'
 // import TheSection from '../../src/components/TheSection.vue'
-import axios from 'axios'
+import Axios from 'axios'
+import cookie from 'js-cookie'
 
 export default {
   components: {
@@ -63,13 +64,11 @@ export default {
     return {
       visible: false,
       imageData: [],
-      userData: {}
+      userData: {},
+      username: '',
     }
   },
   props: {
-    username: {
-      type: String
-    },
     userId: {
       type: String
     }
@@ -83,11 +82,22 @@ export default {
   mounted: async function () {
     // TODO:デプロイする際にurlを変更する
     const BASE_URL = "http://localhost:5000"
-    await axios.get(BASE_URL + `/api/users/${this.userId}`).then(res => {
+    cookie.set(this.userId)
+    let axios = Axios.create({
+      baseURL: BASE_URL,
+      headers: {
+        'Content-type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
+      },
+      responseType: 'json'
+    })
+    await axios.get(`/api/users/${this.userId}`).then(res => {
+      console.log("user data")
       console.table(res.data)
       this.userData = res.data
     })
-    await axios.get(BASE_URL + `/api/images/${this.userId}`).then(res => {
+    await axios.get(`/api/images/${this.userId}`).then(res => {
+      console.log("image data")
       console.table(res.data)
       this.imageData = res.data
     })

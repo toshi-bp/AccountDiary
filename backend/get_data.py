@@ -21,6 +21,9 @@ def get_users():
             user["birthday"] = row["birthday"]
             user["gender"] = row["gender"]
             user["phonenumber"] = row["phonenumber"]
+            user["money"] = row["money"]
+            user["used_money"] = row["used_money"]
+            user["jti"] = row["jti"]
             users.append(user)
     except:
         users = []
@@ -43,6 +46,9 @@ def get_user_by_id(user_id):
         user["birthday"] = row["birthday"]
         user["gender"] = row["gender"]
         user["phonenumber"] = row["phonenumber"]
+        user["money"] = row["money"]
+        user["used_money"] = row["used_money"]
+        user["jti"] = row["jti"]
     except:
         user = {}
     return user
@@ -65,6 +71,9 @@ def get_user_by_name_and_pwd(username, password):
         user["birthday"] = row["birthday"]
         user["gender"] = row["gender"]
         user["phonenumber"] = row["phonenumber"]
+        user["money"] = row["money"]
+        user["used_money"] = row["used_money"]
+        user["jti"] = row["jti"]
     except:
         user = {}
     return user

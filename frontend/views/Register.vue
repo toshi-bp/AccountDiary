@@ -43,8 +43,9 @@
       </div>
       <div>
         TELL NUMBER
+        <p>(ハイフンなし, 半角で入力をしてください)</p>
         <el-input v-model="phone1" class="register__input">
-          <template>-</template>
+          <template></template>
         </el-input>
       </div>
       <div>
@@ -85,7 +86,7 @@ export default {
       name: '',
       gender: '',
       phone: '',
-      phone1: '000',
+      phone1: '',
       phone2: '111',
       phone3: '2222',
       alertMessage: '',
@@ -104,10 +105,14 @@ export default {
   methods: {
     register () {
       const BASE_URL = 'http://localhost:5000'
-      if (this.mail === '' || this.birthday === '') {
+      if (this.mail === '' || this.birthday === '' || this.name === '') {
+        this.alertType = 'error'
+        this.alertMessage = '全ての項目に入力をしてください'
         return
       }
       if (this.password !== this.passwordConf) {
+        this.alertType = 'error'
+        this.alertMessage = '確認用のパスワードが正しくありません'
         return
       }
       // 誕生日は文字列+/として格納
@@ -126,7 +131,7 @@ export default {
       const user_id = this.generateUserId
       console.log(user_id)
 
-      const phoneNumber = this.phone1 + this.phone2 + this.phone3
+      const phoneNumber = this.phone1
       let axios = Axios.create({
         baseURL: BASE_URL,
         headers: {
@@ -144,6 +149,9 @@ export default {
         birthday: birthday,
         gender: self.gender,
         phone: phoneNumber,
+        money: 0,
+        used_money: 0,
+        jti: ''
       })
       .then(res => {
         console.log(res)

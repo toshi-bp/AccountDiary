@@ -59,7 +59,6 @@ export default {
   data () {
     return {
       visible: false,
-      images: {},
     }
   },
   props: {
@@ -69,6 +68,20 @@ export default {
     userId: {
       type: String
     },
+    imageData: {
+      type: Array,
+      default: () => {
+        [
+          {
+            id: 1,
+            cost: 1,
+            description: '',
+            date: '',
+
+          }
+        ]
+      }
+    }
   },
   methods: {
     onModal() {
@@ -76,11 +89,11 @@ export default {
       console.log(this.visible)
     }
   },
-  mounted () {
+  mounted: async function () {
     // TODO:デプロイする際にurlを変更する
     const BASE_URL = "http://localhost:5000"
-    axios.get(BASE_URL + `api/images/${userId}`).then(res => {
-      this.images = res.data
+    await axios.get(BASE_URL + `api/images/${this.userId}`).then(res => {
+      this.images_data = res.data
     })
   },
 }

@@ -38,9 +38,7 @@
     </i>
     <div>
       <div class="login__button">
-        <router-link to="/mypage">
-          <el-button type="primary" plain @click="login">LOGIN</el-button>
-        </router-link>
+        <el-button type="primary" plain @click="login">LOGIN</el-button>
       </div>
       <div class="login__button">
         <router-link to="/register">
@@ -65,8 +63,10 @@ export default {
   data () {
     return {
       userId: '',
+      username: '',
       password: '',
       snackbarText: '',
+      snackbar: false,
     }
   },
   components: {
@@ -90,7 +90,7 @@ export default {
       })
       let self = this
       axios.post(
-        '/login',
+        '/api/login',
         {
           username: self.username,
           password: hashPass
@@ -103,11 +103,13 @@ export default {
       )
       .then(res  => {
         if (res.data.access_token) {
+          console.table(res.data)
           cookie.set('jwt_token', res.data.access_token)
           // TODO:ルーターを介してユーザー情報をpropsで渡す
-          router.push({ name: 'Mypage' })
+          router.push({ name: 'MyPage' })
         } else if (res.status === 401) {
           // ユーザー名とパスワードが間違っていた場合
+          self.snackbar = true
           self.snackbarText = 'ユーザー名またはパスワードが違います'
         } else {
           throw new Error()
@@ -115,6 +117,7 @@ export default {
       })
       .catch(() => {
         // エラー発生時(例外処理)
+        console.log('failed')
         self.snackbarText = 'エラーが発生しました'
       })
     }

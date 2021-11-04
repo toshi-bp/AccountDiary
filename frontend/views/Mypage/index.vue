@@ -48,6 +48,7 @@ import TheRow from '../../src/components/TheRow.vue'
 import MemoryModal from '../../src/components/MemoryModal.vue'
 // import TheColumn from '../../src/components/TheColumn.vue'
 // import TheSection from '../../src/components/TheSection.vue'
+import key from '../../src/store'
 import Axios from 'axios'
 import cookie from 'js-cookie'
 
@@ -101,6 +102,7 @@ export default {
       console.table(res.data)
       this.imageData = res.data
     })
+    store.setUserId(this.userId)
     cookie.set(this.userData)
     cookie.set(this.imageData)
   },

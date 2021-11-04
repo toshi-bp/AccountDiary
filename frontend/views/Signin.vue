@@ -7,9 +7,7 @@
       nikki de kakeibo
     </h1>
     <div>
-      <p v-if="snackbar">
-        {{ snackbarText }}
-      </p>
+      <el-alert :title="alertMessage" :type="alertType"></el-alert>
     </div>
     <div>
       <h3 size="10">
@@ -65,8 +63,8 @@ export default {
       userId: '',
       username: '',
       password: '',
-      snackbarText: '',
-      snackbar: false,
+      alertMessage: '',
+      alertType: '',
     }
   },
   components: {
@@ -106,11 +104,17 @@ export default {
           console.table(res.data)
           cookie.set('jwt_token', res.data.access_token)
           // TODO:ルーターを介してユーザー情報をpropsで渡す
-          router.push({ name: 'MyPage' })
+          router.push({
+            name: 'MyPage',
+            params: {
+              username: self.username,
+              userId: res.data.user_id
+            }
+          })
         } else if (res.status === 401) {
           // ユーザー名とパスワードが間違っていた場合
-          self.snackbar = true
-          self.snackbarText = 'ユーザー名またはパスワードが違います'
+          self.alertType = 'error'
+          self.alertMessage = 'ユーザー名またはパスワードが違います'
         } else {
           throw new Error()
         }
@@ -118,7 +122,8 @@ export default {
       .catch(() => {
         // エラー発生時(例外処理)
         console.log('failed')
-        self.snackbarText = 'エラーが発生しました'
+        self.alertType = 'error'
+        self.alertMessage = 'エラーが発生しました'
       })
     }
   }

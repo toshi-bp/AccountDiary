@@ -5,7 +5,10 @@
     </div>
     <div>
       <!-- マイページのトップページ -->
-      <side-bar />
+      <side-bar
+        :money="userData.money"
+        :used_money="userData.used_money"
+      />
       <div class="mypage__main">
         {{ username }}さんのマイページ
         <the-row>
@@ -59,6 +62,8 @@ export default {
   data () {
     return {
       visible: false,
+      imageData: [],
+      userData: {}
     }
   },
   props: {
@@ -67,20 +72,6 @@ export default {
     },
     userId: {
       type: String
-    },
-    imageData: {
-      type: Array,
-      default: () => {
-        [
-          {
-            id: 1,
-            cost: 1,
-            description: '',
-            date: '',
-
-          }
-        ]
-      }
     }
   },
   methods: {
@@ -92,8 +83,13 @@ export default {
   mounted: async function () {
     // TODO:デプロイする際にurlを変更する
     const BASE_URL = "http://localhost:5000"
-    await axios.get(BASE_URL + `api/images/${this.userId}`).then(res => {
-      this.images_data = res.data
+    await axios.get(BASE_URL + `/api/users/${this.userId}`).then(res => {
+      console.table(res.data)
+      this.userData = res.data
+    })
+    await axios.get(BASE_URL + `/api/images/${this.userId}`).then(res => {
+      console.table(res.data)
+      this.imageData = res.data
     })
   },
 }

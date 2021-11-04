@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/Home'
+// import Home from '../views/Home'
 import Signin from '../views/Signin'
 import MyPage from '../views/Mypage/'
 import Register from '../views/Register'
@@ -8,8 +8,7 @@ import Memory from '../views/Mypage/Memory'
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home,
+    redirect: '/login'
   },
   {
     path: '/login',
@@ -25,6 +24,7 @@ const routes = [
     path: '/mypage',
     name: 'MyPage',
     component: MyPage,
+    props: true,
   },
   {
     path: '/mypage/memory',

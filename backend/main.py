@@ -41,7 +41,7 @@ def login():
     access_token = create_access_token(identity=result["id"])
     print(access_token)
     update_user_jti(result, access_token)
-    return jsonify(access_token=access_token), 200
+    return jsonify(access_token=access_token, user_id=result["id"]), 200
 
 # users
 @app.route('/api/users', methods=['GET'])

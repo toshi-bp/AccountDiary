@@ -114,7 +114,7 @@ def get_images_by_id(user_id):
         conn = connect_to_db()
         conn.row_factory = sqlite3.Row
         cur = conn.cursor()
-        cur.execute("SELECT * FROM images WHERE user_id = ?", (user_id))
+        cur.execute("SELECT * FROM images WHERE user_id = ?", (user_id,))
         rows = cur.fetchall()
 
         for row in rows:
@@ -162,7 +162,7 @@ def get_histories_by_id(user_id):
         conn = connect_to_db()
         conn.row_factory = sqlite3.Row
         cur = conn.cursor()
-        cur.execute("SELECT * FROM histories WHERE user_id = ?", (user_id))
+        cur.execute("SELECT * FROM histories WHERE user_id = ?", (user_id,))
         rows = cur.fetchall()
 
         for row in rows:

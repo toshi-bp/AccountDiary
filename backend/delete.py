@@ -18,7 +18,7 @@ def delete_images(id):
     message = {}
     try:
         conn = connect_to_db()
-        conn.execute("DELETE from images WHERE id = ?", (id))
+        conn.execute("DELETE from images WHERE id = ?", (id,))
         conn.commit()
         message["status"] = "success"
     except:
@@ -32,7 +32,7 @@ def delete_histories(id):
     message = {}
     try:
         conn = connect_to_db()
-        conn.execute("DELETE from histories WHERE id = ?", (id))
+        conn.execute("DELETE from histories WHERE id = ?", (id,))
         conn.commit()
         message["status"] = "success"
     except:

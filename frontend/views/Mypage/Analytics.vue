@@ -1,102 +1,3 @@
-<template>
-    <center>
-        <div>
-        
-            <!-- 分析期間選択 -->
-
-            月を選択してね
-            <div class="demo-date-picker">
-                <div class="container">
-                    <div class="block">
-                        <span class="demonstration">Month</span>
-                        <el-date-picker
-                        v-model="value2"
-                        type="month"
-                        placeholder="Pick a month"
-                        >
-                        </el-date-picker>
-                    </div>
-                </div>
-            </div>
-
-          <!-- カテゴリ選択 -->
-
-            カテゴリを選択してね
-      
-            <div>
-            <el-select v-model="value" placeholder="Select">
-                <el-option-group
-                    v-for="group in options"
-                    :key="group.label"
-                    :label="group.label">
-                <el-option
-                    v-for="item in group.options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                </el-option>
-                </el-option-group>
-            </el-select>
-            </div>
-
-
-        </div>
-    </center>    
-</template>
-
-<script>
-
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-    
-    //月選択用フォーム
-
-    data() {
-      return {
-        value1: '',
-        value2: '',
-        value3: '',
-        value4: ''
-      };
-    },
-    
-    //カテゴリ選択
-
-    data1() {
-        return {
-            options: [{
-            label: '食費',
-            options: [{
-                value: 'breakfast',
-                label: '朝食'
-            }, {
-                value: 'lunch',
-                label: '昼食'
-            }]
-            }, {
-            label: 'hobby',
-            options: [{
-                value: 'book',
-                label: '本'
-            }, {
-                value: 'sport',
-                label: 'スポーツ'
-            }, {
-                value: 'movie',
-                label: '映画'
-            }, {
-                value: 'music',
-                label: '音楽'
-            }]
-            }],
-            value: ''
-        }
-    }
-
-})
-</script>
-
 <style lang="sass" scoped>
 .analytics
   // 何か書く
@@ -104,127 +5,105 @@ export default defineComponent({
       // 何か書く
 </style>
 
-
-//コメントアウト中
-
-<!--
-
 <template>
   <ChartPie
-    :chart-data="chartData"
+    :chartData="chartData"
     :options="chartOptions"
   />
 </template>
 
-
 <script>
+// import { Component, Vue, Watch, Mixins } from "vue-property-decorator";
+import ChartPie from "../Mypage/ChartPie.vue";
 export default {
-
-}
-</script>
-
-<style>
-
-</style>
-<script lang="ts">
-import { Component, Vue, Watch, Mixins } from "vue-property-decorator";
-import ChartPie from "@/components/chart/ChartPie.vue";
-@Component({
   components: {
     ChartPie
-  }
-})
-export default class extends Vue {
-  get chartData(): Chart.ChartData | null {
-    return {
-      // データセットプロパティに関する設定
-      // See https://misc.0o0o.org/chartjs-doc-ja/charts/doughnut.html#%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%83%97%E3%83%AD%E3%83%91%E3%83%86%E3%82%A3
-      datasets: [
-        {
-          backgroundColor: ["#ffd3d3", "#fff9b4", "#6090EF"], // データセットの円弧の塗りつぶし色
-          borderColor: "#FFFFFF", // データセットの円弧の境界線の色データセットの円弧の塗りつぶし色
-          borderWidth: 1, // データセットの円弧の境界線の太さ
-          // hoverBackgroundColor: "#ececec", // マウスオーバー時の円弧の塗りつぶし色
-          // hoverBorderColor: "#ececec", // マウスオーバー時の境界線の色
-          // hoverBorderWidth: 2, // マウスオーバー時の境界線の太さ
-          data: [10, 20, 30] // データ値
-        }
-      ],
-      labels: ["赤", "黄", "青"] // 凡例とツールチップに表示するラベル
-    } as Chart.ChartData;
-  }
-  get chartOptions(): Chart.ChartOptions {
-    return {
-      responsive: true, // コンテナサイズが変更された際に、チャートキャンバスサイズを変更します
-      responsiveAnimationDuration: 0, // サイズ変更イベント後に新しいサイズにアニメーションするのに要する時間（ミリ秒）
-      maintainAspectRatio: false, // サイズ変更の際に、元のキャンバスのアスペクト比(width / height)を維持します。
-      // onResize(chart, size): void {
-      //   // サイズ変更が発生したときに呼び出されます。チャートインスタンスと新しいサイズの2つの引数を渡します。
-      // },
-      layout: {
-        // レイアウトに関する設定
-        // See https://misc.0o0o.org/chartjs-doc-ja/configuration/layout.html
-        padding: 0 // グラフの内側に追加するパディング
-      },
-      title: {
-        // タイトル
-        // See https://misc.0o0o.org/chartjs-doc-ja/configuration/title.html
-        display: true, // タイトルを表示します。
-        position: "top", // タイトルの位置
-        fontSize: 12, // タイトルのフォントサイズ
-        padding: 10, // タイトルテキストの上下に追加するピクセル数
-        text: "タイトル"
-      },
-      legend: {
-        // 凡例に関する設定
-        // See https://misc.0o0o.org/chartjs-doc-ja/configuration/legend.html
-        display: true, // 凡例を表示します。
-        position: "bottom" // 凡例の位置
-      },
-      tooltips: {
-        // ツールチップに関する設定
-        // See https://misc.0o0o.org/chartjs-doc-ja/configuration/tooltip.html
-        display: true // キャンバス上でツールチップを有効にします
-      },
-      elements: {
-        // 要素に関する設定
-        // See https://misc.0o0o.org/chartjs-doc-ja/configuration/elements.html
-        point: {
-          // 点に関する設定
+  },
+  computed: {
+    chartData() {
+      console.log("chartData")
+      return {
+        // データセットプロパティに関する設定
+        // See https://misc.0o0o.org/chartjs-doc-ja/charts/doughnut.html#%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%83%97%E3%83%AD%E3%83%91%E3%83%86%E3%82%A3
+        datasets: [
+          {
+            backgroundColor: ["#ffd3d3", "#fff9b4", "#6090EF"], // データセットの円弧の塗りつぶし色
+            borderColor: "#FFFFFF", // データセットの円弧の境界線の色データセットの円弧の塗りつぶし色
+            borderWidth: 1, // データセットの円弧の境界線の太さ
+            // hoverBackgroundColor: "#ececec", // マウスオーバー時の円弧の塗りつぶし色
+            // hoverBorderColor: "#ececec", // マウスオーバー時の境界線の色
+            // hoverBorderWidth: 2, // マウスオーバー時の境界線の太さ
+            data: [10, 20, 30] // データ値
+          }
+        ],
+        labels: ["赤", "黄", "青"] // 凡例とツールチップに表示するラベル
+      }
+    },
+    chartOptions(){
+      return {
+        responsive: true, // コンテナサイズが変更された際に、チャートキャンバスサイズを変更します
+        responsiveAnimationDuration: 0, // サイズ変更イベント後に新しいサイズにアニメーションするのに要する時間（ミリ秒）
+        maintainAspectRatio: false, // サイズ変更の際に、元のキャンバスのアスペクト比(width / height)を維持します。
+        // onResize(chart, size): void {
+        //   // サイズ変更が発生したときに呼び出されます。チャートインスタンスと新しいサイズの2つの引数を渡します。
+        // },
+        layout: {
+          // レイアウトに関する設定
+          // See https://misc.0o0o.org/chartjs-doc-ja/configuration/layout.html
+          padding: 0 // グラフの内側に追加するパディング
         },
-        line: {
-          // 線に関する設定
+        title: {
+          // タイトル
+          // See https://misc.0o0o.org/chartjs-doc-ja/configuration/title.html
+          display: true, // タイトルを表示します。
+          position: "top", // タイトルの位置
+          fontSize: 12, // タイトルのフォントサイズ
+          padding: 10, // タイトルテキストの上下に追加するピクセル数
+          text: "タイトル"
         },
-        rectangle: {
-          // 矩形に関する設定
+        legend: {
+          // 凡例に関する設定
+          // See https://misc.0o0o.org/chartjs-doc-ja/configuration/legend.html
+          display: true, // 凡例を表示します。
+          position: "bottom" // 凡例の位置
         },
-        arc: {
-          // 円弧に関する設定
-        }
-      },
-      animation: {
-        // アニメーションに関する設定
-        // See https://misc.0o0o.org/chartjs-doc-ja/configuration/animations.html
-        duration: 1000, // アニメーションにかける時間（ミリ秒）
-        easing: "easeOutQuart", // 使用するイージング(easing)(訳注:アニメーションの効果
-        // onProgress: null, // アニメーションの各ステップで呼び出されるコールバック
-        // onComplete: null, // アニメーションの最後に呼び出されるコールバック
-        animateRotate: true, // （円グラフ）trueの場合、グラフは回転アニメーションをします。
-        animateScale: true // （円グラフ）trueの場合、中央から外側に向かってグラフが拡大するアニメーションをします。
-      },
-      rotation: -0.5 * Math.PI, // （円グラフ）弧を描画する開始角度
-      circumference: 2 * Math.PI // （円グラフ）弧全体の角度
-      // cutoutPercentage: 50, // （ドーナツ）中央部から切り取られるグラフの割合
-      // startAngle: -0.5 * Math.PI // (鶏頭図のみ) データセットの最初の項目の円弧を描画する開始角度
-    } as Chart.ChartOptions;
-  }
+        tooltips: {
+          // ツールチップに関する設定
+          // See https://misc.0o0o.org/chartjs-doc-ja/configuration/tooltip.html
+          display: true // キャンバス上でツールチップを有効にします
+        },
+        elements: {
+          // 要素に関する設定
+          // See https://misc.0o0o.org/chartjs-doc-ja/configuration/elements.html
+          point: {
+            // 点に関する設定
+          },
+          line: {
+            // 線に関する設定
+          },
+          rectangle: {
+            // 矩形に関する設定
+          },
+          arc: {
+            // 円弧に関する設定
+          }
+        },
+        animation: {
+          // アニメーションに関する設定
+          // See https://misc.0o0o.org/chartjs-doc-ja/configuration/animations.html
+          duration: 1000, // アニメーションにかける時間（ミリ秒）
+          easing: "easeOutQuart", // 使用するイージング(easing)(訳注:アニメーションの効果
+          // onProgress: null, // アニメーションの各ステップで呼び出されるコールバック
+          // onComplete: null, // アニメーションの最後に呼び出されるコールバック
+          animateRotate: true, // （円グラフ）trueの場合、グラフは回転アニメーションをします。
+          animateScale: true // （円グラフ）trueの場合、中央から外側に向かってグラフが拡大するアニメーションをします。
+        },
+        rotation: -0.5 * Math.PI, // （円グラフ）弧を描画する開始角度
+        circumference: 2 * Math.PI // （円グラフ）弧全体の角度
+        // cutoutPercentage: 50, // （ドーナツ）中央部から切り取られるグラフの割合
+        // startAngle: -0.5 * Math.PI // (鶏頭図のみ) データセットの最初の項目の円弧を描画する開始角度
+      };
+    }
+  },
 }
 </script>
-
--->
-
-
-
-
-
-

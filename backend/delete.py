@@ -41,3 +41,17 @@ def delete_histories(id):
     finally:
         conn.close()
     return message
+
+def delete_categories(id):
+    message = {}
+    try:
+        conn = connect_to_db()
+        conn.execute("DELETE from categories WHERE id = ?", (id,))
+        conn.commit()
+        message["status"] = "success"
+    except:
+        conn.rollback()
+        message["status"] = "failed"
+    finally:
+        conn.close()
+    return message

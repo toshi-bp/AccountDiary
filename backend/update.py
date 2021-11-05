@@ -52,3 +52,6 @@ def update_image(image):
 
 def update_history(history):
     updated_history = {}
+
+def update_category(category):
+    updated_category = {}

@@ -39,6 +39,7 @@ def create_tables():
                 update_time DateTime not null,
                 diary TEXT not null,
                 score Integer,
+                cost Integer,
                 foreign key (user_id) references users(id)
             );
         ''')
@@ -55,6 +56,18 @@ def create_tables():
                 foreign key (user_id) references users(id)
             );
         ''')
+        # カテゴリーをまとめたテーブル
+        conn.execute(
+            '''
+            CREATE TABLE categories (
+                id Integer primary key autoincrement,
+                user_id TEXT,
+                type TEXT,
+                category TEXT,
+                foreign key (user_id) references users(id)
+            )
+            '''
+        )
         conn.commit()
         print('Tables created success!!')
     except:

@@ -126,6 +126,13 @@ def api_update_history():
 def api_delete_history(user_id):
     return jsonify(delete_histories(user_id))
 
+@app.route('/api/categories', methods=['GET'])
+def api_get_categories():
+    return jsonify(get_categories())
+@app.route('/api/categories/<user_id>', methods=['GET'])
+def api_get_categories():
+    return
+
 @app.route('/<path:path>')
 def index(path):
     return render_template('index.html')

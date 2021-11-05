@@ -15,16 +15,24 @@
     </el-option>
  </el-select>
  <p><h10>------変更後------</h10></p>
- <input v-model="message" placeholder="edit me" size="30">
+ <input v-model="message1" placeholder="edit me" size="30">
+ <p></p>
+ <button type="submit">送信する</button>
  <hr size="5" noshade="" color="#000">
  <h1>予算の設定</h1>
- <input v-model="message" placeholder="edit me" size="30">
+ <input v-model="message2" placeholder="edit me" size="30">
+ <p></p>
+ <button type="submit">送信する</button>
  <hr size="5" noshade="" color="#000" >
  <h1>個人情報</h1>
  <p><h10>------アカウント確認------</h10></p>
- <input v-model="message" placeholder="edit me" size="30">
+ <input v-model="message3" placeholder="edit me" size="30">
+ <p></p>
+ <button type="submit">送信する</button>
  <p><h10>------パスワード変更------</h10></p>
- <input v-model="message" placeholder="edit me" size="30">
+ <input v-model="message4" placeholder="edit me" size="30">
+ <p></p>
+ <button type="submit">送信する</button>
  <hr size="5" noshade="" color="#000">
  </center>
 </div>
@@ -61,11 +69,7 @@
       input: ''
      }
     },
-    data2() {
-     return {
-      input: ''
-     }
-    }
+    
   }
 </script>
 

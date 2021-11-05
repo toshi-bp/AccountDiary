@@ -72,7 +72,7 @@ export default {
   props: {
     userId: {
       type: String,
-      // default: this.$store.state.userId
+      default: localStorage.getItem('userId')
     }
   },
   methods: {
@@ -83,6 +83,9 @@ export default {
     confirm(event) {
       this.showConfirm = !this.showConfirm
       event.returnValue = "リロードするとログイン画面に戻ります"
+    },
+    saveUserId() {
+      localStorage.setItem('userId', this.userId)
     }
   },
   created() {
@@ -111,6 +114,7 @@ export default {
       this.imageData = res.data
     })
     // this.$store.commit("setUserId", this.userId)
+    this.saveUserId()
     cookie.set(this.userData)
     cookie.set(this.imageData)
   },

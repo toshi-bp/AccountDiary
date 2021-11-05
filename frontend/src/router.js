@@ -1,9 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
-// import Home from '../views/Home'
 import Signin from '../views/Signin'
 import MyPage from '../views/Mypage/'
 import Register from '../views/Register'
 import Memory from '../views/Mypage/Memory'
+import Table from '../views/Mypage/Table'
+import Settings from '../views/Mypage/Settings'
+import Analytics from '../views/Mypage/Analytics'
 
 const routes = [
   {
@@ -31,6 +33,21 @@ const routes = [
     name: 'Memory',
     component: Memory,
   },
+  {
+    path: '/mypage/table',
+    name: 'Table',
+    component: Table,
+  },
+  {
+    path: '/mypage/settings',
+    name: 'Settings',
+    component: Settings,
+  },
+  {
+    path: '/mypage/analytics',
+    name: 'Analytics',
+    component: Analytics,
+  }
 ]
 
 const router  = createRouter({

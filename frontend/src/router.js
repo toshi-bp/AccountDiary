@@ -4,6 +4,9 @@ import Signin from '../views/Signin'
 import MyPage from '../views/Mypage/'
 import Register from '../views/Register'
 import Memory from '../views/Mypage/Memory'
+import Table from '../views/Mypage/Table'
+import Analytics from '../views/Mypage/Analytics'
+import Settings from '../views/Mypage/Settings'
 
 const routes = [
   {
@@ -31,6 +34,21 @@ const routes = [
     name: 'Memory',
     component: Memory,
   },
+  {
+    path: '/mypage/table',
+    name: 'Table',
+    component: Table,
+  },
+  {
+    path: '/mypage/analytics',
+    name: 'Analytics',
+    component: Analytics,
+  },
+  {
+    path: '/mypage/settings',
+    name: 'Settings',
+    component: Settings,
+  }
 ]
 
 const router  = createRouter({

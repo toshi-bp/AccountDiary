@@ -45,9 +45,9 @@ def insert_history(history):
         cur.execute(
             """
             INSERT INTO
-                histories(id, user_id, action, result, act_time, update_time, category)
-                VALUES(?, ?, ?, ?, ?, ?, ?),
-                (history['id'], history['user_id'], history['action'], history['result'], history['act_time'], history['update_time'], history['category'])
+                histories(id, user_id, action, result, act_time, update_time, category, place)
+                VALUES(?, ?, ?, ?, ?, ?, ?,?),
+                (history['id'], history['user_id'], history['action'], history['result'], history['act_time'], history['update_time'], history['category'],history['place'])
             """)
         conn.commit()
         inserted_history = get_histories_by_id(cur.lastrowid)
@@ -55,4 +55,23 @@ def insert_history(history):
         conn().rollback()
     finally:
         conn.close()
-    return inserted_history[len(inserted_history)-1]
+        
+def insert_category(category):
+    inserted_category = []
+    try:
+        conn = connect_to_db()
+        cur = conn.cursor()
+        cur.execute(
+            """
+            INSERT INTO
+                categories(id, user_id, type, category)
+                VALUES(?, ?, ?, ?),
+                (category['id'], category['user_id'], category['type'], category['category'])
+            """)
+        conn.commit()
+        inserted_category = get_categories_by_id(cur.lastrowid)
+    except:
+        conn().rollback()
+    finally:
+        conn.close()
+    return inserted_category[len(inserted_category)-1]

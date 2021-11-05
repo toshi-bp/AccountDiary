@@ -1,76 +1,144 @@
 <template>
 
 <div>
- <SideBar/>
- <center>
+  <div>
+    <SideBar/>
+  </div>
+  <div class="setting__main">
+  <center>
  
- <h1>カテゴリー名の変更</h1>
- <p><h10>------変更前------</h10></p>
- <el-select v-model="value" placeholder="Select">
+  <h1>カテゴリー名の変更</h1>
+  <p><h10>------変更前------</h10></p>
+  <el-select v-model="category" placeholder="Select">
     <el-option
-      v-for="item in options"
-      :key="item.value"
-      :label="item.label"
-      :value="item.value">
+      v-for="item in userCategories"
+      :key="item"
+      :label="item.category"
+      :value="item.category">
     </el-option>
- </el-select>
- <p><h10>------変更後------</h10></p>
- <input v-model="message1" placeholder="edit me" size="30">
- <p></p>
- <button type="submit">送信する</button>
- <hr size="5" noshade="" color="#000">
- <h1>予算の設定</h1>
- <input v-model="message2" placeholder="edit me" size="30">
- <p></p>
- <button type="submit">送信する</button>
- <hr size="5" noshade="" color="#000" >
- <h1>個人情報</h1>
- <p><h10>------アカウント確認------</h10></p>
- <input v-model="message3" placeholder="edit me" size="30">
- <p></p>
- <button type="submit">送信する</button>
- <p><h10>------パスワード変更------</h10></p>
- <input v-model="message4" placeholder="edit me" size="30">
- <p></p>
- <button type="submit">送信する</button>
- <hr size="5" noshade="" color="#000">
- </center>
-</div>
+  </el-select>
+  <p><h10>------変更後------</h10></p>
+  <div class="settings__input">
+    <el-input v-model="changeCategory" placeholder="edit me" />
+  </div>
+  <div class="settings__button">
+    <el-button @click="sendChangeCategory">送信する</el-button>
+  </div>
+  <hr size="5" noshade="" color="#000">
+  <h1>予算の設定</h1>
+  <div class="settings__input">
+    <el-input v-model="money" placeholder="edit me" />
+  </div>
+  <div class="settings__button">
+    <el-button @click="setMoney">変更する</el-button>
+  </div>
+  <hr size="5" noshade="" color="#000" >
+  <h1>個人情報</h1>
+  <p><h10>------アカウント確認------</h10></p>
+  <!--アカウント情報を掲載するテーブルの作成-->
+  <p><h10>------パスワード変更------</h10></p>
+  <div class="settings_input">
+    <el-input v-model="password" placeholder="edit me" />
+  </div>
+  <div class="settings__button">
+  <el-button @click="changePassword">送信する</el-button>
+  </div>
+  <hr size="5" noshade="" color="#000">
+  </center>
+  </div>
+  </div>
 </template>
 
 
 <script>
-  import SideBar from '../../src/components/SideBar.vue'
-  export default {
-    components:{
-      SideBar,
-    },
-    data() {
-      return {
-        options: [{
-          value: 'Option1',
-          label: 'Option1'
-        }, {
-          value: 'Option2',
-          label: 'Option2'
-        }, {
-          value: 'Option3',
-          label: 'Option3'
-        }, {
-          value: 'Option4',
-          label: 'Option4'
-        }, ],
-        value: ''
-      }
-    },
+import SideBar from '../../src/components/SideBar.vue'
+import Axios from 'axios'
 
-    data1() {
-     return {
-      input: ''
-     }
+export default {
+  components:{
+    SideBar,
+  },
+  data() {
+    return {
+      userData: {},
+      userCategories: [],
+      changeCategory: '',
+      money: 0,
+      password: '',
+    }
+  },
+  props: {
+    userId: {
+      type: String
+    }
+  },
+  methods: {
+    saveUserId() {
+      localStorage.setItem('userId', this.userId)
     },
-    
+    sendChangeCategory() {
+      const BASE_URL = "http://localhost:5000"
+      let axios = Axios.create({
+        baseURL: BASE_URL,
+        headers: {
+          'Content-type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        responseType: 'json'
+      })
+      console.log(axios)
+    },
+    setMoney() {
+      const BASE_URL = "http://localhost:5000"
+      let axios = Axios.create({
+        baseURL: BASE_URL,
+        headers: {
+          'Content-type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        responseType: 'json'
+      })
+      console.log(axios)
+    },
+    changePassword() {
+      const BASE_URL = "http://localhost:5000"
+      let axios = Axios.create({
+        baseURL: BASE_URL,
+        headers: {
+          'Content-type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        responseType: 'json'
+      })
+      // パスワードの更新
+      console.log(axios)
+    }
+  },
+  mounted: async function() {
+    const BASE_URL = "http://localhost:5000"
+    let axios = Axios.create({
+      baseURL: BASE_URL,
+      headers: {
+        'Content-type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
+      },
+      responseType: 'json'
+    })
+    // ユーザーデータの取得
+    await axios.get(`/api/users/${this.userId}`).then(res => {
+      console.log("user data")
+      console.table(res.data)
+      this.userData = res.data
+    })
+    // カテゴリーの取得
+    await axios.get(`/api/categories/${this.userId}`).then(res => {
+      console.log("user data")
+      console.table(res.data)
+      this.userCategories = res.data
+    })
+    this.saveUserId()
   }
+}
 </script>
 
 <style lang="sass" scoped>
@@ -97,4 +165,15 @@
       border: 1px solid #000
       width: 200px
       margin: 0 0.5rem 1rem
+.el-input
+  width: 200px
+  margin-bottom: 1rem
+.settings
+  &__main
+    display: flex
+    justify-content: center
+    align-items: center
+  &__button
+    margin-bottom: 1rem
+
 </style>

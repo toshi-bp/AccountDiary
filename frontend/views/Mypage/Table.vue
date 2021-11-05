@@ -1,140 +1,117 @@
 <template>
 
-<el-row>
-  <el-col :span="4"><div class="grid-content bg-purple-dark">
-  ここに、左側の見出し的なものを入れればいいのかなと思っています。いかがでしょうか？
-  </div></el-col>
-  <el-col :span="20"><div class="grid-content bg-purple-light">
-
-  <el-table
-    :data="tableData"
-    style="width: 100%"
-    max-height="1000">
-    <el-table-column
-      fixed
-      prop="date"
-      label="日付"
-      width="100">
-    </el-table-column>
-    <el-table-column
-      prop="category"
-      label="カテゴリ"
-      width="120">
-    </el-table-column>
-    <el-table-column
-      prop="money"
-      label="金額"
-      width="120">
-    </el-table-column>
-    <el-table-column
-      prop="state"
-      label="場所"
-      width="120">
-    </el-table-column>
-    <el-table-column
-      prop="photo"
-      label="写真"
-      width="180">
-    </el-table-column>
-    <el-table-column
-      prop="zip"
-      label="Zip"
-      width="120">
-    </el-table-column>
-    <el-table-column
-      label="Operations"
-      width="120">
-      <template v-slot="scope">
-        <el-button
-          @prevent="deleteRow(scope.$index, tableData)"
-          type="text"
-          size="small">
-          編集
-        </el-button>
-      </template>
-    </el-table-column>
-    </el-table>
-
-</div></el-col>
-</el-row>
-
-
+<div>
+  <div>
+    <SideBar/>
+  </div>
+  <div class="table__main">
+    <div class="table__center">
+      <el-table
+        :data="userHistory"
+        max-height="1000">
+        <el-table-column
+          prop="act_time"
+          label="日付"
+          width="100">
+        </el-table-column>
+        <el-table-column
+          prop="category"
+          label="カテゴリ"
+          width="120">
+        </el-table-column>
+        <el-table-column
+          prop="result"
+          label="金額"
+          width="120">
+        </el-table-column>
+        <el-table-column
+          prop="place"
+          label="場所"
+          width="120">
+        </el-table-column>
+        <!-- <el-table-column
+          prop="photo"
+          label="写真"
+          width="180">
+        </el-table-column> -->
+        <el-table-column
+          label="Operations"
+          width="120">
+          <template v-slot="scope">
+            <el-button
+              @prevent="deleteRow(scope.$index, tableData)"
+              type="text"
+              size="small">
+              編集
+            </el-button>
+          </template>
+        </el-table-column>
+        </el-table>
+      </div>
+  </div>
+</div>
 
 </template>
 
-
-<style>
-  .el-row {
-    margin-bottom: 20px;
-    /* &:last-child {
-      margin-bottom: 0;
-    } */
-  }
-  .el-col {
-    border-radius: 4px;
-  }
-</style>
-
-
-
 <script>
-  export default {
-    data() {
-      return {
-        tableData: [{
-          date: '2016-05-03',
-          category: '洋服',
-          money: 'California',
-          state: 'Los Angeles',
-          photo: 'No. 189',
-          zip: 'CA 90036'
-        }, {
-          date: '2016-05-02',
-          category: '洋服',
-          money: 'California',
-          state: 'Los Angeles',
-          photo: 'No. 189',
-          zip: 'CA 90036'
-        }, {
-          date: '2016-05-04',
-          category: '品物',
-          money: 'California',
-          state: 'Los Angeles',
-          photo: 'No. 189',
-          zip: 'CA 90036'
-        }, {
-          date: '2016-05-01',
-          category: 'お手紙',
-          money: 'California',
-          state: 'Los Angeles',
-          photo: 'No. 189',
-          zip: 'CA 90036'
-        }, {
-          date: '2016-05-08',
-          category: 'jack',
-          money: 'California',
-          state: 'Los Angeles',
-          photo: 'No. 189',
-          zip: 'CA 90036'
-        }, {
-          date: '2016-05-06',
-          category: 'jack',
-          money: 'California',
-          state: 'Los Angeles',
-          photo: 'No. 189',
-          zip: 'CA 90036'
-        }, {
-          date: '2016-05-07',
-          category: 'jack',
-          money: 'California',
-          state: 'Los Angeles',
-          photo: 'No. 189',
-          zip: 'CA 90036'
-        }]
-      }
-    },
-    mounted() {
-      
+import SideBar from '../../src/components/SideBar.vue'
+import Axios from 'axios'
+
+
+export default {
+  components:{
+  SideBar,
+  },
+  data() {
+    return {
+      userHistory: [],
     }
+  },
+  props: {
+    userId: {
+      type: String
+    },
+  },
+  methods: {
+    saveUserId() {
+      localStorage.setItem('userId', this.userId)
+    }
+  },
+  mounted: async function () {
+    const BASE_URL = "http://localhost:5000"
+    let axios = Axios.create({
+      baseURL: BASE_URL,
+      headers: {
+        'Content-type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
+      },
+      responseType: 'json'
+    })
+    await axios.get(`api/histories/${this.userId}`).then(res => {
+      console.log("user data")
+      console.table(res.data)
+      this.userHistory = res.data
+    })
+    this.saveUserId()
   }
+}
 </script>
+
+<style lang="sass" scoped>
+.table
+  $side-bar-width: 256px
+  $main-width: calc(100% - #{$side-bar-width})
+  &__main
+    margin-top: 2rem
+    width: $main-width
+    padding-left: $side-bar-width
+    display: block
+  &__center
+    margin: 0 auto
+  /* // .el-row
+  //   margin-bottom: 20px
+  //   &:last-child
+  //     margin-bottom: 0rem
+  // .el-col
+  //   border-radius: 4px */
+</style>

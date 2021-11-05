@@ -52,6 +52,17 @@ def create_tables():
                 act_time Date not null, 
                 update_time Date not null,
                 category TEXT not null,
+                place TEXT not null,
+                foreign key (user_id) references users(id)
+            );
+        ''')
+        # カテゴリー
+        conn.execute('''
+            CREATE TABLE categories (
+                id Integer primary key autoincrement,
+                user_id TEXT,
+                type TEXT not null,
+                category TEXT not null,
                 foreign key (user_id) references users(id)
             );
         ''')

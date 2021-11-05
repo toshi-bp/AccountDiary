@@ -151,6 +151,7 @@ def get_histories():
             history["act_time"] = row["act_time"]
             history["update_time"] = row["update_time"]
             history["category"] = row["category"]
+            history["place"] = row["place"]
             histories.append(history)
     except:
         histories = []
@@ -175,7 +176,51 @@ def get_histories_by_id(user_id):
             history["act_time"] = row["act_time"]
             history["update_time"] = row["update_time"]
             history["category"] = row["category"]
+            history["place"] = row["place"]
             histories.append(history)
     except:
         histories = []
     return histories
+
+
+def get_categories():
+    categories = []
+    try:
+        conn = connect_to_db()
+        conn.row_factory = sqlite3.Row
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM categories")
+        rows = cur.fetchall()
+
+        for row in rows:
+            # カラム情報を取得する
+            category= {}
+            category["id"] = row["id"]
+            category["user_id"] = row["user_id"]
+            category["type"] = row["type"]
+            category["category"] = row["category"]
+            categories.append(category)
+    except:
+        categories = []
+    return categories
+
+def get_categories_by_id(user_id):
+    categories = []
+    try:
+        conn = connect_to_db()
+        conn.row_factory = sqlite3.Row
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM categories WHERE user_id = ?", (user_id,))
+        rows = cur.fetchall()
+
+        for row in rows:
+            # カラム情報を取得する
+            category = {}
+            category["id"] = row["id"]
+            category["user_id"] = row["user_id"]
+            category["type"] = row["type"]
+            category["category"] = row["category"]
+            categories.append(category)
+    except:
+        categories = []
+    return categories

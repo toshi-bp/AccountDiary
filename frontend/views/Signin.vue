@@ -13,7 +13,7 @@
       <h3 size="10">
         USER NAME
         <el-input
-          placeholder="input id"
+          placeholder="input user name"
           v-model="username"
           clearable
           class="login__input"

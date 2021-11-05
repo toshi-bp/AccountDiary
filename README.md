@@ -87,6 +87,7 @@
 | act_time | DATE | 初回投稿の際の日付orその行動を行なった日付 |
 | update_time | DATE | 更新した際の日付 |
 | category | TEXT | カテゴリ(categoriesと照会) |
+| place | TEXT | 場所 |
 
 ### categories(カテゴリー一覧)
 | カラム名 | データ型 | 備考 |
@@ -95,6 +96,7 @@
 | user_id | TEXT | ユーザー毎のカテゴリー一覧を表示する際に利用 |
 | type | TEXT | 収入or支出 |
 | category | TEXT | カテゴリー |
+
 
 
 ## 必要となる画面

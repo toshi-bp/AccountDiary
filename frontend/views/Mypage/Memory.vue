@@ -1,16 +1,20 @@
 <template>
   <div>
     <center>
-    <h3>記録</h3>  
+      <div>
+        <el-alert :title="alertMessage" :type="alertType"></el-alert>
+      </div>
+    <h3>記録</h3>
     <!-- 支出収入選択 -->
     支出収入を選択してね
     <div>
-      <el-select v-model="value" placeholder="Select">
+      <el-select v-model="type" placeholder="Select">
         <el-option
-          v-for="item in options"
-          :key="item.value"
+          v-for="item in types"
+          :key="item.id"
           :label="item.label"
-          :value="item.value">
+          :value="item.value"
+        >
         </el-option>
       </el-select>
     </div>
@@ -20,7 +24,7 @@
       <div class="block">
         <span class="demonstration"></span>
         <el-date-picker
-          v-model="value2"
+          v-model="date"
           type="date"
           placeholder="Pick a day"
           :disabled-date="disabledDate"
@@ -29,20 +33,15 @@
         </el-date-picker>
       </div>
     </div>
-
     <!-- 金額入力 -->
     金額を入力してね
-
     <div>
-      <el-input-number v-model="num" :step="100" />  
+      <el-input-number v-model="cost" :step="100" />
     </div>
-
     <!-- カテゴリ選択 -->
-
     カテゴリを選択してね
-    
     <div>
-      <el-select v-model="value" placeholder="Select">
+      <el-select v-model="category" placeholder="Select">
       <el-option-group
           v-for="group in options"
           :key="group.label"
@@ -56,19 +55,15 @@
       </el-option-group>
       </el-select>
     </div>
-
-<!-- 場所入力 -->
-場所を入力してね
-
+    <!-- 場所入力 -->
+    場所を入力してね
     <div>
-      <el-input v-model="input" placeholder="Please input" />
+      <el-input v-model="place" placeholder="Please input" />
     </div>
-
-<!-- ひとこと入力 -->
-ひとことを入力してね
-
+    <!-- ひとこと入力 -->
+    ひとことを入力してね
     <div>
-      <el-input v-model="input" placeholder="Please input" />
+      <el-input v-model="diary" placeholder="Please input" />
     </div>
     <div>
       <el-upload
@@ -90,12 +85,9 @@
         </template>
       </el-upload>
     </div>
-
-    //保存ボタン追加しました（位置機能全くです）
-
     <div>
       <el-row>
-        <el-button type="primary" plain disabled>保存</el-button>
+        <el-button type="primary" plain @click="upload">保存</el-button>
       </el-row>
     </div>
     </center>
@@ -103,123 +95,101 @@
 </template>
 
 <script>
-// 日付入力
+// import { reactive, toRefs } from 'vue'
+import Axios from 'axios'
 
-import { defineComponent, reactive, toRefs,ref } from 'vue'
-
-export default defineComponent({
-  setup() {
-    const state = reactive({
-      disabledDate(time) {
-        return time.getTime() > Date.now()
-      },
-      shortcuts: [
-        {
-          text: 'Today',
-          value: new Date(),
-        },
-        {
-          text: 'Yesterday',
-          value: () => {
-            const date = new Date()
-            date.setTime(date.getTime() - 3600 * 1000 * 24)
-            return date
-          },
-        },
-        {
-          text: 'A week ago',
-          value: () => {
-            const date = new Date()
-            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
-            return date
-          },
-        },
-      ],
-      value1: '',
-      value2: '',
-    })
-
-    return {
-      ...toRefs(state),
-    }
-  },  
-
+export default {
+  // setup() {
+  //   const state = reactive({
+  //     disabledDate(time) {
+  //       return time.getTime() > Date.now()
+  //     },
+  //     shortcuts: [
+  //       {
+  //         text: 'Today',
+  //         value: new Date(),
+  //       },
+  //       {
+  //         text: 'Yesterday',
+  //         value: () => {
+  //           const date = new Date()
+  //           date.setTime(date.getTime() - 3600 * 1000 * 24)
+  //           return date
+  //         },
+  //       },
+  //       {
+  //         text: 'A week ago',
+  //         value: () => {
+  //           const date = new Date()
+  //           date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
+  //           return date
+  //         },
+  //       },
+  //     ],
+  //     value1: '',
+  //     value2: '',
+  //   })
+  //   return {
+  //     ...toRefs(state),
+  //   }
+  // },
   // 支出or収入
-  
   data() {
-      return {
-        options: [{
-          value: 'Option1',
-          label: '支出'
-        }, {
-          value: 'Option2',
-          label: '収入'
-        } 
-        ],
-        value: ''
-      }
-   
-  },
-
-  // 金額入力
-
-  setup2() {
-    const num = ref(0)
     return {
-      num,
+      types: [{
+        id: 1,
+        value: 'income',
+        label: '支出'
+      }, {
+        id: 2,
+        value: 'expenditure',
+        label: '収入'
+      }
+      ],
+      value: '',
+      // ↓収入or支出
+      type: '',
+      date: '',
+      cost: 0,
+      alertMessage: '',
+      alertType: '',
+      place: '',
+      diary: '',
+      category: '',
     }
   },
-
 //カテゴリ選択
-
   data1() {
       return {
-        options: [{
-          label: '食費',
-          options: [{
-            value: 'breakfast',
-            label: '朝食'
-          }, {
-            value: 'lunch',
-            label: '昼食'
-          }]
-        }, {
-          label: 'hobby',
-          options: [{
-            value: 'book',
-            label: '本'
-          }, {
-            value: 'sport',
-            label: 'スポーツ'
-          }, {
-            value: 'movie',
-            label: '映画'
-          }, {
-            value: 'music',
-            label: '音楽'
-          }]
-        }],
-        value: ''
+        // options: [{
+        //   label: '食費',
+        //   options: [{
+        //     value: 'breakfast',
+        //     label: '朝食'
+        //   }, {
+        //     value: 'lunch',
+        //     label: '昼食'
+        //   }]
+        // }, {
+        //   label: 'hobby',
+        //   options: [{
+        //     value: 'book',
+        //     label: '本'
+        //   }, {
+        //     value: 'sport',
+        //     label: 'スポーツ'
+        //   }, {
+        //     value: 'movie',
+        //     label: '映画'
+        //   }, {
+        //     value: 'music',
+        //     label: '音楽'
+        //   }]
+        // }],
+        // value: ''
       }
   },
-
-  //  場所入力
-  setup3() {
-    return {
-      input: ref(''),
-    }
-  },
-
-  //  ひとこと入力
-  setup4() {
-    return {
-      input: ref(''),
-    }
-  }
-  ,
-
   // 写真アップロード
-
   data2() {
     return {
       fileList: [
@@ -235,29 +205,53 @@ export default defineComponent({
     }
   },
   methods: {
-    handleRemove(file, fileList) {
-      console.log(file, fileList)
-    },
-    handlePreview(file) {
-      console.log(file)
-    },
-    handleExceed(files, fileList) {
-      this.$message.warning(
-        `The limit is 3, you selected ${
-          files.length
-        } files this time, add up to ${files.length + fileList.length} totally`
+    // handleRemove(file, fileList) {
+    //   console.log(file, fileList)
+    // },
+    // handlePreview(file) {
+    //   console.log(file)
+    // },
+    // handleExceed(files, fileList) {
+    //   this.$message.warning(
+    //     `The limit is 3, you selected ${
+    //       files.length
+    //     } files this time, add up to ${files.length + fileList.length} totally`
+    //   )
+    // },
+    // beforeRemove(file) {
+    //   return this.$confirm(`Cancel the transfert of ${file.name} ?`)
+    // },
+    upload () {
+      // TODO:公開する際にurlを変更
+      const BASE_URL = "http://localhost:5000"
+      const axios = Axios.create({
+        baseURL: BASE_URL,
+        headers: {
+          'Content-type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        responseType: 'json'
+      })
+      let self = this
+      axios.post(
+        '/api/histories/add',
+        {
+          // 登録するデータ
+        }
       )
-    },
-    beforeRemove(file) {
-      return this.$confirm(`Cancel the transfert of ${file.name} ?`)
-    },
-  },
-})
-// })
+      .then (res => {
+        console.table(res.data)
+      })
+      .catch(() => {
+        // エラー発生時(例外処理)
+        console.log('failed')
+        self.alertType = 'error'
+        self.alertMessage = 'エラーが発生しました'
+      })
+    }
+  }
+}
 </script>
-
-
-
 
 <style lang="sass" scoped>
 .memory
@@ -265,3 +259,4 @@ export default defineComponent({
     &__input
       // 何か書く
 </style>
+

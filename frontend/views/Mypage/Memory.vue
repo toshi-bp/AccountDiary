@@ -1,115 +1,103 @@
 <template>
+  <div>
+    <h3>記録</h3>  
+    <!-- 支出収入選択 -->
+    支出収入を選択してね
     <div>
-      <h3>記録</h3>  
-      
-      <!-- 支出収入選択 -->
-      
-      支出収入を選択してね
-
-      <div>
-        <el-select v-model="value" placeholder="Select">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-        </el-select> 
+      <el-select v-model="value" placeholder="Select">
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+        </el-option>
+      </el-select>
+    </div>
+    <!-- 日付入力 -->
+    日付を選択してね
+    <div class="demo-date-picker">
+      <div class="block">
+        <span class="demonstration"></span>
+        <el-date-picker
+          v-model="value2"
+          type="date"
+          placeholder="Pick a day"
+          :disabled-date="disabledDate"
+          :shortcuts="shortcuts"
+        >
+        </el-date-picker>
       </div>
+    </div>
 
-      <!-- 日付入力 -->
-      
-      日付を選択してね
+    <!-- 金額入力 -->
+    金額を入力してね
 
-      <div class="demo-date-picker">
-        
-        <div class="block">
+    <div>
+      <el-input-number v-model="num" :step="100" />  
+    </div>
 
-          <span class="demonstration"></span>
-          <el-date-picker
-            v-model="value2"
-            type="date"
-            placeholder="Pick a day"
-            :disabled-date="disabledDate"
-            :shortcuts="shortcuts"
-          >
-          </el-date-picker>
-        </div>
-      </div>
+    <!-- カテゴリ選択 -->
 
-      <!-- 金額入力 -->
-
-      金額を入力してね
-
-      <div>
-        <el-input-number v-model="num" :step="100" />  
-      </div>
-
-      <!-- カテゴリ選択 -->
-
-      カテゴリを選択してね
-      
-      <div>
-       <el-select v-model="value" placeholder="Select">
-        <el-option-group
-            v-for="group in options"
-            :key="group.label"
-            :label="group.label">
-          <el-option
-            v-for="item in group.options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-option-group>
-       </el-select>
-      </div>
+    カテゴリを選択してね
+    
+    <div>
+      <el-select v-model="value" placeholder="Select">
+      <el-option-group
+          v-for="group in options"
+          :key="group.label"
+          :label="group.label">
+        <el-option
+          v-for="item in group.options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+        </el-option>
+      </el-option-group>
+      </el-select>
+    </div>
 
 <!-- 場所入力 -->
 場所を入力してね
 
-      <div>
-        <el-input v-model="input" placeholder="Please input" />
-      </div>
+    <div>
+      <el-input v-model="input" placeholder="Please input" />
+    </div>
 
 <!-- ひとこと入力 -->
 ひとことを入力してね
 
-      <div>
-        <el-input v-model="input" placeholder="Please input" />
-      </div>
-      
-      
-      <div>
-        <el-upload
-          class="upload-demo"
-          action="https://jsonplaceholder.typicode.com/posts/"
-          :on-preview="handlePreview"
-          :on-remove="handleRemove"
-          :before-remove="beforeRemove"
-          multiple
-          :limit="3"
-          :on-exceed="handleExceed"
-          :file-list="fileList"
-        >
-          <el-button size="small" type="primary">Click to upload</el-button>
-          <template #tip>
-            <div class="el-upload__tip">
-              jpg/png files with a size less than 500kb
-            </div>
-          </template>
-        </el-upload>
-      </div>
-
-      //保存ボタン追加しました（位置機能全くです）
-
-      <div>
-        <el-row>
-          <el-button type="primary" plain disabled>保存</el-button>
-        </el-row>
-      </div>
+    <div>
+      <el-input v-model="input" placeholder="Please input" />
     </div>
-  </center>
+    <div>
+      <el-upload
+        class="upload-demo"
+        action="https://jsonplaceholder.typicode.com/posts/"
+        :on-preview="handlePreview"
+        :on-remove="handleRemove"
+        :before-remove="beforeRemove"
+        multiple
+        :limit="3"
+        :on-exceed="handleExceed"
+        :file-list="fileList"
+      >
+        <el-button size="small" type="primary">Click to upload</el-button>
+        <template #tip>
+          <div class="el-upload__tip">
+            jpg/png files with a size less than 500kb
+          </div>
+        </template>
+      </el-upload>
+    </div>
+
+    //保存ボタン追加しました（位置機能全くです）
+
+    <div>
+      <el-row>
+        <el-button type="primary" plain disabled>保存</el-button>
+      </el-row>
+    </div>
+  </div>
 </template>
 
 <script>

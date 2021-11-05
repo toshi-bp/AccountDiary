@@ -129,9 +129,9 @@ def api_delete_history(user_id):
 @app.route('/api/categories', methods=['GET'])
 def api_get_categories():
     return jsonify(get_categories())
-@app.route('/api/categories/<user_id>', methods=['GET'])
-def api_get_categories():
-    return
+# @app.route('/api/categories/<user_id>', methods=['GET'])
+# def api_get_categories():
+#     return jsonify(get_categories())
 
 @app.route('/<path:path>')
 def index(path):

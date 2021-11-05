@@ -6,18 +6,19 @@
 </style>
 
 <template>
-  <ChartPie
+  <!-- <ChartPie
     :chartData="chartData"
     :options="chartOptions"
-  />
+  /> -->
+  <div></div>
 </template>
 
 <script>
 // import { Component, Vue, Watch, Mixins } from "vue-property-decorator";
-import ChartPie from "../Mypage/ChartPie.vue";
+// import ChartPie from "../Mypage/ChartPie.vue";
 export default {
   components: {
-    ChartPie
+    // ChartPie
   },
   computed: {
     chartData() {

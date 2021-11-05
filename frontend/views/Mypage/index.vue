@@ -66,6 +66,7 @@ export default {
       imageData: [],
       userData: {},
       username: '',
+      showConfirm: false
     }
   },
   props: {
@@ -78,7 +79,14 @@ export default {
     onModal() {
       this.visible = !this.visible
       console.log(this.visible)
+    },
+    confirm(event) {
+      this.showConfirm = !this.showConfirm
+      event.returnValue = "リロードするとログイン画面に戻ります"
     }
+  },
+  created() {
+    window.addEventListener("beforeunload", this.confirm)
   },
   mounted: async function () {
     // TODO:デプロイする際にurlを変更する

@@ -11,19 +11,19 @@
 - サーバーサイド
     - flask(python)
 - データベース
-    - sqlite(予定)
+    - sqlite
 - ホスティング
     - google app engine(予定)
 
 ## やることリスト
-### ~/10/22
+<!-- ### ~/10/22
 | 名前 | やること |
 | --- | --- |
 | 田原 | データベースの設計<br>フロントエンドの作成 |
 | 蔵丸 | 画面のレイアウトの設計<br>サービスの背景を掘り下げる |
 | 小柴 | サーバーサイドの作成<br>データベースの設計 |
 | 佐藤 | 画面のレイアウトの設計<br>サービスの背景を掘り下げる |
-| 塩津 | サーバーサイドの作成<br>データベースの設計 |
+| 塩津 | サーバーサイドの作成<br>データベースの設計 | -->
 
 ## ユーザーストーリーリスト
 | 内容 | ポイント(大きい方優先) |
@@ -51,27 +51,33 @@
 | --- | --- | --- |
 ||||
 
-### membership
+### users
 | カラム名 | データ型 | 備考 |
 | --- | --- | --- |
-| id | INTEGER | 主キー |
+| id | TEXT | 主キー |
 | mail | TEXT | メアド |
 | pwd | TEXT | パスワード |
-| birthday | DATE | 生年月日 |
+| name | TEXT | ユーザーネーム |
+| birthday | TEXT | 生年月日 |
 | gender | TEXT | 性別 |
 | phonenumber | TEXT | 電話番号 |
+| money | INTEGER | 所持金(初期値は0) |
+| used_money | INTEGER | (使ったお金, 初期値は0) |
+| jti | TEXT | アクセストークン(認証の際に使用) |
 
 ### images(インスタ的な部分)
 | カラム名 | データ型 | 備考 |
 | --- | --- | --- |
 | id | INTEGER | 主キー |
-| memberId | INTEGER | membershipのidと照会 |
-| imageUrl | TEXT |  |
+| user_id | TEXT | usersのidと照会 |
+| imageUrl | TEXT | 画像URL |
 | act_time | DATE | 初回投稿の際の日付orその行動を行なった日付 |
 | update_time | DATE | 更新した際の日付 |
-| diary | TEXT |  |
+| diary | TEXT | 日記の文章 |
+| score | INTEGER | その思い出の点数 |
+| cost | INTEGER | 払ったお金 |
 
-### history(行動履歴)
+### histories(行動履歴)
 | カラム名 | データ型 | 備考 |
 | --- | --- | --- |
 | id | INTEGER | 主キー |
@@ -80,7 +86,15 @@
 | result | INTEGER | 行動の結果による収入or支出 |
 | act_time | DATE | 初回投稿の際の日付orその行動を行なった日付 |
 | update_time | DATE | 更新した際の日付 |
-| type | TEXT | カテゴリ |
+| category | TEXT | カテゴリ(categoriesと照会) |
+
+### categories(カテゴリー一覧)
+| カラム名 | データ型 | 備考 |
+| --- | --- | --- |
+| id | INTEGER | 主キー |
+| user_id | TEXT | ユーザー毎のカテゴリー一覧を表示する際に利用 |
+| type | TEXT | 収入or支出 |
+| category | TEXT | カテゴリー |
 
 
 ## 必要となる画面

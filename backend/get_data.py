@@ -31,7 +31,6 @@ def get_users():
 
 def get_user_by_id(user_id):
     user = {}
-    print("user_id:" + user_id)
     try:
         conn = connect_to_db()
         conn.row_factory = sqlite3.Row

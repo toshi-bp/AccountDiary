@@ -1,9 +1,5 @@
 from create_db import connect_to_db
 from get_data import get_user_by_id, get_images_by_id, get_histories_by_id
-import base64
-from PIL import Image
-from io import BytesIO
-from pathlib import Path
 
 # ユーザー情報を挿入するための関数
 def insert_user(user):

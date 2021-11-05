@@ -84,6 +84,10 @@ def api_get_images_by_id(user_id):
 @app.route('/api/images/add', methods=['POST'])
 def api_add_image():
     image = request.get_json()
+    # この段階でimageUrlの書き換えを行う
+    code = base64.b64decode(image['image_url'].split(',')[1])
+    image_decoded = Image.open(BytesIO(code))
+    image_decoded.save('./uploads' + '/' + image['image_url'])
     return jsonify(insert_image(image))
 
 @app.route('/api/images/update', methods=['PUT'])

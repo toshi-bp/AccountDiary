@@ -25,7 +25,7 @@
         <p>
           {{ canUseMoney }}円
         </p>
-        <p v-if="canUseMoney <= 0">
+        <p v-if="canUseMoney < 0">
           赤字
         </p>
       </div>
@@ -37,8 +37,6 @@
 export default {
   data () {
     return {
-      money: 60000,
-      used_money: 40000,
       // pathを後で書き直す
       menu: [
         {
@@ -67,6 +65,16 @@ export default {
           path: "/mypage/memory"
         }
       ]
+    }
+  },
+  props: {
+    money: {
+      type: Number,
+      default: 0
+    },
+    used_money: {
+      type: Number,
+      default: 0
     }
   },
   computed: {

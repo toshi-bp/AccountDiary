@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-
 import Signin from '../views/Signin'
 import MyPage from '../views/Mypage/'
 import Register from '../views/Register'
@@ -9,6 +8,10 @@ import Settings from '../views/Mypage/Settings'
 import Analytics from '../views/Mypage/Analytics'
 
 const routes = [
+  {
+    path: '/',
+    redirect: '/login'
+  },
   {
     path: '/login',
     name: 'Login',
@@ -23,6 +26,7 @@ const routes = [
     path: '/mypage',
     name: 'MyPage',
     component: MyPage,
+    props: true,
   },
   {
     path: '/mypage/memory',

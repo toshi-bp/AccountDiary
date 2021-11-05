@@ -5,8 +5,12 @@
     </div>
     <div>
       <!-- マイページのトップページ -->
-      <side-bar />
+      <side-bar
+        :money="userData.money"
+        :used_money="userData.used_money"
+      />
       <div class="mypage__main">
+        {{ userData.name }}さんのマイページ
         <the-row>
           <div
             v-for="i in 21" :key="i"
@@ -44,6 +48,8 @@ import TheRow from '../../src/components/TheRow.vue'
 import MemoryModal from '../../src/components/MemoryModal.vue'
 // import TheColumn from '../../src/components/TheColumn.vue'
 // import TheSection from '../../src/components/TheSection.vue'
+import Axios from 'axios'
+import cookie from 'js-cookie'
 
 export default {
   components: {
@@ -56,15 +62,62 @@ export default {
   },
   data () {
     return {
-      visible: false
+      visible: false,
+      imageData: [],
+      userData: {},
+      username: '',
+      showConfirm: false
+    }
+  },
+  props: {
+    userId: {
+      type: String,
+      default: localStorage.getItem('userId')
     }
   },
   methods: {
     onModal() {
       this.visible = !this.visible
       console.log(this.visible)
+    },
+    confirm(event) {
+      this.showConfirm = !this.showConfirm
+      event.returnValue = "リロードするとログイン画面に戻ります"
+    },
+    saveUserId() {
+      localStorage.setItem('userId', this.userId)
     }
-  }
+  },
+  created() {
+    window.addEventListener("beforeunload", this.confirm)
+  },
+  mounted: async function () {
+    // TODO:デプロイする際にurlを変更する
+    const BASE_URL = "http://localhost:5000"
+    cookie.set(this.userId)
+    let axios = Axios.create({
+      baseURL: BASE_URL,
+      headers: {
+        'Content-type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
+      },
+      responseType: 'json'
+    })
+    await axios.get(`/api/users/${this.userId}`).then(res => {
+      console.log("user data")
+      console.table(res.data)
+      this.userData = res.data
+    })
+    await axios.get(`/api/images/${this.userId}`).then(res => {
+      console.log("image data")
+      console.table(res.data)
+      this.imageData = res.data
+    })
+    // this.$store.commit("setUserId", this.userId)
+    this.saveUserId()
+    cookie.set(this.userData)
+    cookie.set(this.imageData)
+  },
 }
 </script>
 

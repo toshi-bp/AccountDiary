@@ -7,17 +7,14 @@
       nikki de kakeibo
     </h1>
     <div>
-      <p v-if="snackbar">
-        {{ snackbarText }}
-      </p>
+      <el-alert :title="alertMessage" :type="alertType"></el-alert>
     </div>
     <div>
       <h3 size="10">
-        <!-- ユーザー名の方がわかりやすいのではないか？と思った -->
-        USER ID
+        USER NAME
         <el-input
           placeholder="input id"
-          v-model="userId"
+          v-model="username"
           clearable
           class="login__input"
         />
@@ -39,9 +36,7 @@
     </i>
     <div>
       <div class="login__button">
-        <router-link to="/mypage">
-          <el-button type="primary" plain>LOGIN</el-button>
-        </router-link>
+        <el-button type="primary" plain @click="login">LOGIN</el-button>
       </div>
       <div class="login__button">
         <router-link to="/register">
@@ -66,17 +61,19 @@ export default {
   data () {
     return {
       userId: '',
+      username: '',
       password: '',
-      snackbarText: '',
+      alertMessage: '',
+      alertType: '',
     }
   },
   components: {
     Header,
   },
   methods: {
-    signin () {
+    login () {
       // BASE_URL→公開時とlocalhost時で適宜変更する必要がある
-      const BASE_URL = "http://loalhost/3000"
+      const BASE_URL = "http://localhost:5000"
       let sha256 = crypto.createHash('sha256')
       sha256.update(this.password)
       const hashPass = sha256.digest('base64')
@@ -91,9 +88,9 @@ export default {
       })
       let self = this
       axios.post(
-        'signin',
+        '/api/login',
         {
-          userId: self.userId,
+          username: self.username,
           password: hashPass
         },
         {
@@ -104,19 +101,29 @@ export default {
       )
       .then(res  => {
         if (res.data.access_token) {
+          console.table(res.data)
           cookie.set('jwt_token', res.data.access_token)
-          // TODO:ルーターの設定を見直す
-          router.push({ name: 'user' })
+          // TODO:ルーターを介してユーザー情報をpropsで渡す
+          router.push({
+            name: 'MyPage',
+            params: {
+              username: self.username,
+              userId: res.data.user_id
+            }
+          })
         } else if (res.status === 401) {
           // ユーザー名とパスワードが間違っていた場合
-          self.snackbarText = 'ユーザー名またはパスワードが違います'
+          self.alertType = 'error'
+          self.alertMessage = 'ユーザー名またはパスワードが違います'
         } else {
           throw new Error()
         }
       })
       .catch(() => {
         // エラー発生時(例外処理)
-        self.snackbarText = 'エラーが発生しました'
+        console.log('failed')
+        self.alertType = 'error'
+        self.alertMessage = 'エラーが発生しました'
       })
     }
   }

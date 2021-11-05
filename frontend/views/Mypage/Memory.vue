@@ -1,7 +1,4 @@
 <template>
-
-  <center>
-
     <div>
       <h3>記録</h3>  
       
@@ -111,13 +108,11 @@
           <el-button type="primary" plain disabled>保存</el-button>
         </el-row>
       </div>
-
     </div>
   </center>
 </template>
 
 <script>
-
 // 日付入力
 
 import { defineComponent, reactive, toRefs,ref } from 'vue'
@@ -268,8 +263,7 @@ export default defineComponent({
     },
   },
 })
-
-
+// })
 </script>
 
 

@@ -1,22 +1,14 @@
-import { reactive, readonly } from "vue";
+import { createStore } from "vuex";
 
-const state = reactive({
-  userId: ''
+const store = createStore({
+  state: {
+    userId: ''
+  },
+  mutations: {
+    setUserId(state, payload) {
+      state.userId = payload
+    }
+  }
 })
 
-const mutations = {
-  setUserId(state, loginUser) {
-    state.userId = loginUser
-  }
-}
-
-const actions = {
-  setUserId: ({ commit }) => commit("setUserId")
-}
-
-export default {
-  state: readonly(state),
-  setUserId
-}
-
-export const key = Symbol('key')
+export default store

@@ -137,11 +137,6 @@ def api_add_category():
 def api_delete_category(user_id):
     return jsonify(delete_categories(user_id))
 
-
-
-
-
-#特設したupdate用のやつ
 ##パスワードのアップデート
 @app.route('/api/users/update', methods=['PUT'])
 def api_update_user_pwd():

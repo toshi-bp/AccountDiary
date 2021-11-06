@@ -156,42 +156,6 @@ export default {
       place: '',
       diary: '',
       category: '',
-    }
-  },
-//カテゴリ選択
-  data1() {
-      return {
-        // options: [{
-        //   label: '食費',
-        //   options: [{
-        //     value: 'breakfast',
-        //     label: '朝食'
-        //   }, {
-        //     value: 'lunch',
-        //     label: '昼食'
-        //   }]
-        // }, {
-        //   label: 'hobby',
-        //   options: [{
-        //     value: 'book',
-        //     label: '本'
-        //   }, {
-        //     value: 'sport',
-        //     label: 'スポーツ'
-        //   }, {
-        //     value: 'movie',
-        //     label: '映画'
-        //   }, {
-        //     value: 'music',
-        //     label: '音楽'
-        //   }]
-        // }],
-        // value: ''
-      }
-  },
-  // 写真アップロード
-  data2() {
-    return {
       fileList: [
         {
           name: 'food.jpeg',
@@ -202,6 +166,11 @@ export default {
           url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
         },
       ],
+    }
+  },
+  props: {
+    userId: {
+      type: String
     }
   },
   methods: {

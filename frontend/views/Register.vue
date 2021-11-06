@@ -1,10 +1,10 @@
 <template>
   <div>
     <Header />
-    <router-link to="/login">
+    <!-- <router-link to="/login">
     <div style="text-align: right;">BACK
     </div>
-    </router-link>
+    </router-link> -->
     <center>
       <h3>新規登録</h3>
       <el-alert :title="alertMessage" :type="alertType">
@@ -20,11 +20,11 @@
       </div>
       <div>
         PASSWORD
-        <el-input v-model="password" class="register__input" />
+        <el-input v-model="password" class="register__input" show-password/>
       </div>
       <div>
         CONFIRM PASSWORD
-        <el-input v-model="passwordConf" class="register__input" />
+        <el-input v-model="passwordConf" class="register__input" show-password/>
       </div>
       <div  style="margin-bottom: 1rem;">
         BIRTH DAY

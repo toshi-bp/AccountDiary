@@ -1,50 +1,48 @@
 <template>
-
 <div>
   <div>
     <SideBar/>
   </div>
-  <div class="setting__main">
-  <center>
- 
-  <h1>カテゴリー名の変更</h1>
-  <p><h10>------変更前------</h10></p>
-  <el-select v-model="category" placeholder="Select">
-    <el-option
-      v-for="item in userCategories"
-      :key="item"
-      :label="item.category"
-      :value="item.category">
-    </el-option>
-  </el-select>
-  <p><h10>------変更後------</h10></p>
-  <div class="settings__input">
-    <el-input v-model="changeCategory" placeholder="edit me" />
-  </div>
-  <div class="settings__button">
-    <el-button @click="sendChangeCategory">送信する</el-button>
-  </div>
-  <hr size="5" noshade="" color="#000">
-  <h1>予算の設定</h1>
-  <div class="settings__input">
-    <el-input v-model="money" placeholder="edit me" />
-  </div>
-  <div class="settings__button">
-    <el-button @click="setMoney">変更する</el-button>
-  </div>
-  <hr size="5" noshade="" color="#000" >
-  <h1>個人情報</h1>
-  <p><h10>------アカウント確認------</h10></p>
-  <!--アカウント情報を掲載するテーブルの作成-->
-  <p><h10>------パスワード変更------</h10></p>
-  <div class="settings_input">
-    <el-input v-model="password" placeholder="edit me" />
-  </div>
-  <div class="settings__button">
-  <el-button @click="changePassword">送信する</el-button>
-  </div>
-  <hr size="5" noshade="" color="#000">
-  </center>
+  <div class="settings__main">
+    <center>
+    <h1>カテゴリー名の変更</h1>
+    <p><h10>------変更前------</h10></p>
+    <el-select v-model="category" placeholder="Select">
+      <el-option
+        v-for="item in userCategories"
+        :key="item"
+        :label="item.category"
+        :value="item.category">
+      </el-option>
+    </el-select>
+    <p><h10>------変更後------</h10></p>
+    <div class="settings__input">
+      <el-input v-model="changeCategory" placeholder="edit" />
+    </div>
+    <div class="settings__button">
+      <el-button @click="sendChangeCategory">送信する</el-button>
+    </div>
+    <hr size="5" noshade="" color="#000">
+    <h1>予算の設定</h1>
+    <div class="settings__input">
+      <el-input v-model="money" placeholder="edit" />
+    </div>
+    <div class="settings__button">
+      <el-button @click="setMoney">変更する</el-button>
+    </div>
+    <hr size="5" noshade="" color="#000" >
+    <h1>個人情報</h1>
+    <p><h10>------アカウント確認------</h10></p>
+    <!--アカウント情報を掲載するテーブルの作成-->
+    <p><h10>------パスワード変更------</h10></p>
+    <div class="settings_input">
+      <el-input v-model="password" placeholder="edit me" />
+    </div>
+    <div class="settings__button">
+    <el-button @click="changePassword">送信する</el-button>
+    </div>
+    <hr size="5" noshade="" color="#000">
+    </center>
   </div>
   </div>
 </template>
@@ -143,8 +141,6 @@ export default {
 
 <style lang="sass" scoped>
 .mypage
-  $side-bar-width: 256px
-  $main-width: calc(100% - #{$side-bar-width})
   &__header
     padding-left: $side-bar-width
   &__side
@@ -169,6 +165,8 @@ export default {
   width: 200px
   margin-bottom: 1rem
 .settings
+  $side-bar-width: 256px
+  $main-width: calc(100% - #{$side-bar-width})
   &__main
     display: flex
     justify-content: center

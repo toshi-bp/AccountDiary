@@ -224,3 +224,23 @@ def get_categories_by_id(user_id):
     except:
         categories = []
     return categories
+
+# カテゴリーの値を更新する際に利用する関数
+def get_categories_by_id_and_category(user_id, c):
+    category = {}
+    try:
+        conn = connect_to_db()
+        conn.row_factory = sqlite3.Row
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM categories WHERE user_id = ? and category = ?", (user_id, c))
+        row = cur.fetchone()
+
+        # カラム情報を取得する
+        category = {}
+        category["id"] = row["id"]
+        category["user_id"] = row["user_id"]
+        category["type"] = row["type"]
+        category["category"] = row["category"]
+    except:
+        category = {}
+    return category

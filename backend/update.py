@@ -1,5 +1,5 @@
 from create_db import connect_to_db
-from get_data import get_user_by_id, get_images_by_id, get_histories_by_id
+from get_data import get_user_by_id, get_images_by_id, get_histories_by_id, get_categories_by_id
 
 # usersのあるカラムを更新するための関数
 def update_user(user):
@@ -50,9 +50,6 @@ def update_image(image):
         conn.close()
     return updated_image
 
-
-
-
 # パスワードの変更
 def update_user_pwd(user, password):
     updated_user = {}
@@ -91,9 +88,9 @@ def update_hisotries_category(category, change_category):
     try:
         conn = connect_to_db()
         cur = conn.cursor()
-        cur.execute("UPDATE histories SET category = ? WHERE id = ?", (change_category, user["id"]))
+        cur.execute("UPDATE histories SET category = ? WHERE user_id = ? and category = ?", (change_category, category["user_id"], category["category"]))
         conn.commit()
-        updated_category = updated_categories_by_id(category["id"])
+        updated_category = get_categories_by_id(category["user_id"])
     except:
         conn.rollback()
         updated_category = {}

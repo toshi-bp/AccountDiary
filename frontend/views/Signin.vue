@@ -25,7 +25,6 @@
         PASSWORD
         <el-input
           class="login__input"
-          type="text"
           v-model="password"
           placeholder="input password"
           show-password

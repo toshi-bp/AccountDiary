@@ -35,8 +35,8 @@ def create_tables():
                 id Integer primary key autoincrement,
                 user_id TEXT,
                 image_url TEXT not null,
-                act_time DataTime not null,
-                update_time DateTime not null,
+                act_time TEXT not null,
+                update_time TEXT not null,
                 diary TEXT not null,
                 score Integer,
                 foreign key (user_id) references users(id)
@@ -49,8 +49,8 @@ def create_tables():
                 user_id TEXT,
                 action TEXT not null,
                 result Integer not null, 
-                act_time Date not null, 
-                update_time Date not null,
+                act_time TEXT not null, 
+                update_time TEXT not null,
                 category TEXT not null,
                 place TEXT not null,
                 foreign key (user_id) references users(id)

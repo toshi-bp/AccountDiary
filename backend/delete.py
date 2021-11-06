@@ -14,11 +14,11 @@ def delete_user(user_id):
         conn.close()
     return message
 
-def delete_images(id):
+def delete_images(user_id, image_url):
     message = {}
     try:
         conn = connect_to_db()
-        conn.execute("DELETE from images WHERE id = ?", (id,))
+        conn.execute("DELETE from images WHERE user_id = ? AND image_url = ?", (user_id, image_url))
         conn.commit()
         message["status"] = "success"
     except:

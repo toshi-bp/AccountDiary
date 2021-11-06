@@ -70,9 +70,9 @@
 | --- | --- | --- |
 | id | INTEGER | 主キー |
 | user_id | TEXT | usersのidと照会 |
-| imageUrl | TEXT | 画像URL |
-| act_time | DATE | 初回投稿の際の日付orその行動を行なった日付 |
-| update_time | DATE | 更新した際の日付 |
+| image_url | TEXT | 画像URL |
+| act_time | TEXT | 初回投稿の際の日付orその行動を行なった日付 |
+| update_time | TEXT | 更新した際の日付 |
 | diary | TEXT | 日記の文章 |
 | score | INTEGER | その思い出の点数 |
 | cost | INTEGER | 払ったお金 |
@@ -81,11 +81,11 @@
 | カラム名 | データ型 | 備考 |
 | --- | --- | --- |
 | id | INTEGER | 主キー |
-| memberId | INTEGER | membershipのidと照会 |
+| user_id | INTEGER | membershipのidと照会 |
 | action | TEXT |  |
 | result | INTEGER | 行動の結果による収入or支出 |
-| act_time | DATE | 初回投稿の際の日付orその行動を行なった日付 |
-| update_time | DATE | 更新した際の日付 |
+| act_time | TEXT | 初回投稿の際の日付orその行動を行なった日付 |
+| update_time | TEXT | 更新した際の日付 |
 | category | TEXT | カテゴリ(categoriesと照会) |
 | place | TEXT | 場所 |
 

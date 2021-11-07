@@ -35,10 +35,12 @@ def create_tables():
                 id Integer primary key autoincrement,
                 user_id TEXT,
                 image_url TEXT not null,
+                file_name TEXT not null,
                 act_time TEXT not null,
                 update_time TEXT not null,
                 diary TEXT not null,
                 score Integer,
+                cost Integer,
                 foreign key (user_id) references users(id)
             );
         ''')

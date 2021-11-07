@@ -8,9 +8,9 @@
       >
         <router-link :to="{path: item.path, name: item.name, params: { userId: userId }}">
           <li class="side-bar__list__body__item">
-            {{ item.title }}<br />
-             name:{{ item.name }}<br />
-             userid:{{ userId }}
+            {{ item.title }}
+             <!-- name:{{ item.name }}<br />
+             userid:{{ userId }} -->
           </li>
         </router-link>
       </ul>

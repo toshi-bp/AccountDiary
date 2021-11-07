@@ -71,6 +71,7 @@
 | id | INTEGER | 主キー |
 | user_id | TEXT | usersのidと照会 |
 | image_url | TEXT | 画像URL |
+| file_name | TEXT | アップロードされる画像のファイル名 |
 | act_time | TEXT | 初回投稿の際の日付orその行動を行なった日付 |
 | update_time | TEXT | 更新した際の日付 |
 | diary | TEXT | 日記の文章 |

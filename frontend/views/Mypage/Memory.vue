@@ -137,7 +137,8 @@ export default {
       ],
       userData: {},
       score: 0,
-      filename: '',
+      file_name: '',
+      image_url: '',
     }
   },
   props: {
@@ -157,13 +158,16 @@ export default {
   methods: {
     async onUploadImage(e) {
       const file = e.target.files[0]
+      this.file_name = file.name
       let reader = new FileReader
       reader.onload = (e) => {
-        this.filename = e.target.result
+        this.image_url = e.target.result
       }
       reader.readAsDataURL(file)
       let params = new FormData
-      params.append('image', this.filename)
+      params.append('image', this.image_url)
+      console.table(params)
+      this.image_url = params
     },
     saveUserId() {
       localStorage.setItem('userId', this.userId)
@@ -222,11 +226,13 @@ export default {
           '/api/images/add',
           {
             user_id: self.userId,
-            image_url: self.filename,
+            image_url: self.image_url,
+            file_name: self.file_name,
             act_time: act_time,
             update_time: act_time,
             diary: self.diary,
             score: self.score,
+            cost: self.cost,
           }
         ).then (res => {
           console.table(res.data)

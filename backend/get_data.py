@@ -95,11 +95,12 @@ def get_images():
             image["id"] = row["id"]
             image["user_id"] = row["user_id"]
             image["image_url"] = row["image_url"]
+            image["file_name"] = row["file_name"]
             image["act_time"] = row["act_time"]
-            image["update_time"] = row["update_time"]
             image["update_time"] = row["update_time"]
             image["diary"] = row["diary"]
             image["score"] = row["score"]
+            image["cost"] = row["cost"]
             images.append(image)
     except:
         images = []
@@ -119,11 +120,12 @@ def get_images_by_id(user_id):
             image["id"] = row["id"]
             image["user_id"] = row["user_id"]
             image["image_url"] = row["image_url"]
+            image["file_name"] = row["file_name"]
             image["act_time"] = row["act_time"]
-            image["update_time"] = row["update_time"]
             image["update_time"] = row["update_time"]
             image["diary"] = row["diary"]
             image["score"] = row["score"]
+            image["cost"] = row["cost"]
             images.append(image)
     except:
         images = []
@@ -141,11 +143,12 @@ def get_images_by_id_and_image_url(user_id, image_url):
         image["id"] = row["id"]
         image["user_id"] = row["user_id"]
         image["image_url"] = row["image_url"]
+        image["file_name"] = row["file_name"]
         image["act_time"] = row["act_time"]
-        image["update_time"] = row["update_time"]
         image["update_time"] = row["update_time"]
         image["diary"] = row["diary"]
         image["score"] = row["score"]
+        image["cost"] = row["cost"]
     except:
         image = {}
     return image

@@ -59,12 +59,13 @@
     <h1>個人情報</h1>
     <p><h10>------アカウント確認------</h10></p>
     <!--アカウント情報を掲載するテーブルの作成-->
+    <el-table></el-table>
     <p><h10>------パスワード変更------</h10></p>
     <div class="settings_input">
       <el-input v-model="password" placeholder="edit me" />
     </div>
     <div class="settings__button">
-    <el-button @click="changePassword">送信する</el-button>
+    <el-button @click="changePassword">パスワード変更</el-button>
     </div>
     <hr size="5" noshade="" color="#000">
     </center>
@@ -134,12 +135,13 @@ export default {
         },
         responseType: 'json'
       })
+      let self = this
       // type→incomeとする
       axios.patch(
-        '/api/users/update',
+        `/api/users/update_money/${self.userId}`,
         {
-          user_id: this.userId,
-          money: this.money,
+          user_id: self.userId,
+          money: self.money,
           type: 'income'
         }
       ).then(res => {
@@ -160,11 +162,12 @@ export default {
         responseType: 'json'
       })
       // パスワードの更新
+      let self = this
       axios.patch(
-        '/api/users/update',
+        `/api/users/update_pass/${self.userId}`,
         {
-          user_id: this.userId,
-          password: this.password
+          user_id: self.userId,
+          password: self.password
         }
       ).then(res => {
         console.log(res.data)

@@ -2,6 +2,11 @@ from flask import Flask, render_template, request, jsonify, redirect
 from flask_jwt_extended import JWTManager, create_access_token
 from flask_cors import CORS
 
+import base64
+from PIL import Image
+from io import BytesIO
+from pathlib import Path
+
 from get_data import *
 from insert import *
 from update import *
@@ -10,6 +15,8 @@ from delete import *
 # API設定
 app = Flask(__name__, static_folder='../frontend/dist/static', template_folder='../frontend/dist')
 app.config['SECRET_KEY'] = 'secret'
+UPLOAD_FOLDER = './uploads'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 jwt = JWTManager(app)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
@@ -82,7 +89,11 @@ def api_get_images_by_id(user_id):
 
 @app.route('/api/images/add', methods=['POST'])
 def api_add_image():
+    # この段階でimageUrlの書き換えを行う
     image = request.get_json()
+    code = base64.b64decode(image['image_url'].split(',')[1])
+    image_decoded = Image.open(BytesIO(code))
+    image_decoded.save(Path(app.config['UPLOAD_FOLDER']) / image['file_name'])
     return jsonify(insert_image(image))
 
 @app.route('/api/images/update', methods=['POST'])

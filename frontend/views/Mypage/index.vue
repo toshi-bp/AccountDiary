@@ -18,7 +18,7 @@
           >
             <div class="mypage__img">
               <img
-                src="https://1.bp.blogspot.com/-tVeC6En4e_E/X96mhDTzJNI/AAAAAAABdBo/jlD_jvZvMuk3qUcNjA_XORrA4w3lhPkdQCNcBGAsYHQ/s1048/onepiece01_luffy.png" alt="カレー"
+                :src="`http://localhost:5000${image.image_url}`" alt="写真"
                 class="mypage__img__body"
                 @click="onModal"
               />

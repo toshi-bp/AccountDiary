@@ -2,6 +2,7 @@
 <div>
   <div>
     <SideBar
+      :userId="this.userId"
       :money="userData.money"
       :used_money="userData.used_money"
     />

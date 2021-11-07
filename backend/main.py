@@ -169,6 +169,7 @@ def api_update_user_money(user_id):
 # アップロードされた画像の表示に利用
 @app.route('/images/<file_name>')
 def uploaded_image(file_name):
+    # 画像urlはBASE_URL + /images/<file_name>
     return send_from_directory(app.config['UPLOAD_FOLDER'], file_name)
 
 # #カテゴリのアップデート→なし

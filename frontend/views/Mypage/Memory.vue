@@ -164,6 +164,8 @@ export default {
       console.log(file)
     },
     async upload () {
+      console.log(this.filename)
+      console.log("type:" + this.type)
       // 日付を文字列に変換
       const year = this.date.getFullYear()
       const month = this.date.getMonth() + 1
@@ -192,6 +194,7 @@ export default {
           result: self.cost,
           act_time: act_time,
           update_time: act_time,
+          type: self.type,
           category: self.category,
           place: self.place
         }
@@ -217,8 +220,29 @@ export default {
             diary: self.diary,
             score: self.score,
           }
-        )
+        ).then (res => {
+          console.table(res.data)
+        })
+        .catch(() => {
+          // エラー発生時(例外処理)
+          console.log('failed')
+          self.alertType = 'error'
+          self.alertMessage = 'エラーが発生しました'
+        })
       }
+      // usersのmoneyをアップデート
+      await axios.put(
+        '/api/users/update',
+        {
+          user_id: self.userId,
+          money: self.cost,
+          type: self.type
+        }
+      ).then(res => {
+        console.log(res.data)
+      }).catch(
+        console.log('error')
+      )
     }
   },
   mounted: async function() {

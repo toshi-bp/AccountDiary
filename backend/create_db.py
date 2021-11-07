@@ -51,6 +51,7 @@ def create_tables():
                 result Integer not null, 
                 act_time TEXT not null, 
                 update_time TEXT not null,
+                type TEXT not null,
                 category TEXT not null,
                 place TEXT not null,
                 foreign key (user_id) references users(id)

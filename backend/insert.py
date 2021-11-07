@@ -22,7 +22,7 @@ def insert_user(user):
     return inserted_user
 
 def insert_image(image):
-    inserted_image = []
+    inserted_image = {}
     # この段階でimageUrlの書き換えを行う
     code = base64.b64decode(image['image_url'].split(',')[1])
     image_decoded = Image.open(BytesIO(code))
@@ -31,20 +31,17 @@ def insert_image(image):
         conn = connect_to_db()
         cur = conn.cursor()
         cur.execute(
-            """
-            INSERT INTO
-                images(user_id, image_url, act_time, update_time, diary, score)
-                VALUES(?, ?, ?, ?, ?, ?)
-            """,
+            "INSERT INTO images(user_id, image_url, act_time, update_time, diary, score) VALUES(?, ?, ?, ?, ?, ?)",
             (image['user_id'], image['image_url'], image['act_time'], image['update_time'], image['diary'], image['score'])
         )
         conn.commit()
+        # TODO:返り値がただ一つになるようにidとdiary or image_urlでデータを絞るようにする
         inserted_image = get_images_by_id(cur.lastrowid)
     except:
         conn().rollback()
     finally:
         conn.close()
-    return inserted_image[len(inserted_image)-1]
+    return inserted_image
 
 def insert_history(history):
     inserted_history = {}
@@ -52,8 +49,8 @@ def insert_history(history):
         conn = connect_to_db()
         cur = conn.cursor()
         cur.execute(
-            "INSERT INTO histories(user_id, action, result, act_time, update_time, category, place) VALUES(?, ?, ?, ?, ?, ?, ?)",
-            (history['user_id'], history['action'], history['result'], history['act_time'], history['update_time'], history['category'],history['place'])
+            "INSERT INTO histories(user_id, action, result, act_time, update_time, type, category, place) VALUES(?, ?, ?, ?, ?, ?, ?, ?)",
+            (history['user_id'], history['action'], history['result'], history['act_time'], history['update_time'], history['type'], history['category'],history['place'])
         )
         conn.commit()
         inserted_history = get_histories_by_id_and_diary(history["user_id"], history["action"])

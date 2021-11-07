@@ -2,7 +2,11 @@
 
 <div>
   <div>
-    <SideBar/>
+    <sideBar
+      :userId="this.userId"
+      :used_money="userData.used_money"
+      :money="userData.money"
+    />
   </div>
   <div class="table__main">
     <div class="table__center">
@@ -65,11 +69,13 @@ export default {
   data() {
     return {
       userHistory: [],
+      userData: {},
     }
   },
   props: {
     userId: {
-      type: String
+      type: String,
+      default: localStorage.getItem('userId')
     },
   },
   methods: {
@@ -78,6 +84,7 @@ export default {
     }
   },
   mounted: async function () {
+    console.log("user id:" + this.userId)
     const BASE_URL = "http://localhost:5000"
     let axios = Axios.create({
       baseURL: BASE_URL,
@@ -87,8 +94,15 @@ export default {
       },
       responseType: 'json'
     })
-    await axios.get(`api/histories/${this.userId}`).then(res => {
+    await axios.get(
+      `/api/users/${this.userId}`).then(res => {
       console.log("user data")
+      console.table(res.data)
+      this.userData = res.data
+    })
+    await axios.get(
+      `/api/histories/${this.userId}`).then(res => {
+      console.log("history data")
       console.table(res.data)
       this.userHistory = res.data
     })

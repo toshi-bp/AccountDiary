@@ -30,7 +30,7 @@
           </el-button>
         </div>
       </div>
-    <h1>カテゴリー名の変更</h1>
+    <!-- <h1>カテゴリー名の変更</h1>
     <p><h10>------変更前------</h10></p>
     <el-select v-model="category" placeholder="Select">
       <el-option
@@ -46,7 +46,7 @@
     </div>
     <div class="settings__button">
       <el-button @click="sendChangeCategory">送信する</el-button>
-    </div>
+    </div> -->
     <hr size="5" noshade="" color="#000">
     <h1>予算の設定</h1>
     <div class="settings__input">
@@ -102,7 +102,8 @@ export default {
   },
   props: {
     userId: {
-      type: String
+      type: String,
+      default: localStorage.getItem('userId')
     }
   },
   methods: {
@@ -119,7 +120,9 @@ export default {
         },
         responseType: 'json'
       })
-      console.log(axios)
+      axios.put(
+        '/api/categories/update',{}
+      )
     },
     setMoney() {
       const BASE_URL = "http://localhost:5000"
@@ -131,7 +134,20 @@ export default {
         },
         responseType: 'json'
       })
-      console.log(axios)
+      // type→incomeとする
+      axios.put(
+        '/api/users/update',
+        {
+          user_id: this.userId,
+          money: this.money,
+          type: 'income'
+        }
+      ).then(res => {
+        console.log(res.data)
+        console.log('money update is succeess!')
+      }).catch(
+        console.log('failed...')
+      )
     },
     changePassword() {
       const BASE_URL = "http://localhost:5000"
@@ -144,7 +160,18 @@ export default {
         responseType: 'json'
       })
       // パスワードの更新
-      console.log(axios)
+      axios.put(
+        '/api/users/update',
+        {
+          user_id: this.userId,
+          password: this.password
+        }
+      ).then(res => {
+        console.log(res.data)
+        console.log('password update is succeess!')
+      }).catch(
+        console.log('failed...')
+      )
     },
     addCategory() {
       const BASE_URL = "http://localhost:5000"
@@ -156,8 +183,18 @@ export default {
         },
         responseType: 'json'
       })
-      // カテゴリーの追加
-      console.log(axios)
+      axios.post(
+        '/api/categories/add',
+        {
+          user_id: this.userId,
+          type: this.type,
+          category: this.newCategory,
+        }.then(res => {
+          console.table(res.data)
+        }).catch(
+          console.log('failed...')
+        )
+      )
     }
   },
   mounted: async function() {
@@ -177,7 +214,7 @@ export default {
       this.userData = res.data
     })
     // カテゴリーの取得
-    await axios.get(`/api/categories/${this.userId}`).then(res => {
+    await axios(`/api/categories/${this.userId}`).then(res => {
       console.log("user data")
       console.table(res.data)
       this.userCategories = res.data

@@ -97,7 +97,7 @@ def api_delete_image(user_id):
 # histories
 @app.route('/api/histories', methods=['GET'])
 def api_get_histories_status():
-    return (get_histories())
+    return jsonify(get_histories())
 
 @app.route('/api/histories/<user_id>', methods=['GET'])
 def api_get_histories_by_id(user_id):
@@ -116,7 +116,6 @@ def api_update_histories_category():
 @app.route('/api/histories/delete/<user_id>', methods=['DELETE'])
 def api_delete_history(user_id):
     return jsonify(delete_histories(user_id))
-
 
 # categories
 @app.route('/api/categories', methods=['GET'])
@@ -139,20 +138,25 @@ def api_delete_category(user_id):
 ##パスワードのアップデート
 @app.route('/api/users/update', methods=['PUT'])
 def api_update_user_pwd():
-    user = request.get_json()
-    return jsonify(api_update_user_pwd(user))
+    re = request.get_json()
+    user_id = re["user_id"]
+    password = re["password"]
+    return jsonify(api_update_user_pwd(user_id, password))
 
 #予算のアップデート
 @app.route('/api/users/update', methods=['PUT'])
 def api_update_user_money():
-    user = request.get_json()
-    return jsonify(api_update_user_money(user))
+    re = request.get_json()
+    user_id = re["user_id"]
+    money = re["money"]
+    type = re["type"]
+    return jsonify(api_update_user_money(user_id, money, type))
 
-#カテゴリのアップデート
-@app.route('/api/histories/update', methods=['PUT'])
-def api_update_hisotries_category():
-    history = request.get_json()
-    return jsonify(api_update_hisotries_category(history))
+# #カテゴリのアップデート→なし
+# @app.route('/api/histories/update', methods=['PUT'])
+# def api_update_hisotries_category():
+#     history = request.get_json()
+#     return jsonify(api_update_hisotries_category(history))
 
 @app.route('/<path:path>')
 def index(path):

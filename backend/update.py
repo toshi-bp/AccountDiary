@@ -51,14 +51,14 @@ def update_image(image):
     return updated_image
 
 # パスワードの変更
-def update_user_pwd(user, password):
+def update_user_pwd(user_id, password):
     updated_user = {}
     try:
         conn = connect_to_db()
         cur = conn.cursor()
-        cur.execute("UPDATE users SET password = ? WHERE id = ?", (password, user["id"]))
+        cur.execute("UPDATE users SET password = ? WHERE id = ?", (password, user_id))
         conn.commit()
-        updated_user = get_user_by_id(user["id"])
+        updated_user = get_user_by_id(user_id)
     except:
         conn.rollback()
         updated_user = {}
@@ -67,14 +67,26 @@ def update_user_pwd(user, password):
     return updated_user
 
 # 予算の変更
-def update_user_money(user, money):
+def update_user_money(user_id, money, type):
     updated_user = {}
+    """
+    if income
+        money += money
+    else
+        money -= money
+        used_money += money
+    """
     try:
         conn = connect_to_db()
         cur = conn.cursor()
-        cur.execute("UPDATE users SET money = ? WHERE id = ?", (money, user["id"]))
-        conn.commit()
-        updated_user = get_user_by_id(user["id"])
+        if (type == 'income'):
+            cur.execute("UPDATE users SET money = ? WHERE id = ?", (money, user_id))
+            conn.commit()
+            updated_user = get_user_by_id(user_id)
+        elif (type == 'expenditure'):
+            cur.execute("UPDATE users SET money = ? WHERE id = ?", (money, user_id))
+            conn.commit()
+            updated_user = get_user_by_id(user_id)
     except:
         conn.rollback()
         updated_user = {}

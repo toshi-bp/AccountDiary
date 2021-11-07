@@ -86,6 +86,7 @@
 | result | INTEGER | 行動の結果による収入or支出 |
 | act_time | TEXT | 初回投稿の際の日付orその行動を行なった日付 |
 | update_time | TEXT | 更新した際の日付 |
+| type | TEXT | 収入or支出 |
 | category | TEXT | カテゴリ(categoriesと照会) |
 | place | TEXT | 場所 |
 

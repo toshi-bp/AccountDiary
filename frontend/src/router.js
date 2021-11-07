@@ -33,21 +33,25 @@ const routes = [
     path: '/mypage/memory',
     name: 'Memory',
     component: Memory,
+    props: true,
   },
   {
     path: '/mypage/table',
     name: 'Table',
     component: Table,
+    props: true,
   },
   {
     path: '/mypage/analytics',
     name: 'Analytics',
     component: Analytics,
+    props: true,
   },
   {
     path: '/mypage/settings',
     name: 'Settings',
     component: Settings,
+    props: true,
   }
 ]
 

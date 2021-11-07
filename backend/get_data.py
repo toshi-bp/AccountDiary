@@ -149,6 +149,7 @@ def get_histories():
             history["result"] = row["result"]
             history["act_time"] = row["act_time"]
             history["update_time"] = row["update_time"]
+            history["type"] = row["type"]
             history["category"] = row["category"]
             history["place"] = row["place"]
             histories.append(history)
@@ -158,6 +159,8 @@ def get_histories():
 
 def get_histories_by_id(user_id):
     histories = []
+    print('user_id in get_history')
+    print(user_id)
     try:
         conn = connect_to_db()
         conn.row_factory = sqlite3.Row
@@ -174,9 +177,12 @@ def get_histories_by_id(user_id):
             history["result"] = row["result"]
             history["act_time"] = row["act_time"]
             history["update_time"] = row["update_time"]
+            history["type"] = row["type"]
             history["category"] = row["category"]
             history["place"] = row["place"]
             histories.append(history)
+        print('histories')
+        print(histories)
     except:
         histories = []
     return histories
@@ -197,6 +203,7 @@ def get_histories_by_id_and_diary(user_id, diary):
         history["result"] = row["result"]
         history["act_time"] = row["act_time"]
         history["update_time"] = row["update_time"]
+        history["type"] = row["type"]
         history["category"] = row["category"]
         history["place"] = row["place"]
     except:

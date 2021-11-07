@@ -63,14 +63,13 @@
     <div>
       <el-upload
         class="upload-demo"
-        action="https://jsonplaceholder.typicode.com/posts/"
+        v-model="filename"
         :on-preview="handlePreview"
         :on-remove="handleRemove"
         :before-remove="beforeRemove"
-        multiple
-        :limit="3"
-        :on-exceed="handleExceed"
-        :file-list="fileList"
+        :limit="1"
+        :show-file-list="true"
+        action="https://jsonplaceholder.typicode.com/posts/"
       >
         <el-button size="small" type="primary">Click to upload</el-button>
         <template #tip>
@@ -81,6 +80,12 @@
       </el-upload>
     </div>
     <div>
+      <!--思い出のスコアを選択-->
+      <p>思い出のスコアを選択してください</p>
+      <el-rate v-model="score"></el-rate>
+      score:{{ score }}
+    </div>
+    <div class="memory__button">
       <el-button type="primary" plain @click="upload">保存</el-button>
     </div>
     </center>
@@ -102,8 +107,7 @@ export default {
         id: 2,
         value: 'expenditure',
         label: '支出'
-      }
-      ],
+      }],
       value: '',
       // ↓収入or支出(income or expenditure)
       type: 'income',
@@ -135,12 +139,16 @@ export default {
           label: '趣味・娯楽',
           value: '趣味・娯楽',
         },
-      ]
+      ],
+      userData: {},
+      score: 0,
+      filename: '',
     }
   },
   props: {
     userId: {
-      type: String
+      type: String,
+      default: localStorage.getItem('userId')
     }
   },
   computed: {
@@ -149,23 +157,13 @@ export default {
     }
   },
   methods: {
-    // handleRemove(file, fileList) {
-    //   console.log(file, fileList)
-    // },
-    // handlePreview(file) {
-    //   console.log(file)
-    // },
-    // handleExceed(files, fileList) {
-    //   this.$message.warning(
-    //     `The limit is 3, you selected ${
-    //       files.length
-    //     } files this time, add up to ${files.length + fileList.length} totally`
-    //   )
-    // },
-    // beforeRemove(file) {
-    //   return this.$confirm(`Cancel the transfert of ${file.name} ?`)
-    // },
-    upload () {
+    saveUserId() {
+      localStorage.setItem('userId', this.userId)
+    },
+    handlePreview(file) {
+      console.log(file)
+    },
+    async upload () {
       // 日付を文字列に変換
       const year = this.date.getFullYear()
       const month = this.date.getMonth() + 1
@@ -183,11 +181,12 @@ export default {
         responseType: 'json'
       })
       let self = this
-      axios.post(
+
+      // historiesにデータを追加
+      await axios.post(
         '/api/histories/add',
         {
           // 登録するデータ
-          id: 0,
           user_id: self.userId,
           action: self.diary,
           result: self.cost,
@@ -206,10 +205,48 @@ export default {
         self.alertType = 'error'
         self.alertMessage = 'エラーが発生しました'
       })
+      // imagesにデータを追加
+      if (this.filename !== '') {
+        await axios.post(
+          '/api/images/add',
+          {
+            user_id: self.userId,
+            image_url: act_time, //要修正
+            act_time: act_time,
+            update_time: act_time,
+            diary: self.diary,
+            score: self.score,
+          }
+        )
+      }
     }
   },
   mounted: async function() {
     // TODO:ページを開いた際にそれぞれのユーザーのカテゴリーを取得する
+    console.log(this.userId)
+    const BASE_URL = "http://localhost:5000"
+    let axios = Axios.create({
+      baseURL: BASE_URL,
+      headers: {
+        'Content-type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
+      },
+      responseType: 'json'
+    })
+    await axios.get(`/api/users/${this.userId}`).then(res => {
+      this.userData = res.data
+    })
+    await axios.get(`/api/categories/${this.userId}`).then(res => {
+      // apiから取得したデータを表示用の構造に書き換える
+      res.data.map(item => {
+        this.categories.push({
+          type: item.type,
+          label: item.category,
+          value: item.category
+        })
+      })
+    })
+    await this.saveUserId()
   },
 }
 </script>
@@ -220,5 +257,7 @@ export default {
   &__input
     width: 250px
     margin-bottom: 1rem
+  &__button
+    margin-top: 1.5rem
 </style>
 

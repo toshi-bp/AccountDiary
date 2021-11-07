@@ -31,7 +31,6 @@ def get_users():
 
 def get_user_by_id(user_id):
     user = {}
-    print("user_id:" + user_id)
     try:
         conn = connect_to_db()
         conn.row_factory = sqlite3.Row
@@ -182,6 +181,27 @@ def get_histories_by_id(user_id):
         histories = []
     return histories
 
+def get_histories_by_id_and_diary(user_id, diary):
+    history = {}
+    try:
+        conn = connect_to_db()
+        conn.row_factory = sqlite3.Row
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM histories WHERE user_id = ? and action = ?", (user_id, diary))
+        row = cur.fetchone()
+
+        # カラム情報を取得する
+        history["id"] = row["id"]
+        history["user_id"] = row["user_id"]
+        history["action"] = row["action"]
+        history["result"] = row["result"]
+        history["act_time"] = row["act_time"]
+        history["update_time"] = row["update_time"]
+        history["category"] = row["category"]
+        history["place"] = row["place"]
+    except:
+        history = {}
+    return history
 
 def get_categories():
     categories = []

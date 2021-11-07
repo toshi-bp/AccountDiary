@@ -6,8 +6,12 @@
         v-for="item in menu" :key="item.id"
         class="side-bar__list__body"
       >
-        <router-link :to="item.path">
-          <li class="side-bar__list__body__item">{{ item.title }}</li>
+        <router-link :to="{path: item.path, name: item.name, params: { userId: userId }}">
+          <li class="side-bar__list__body__item">
+            {{ item.title }}<br />
+             name:{{ item.name }}<br />
+             userid:{{ userId }}
+          </li>
         </router-link>
       </ul>
     </div>
@@ -42,32 +46,40 @@ export default {
         {
           id: 1,
           title: "トップ",
-          path: "/mypage"
+          path: "/mypage",
+          name: "Mypage"
         },
         {
           id: 2,
           title: "入力",
-          path: "/mypage/memory"
+          path: "/mypage/memory",
+          name: "Memory"
         },
         {
           id: 3,
           title: "履歴",
-          path: "/mypage/memory"
+          path: "/mypage/table",
+          name: "Table"
         },
         {
           id: 4,
           title: "分析",
-          path: "/mypage/memory"
+          path: "/mypage/analytics",
+          name: "Analytics"
         },
         {
           id: 5,
           title: "設定",
-          path: "/mypage/memory"
+          path: "/mypage/settings",
+          name: "Settings"
         }
       ]
     }
   },
   props: {
+    userId: {
+      type: String
+    },
     money: {
       type: Number,
       default: 0
@@ -86,6 +98,14 @@ export default {
         return 0
       }
     }
+  },
+  methods: {
+    saveUserId() {
+      localStorage.setItem('userId', this.userId)
+    }
+  },
+  mounted() {
+    this.saveUserId()
   }
 }
 </script>

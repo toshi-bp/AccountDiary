@@ -8,12 +8,13 @@
       <side-bar
         :money="userData.money"
         :used_money="userData.used_money"
+        :userId="userId"
       />
       <div class="mypage__main">
-        {{ userData.name }}さんのマイページ
+        <h4>{{ userData.name }}さんのマイページ</h4>
         <the-row>
           <div
-            v-for="i in 21" :key="i"
+            v-for="image in imageData" :key="image.id"
           >
             <div class="mypage__img">
               <img
@@ -22,7 +23,7 @@
                 @click="onModal"
               />
               <div>
-                <memory-modal
+                <!-- <memory-modal
                   :cost="1000"
                   :description="'今日はタカシとカレー。美味しかった。'"
                   :date="new Date('July 20, 69 00:20:18')"
@@ -31,7 +32,7 @@
                   :isVisible="visible"
                   :name="'洋風カレー'"
                   :title="'ABCカレー'"
-                />
+                /> -->
               </div>
             </div>
           </div>
@@ -45,7 +46,7 @@
 import Header from '../../src/components/Header.vue'
 import SideBar from '../../src/components/SideBar.vue'
 import TheRow from '../../src/components/TheRow.vue'
-import MemoryModal from '../../src/components/MemoryModal.vue'
+// import MemoryModal from '../../src/components/MemoryModal.vue'
 // import TheColumn from '../../src/components/TheColumn.vue'
 // import TheSection from '../../src/components/TheSection.vue'
 import Axios from 'axios'
@@ -56,7 +57,7 @@ export default {
     Header,
     SideBar,
     TheRow,
-    MemoryModal,
+    // MemoryModal,
     // TheColumn,
     // TheSection,
   },
@@ -88,9 +89,9 @@ export default {
       localStorage.setItem('userId', this.userId)
     }
   },
-  created() {
-    window.addEventListener("beforeunload", this.confirm)
-  },
+  // created() {
+  //   window.addEventListener("beforeunload", this.confirm)
+  // },
   mounted: async function () {
     // TODO:デプロイする際にurlを変更する
     const BASE_URL = "http://localhost:5000"

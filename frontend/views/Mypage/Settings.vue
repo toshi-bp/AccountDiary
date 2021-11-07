@@ -8,6 +8,28 @@
   </div>
   <div class="settings__main">
     <center>
+      <div>
+        <h1>カテゴリーの追加</h1>
+        <h3>収入か支出を選択してください</h3>
+        <div>
+          <el-select v-model="type" placeholder="Select">
+            <el-option
+              v-for="item in types"
+              :key="item.id"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </div>
+        <div class="settings__input">
+          <el-input v-model="newCategory"></el-input>
+        </div>
+        <div>
+          <el-button @click="addCategory">
+            カテゴリー追加
+          </el-button>
+        </div>
+      </div>
     <h1>カテゴリー名の変更</h1>
     <p><h10>------変更前------</h10></p>
     <el-select v-model="category" placeholder="Select">
@@ -66,6 +88,16 @@ export default {
       changeCategory: '',
       money: 0,
       password: '',
+      newCategory: '',
+      types: [{
+        id: 1,
+        value: 'income',
+        label: '収入'
+      }, {
+        id: 2,
+        value: 'expenditure',
+        label: '支出'
+      }],
     }
   },
   props: {
@@ -113,6 +145,19 @@ export default {
       })
       // パスワードの更新
       console.log(axios)
+    },
+    addCategory() {
+      const BASE_URL = "http://localhost:5000"
+      let axios = Axios.create({
+        baseURL: BASE_URL,
+        headers: {
+          'Content-type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        responseType: 'json'
+      })
+      // カテゴリーの追加
+      console.log(axios)
     }
   },
   mounted: async function() {
@@ -143,32 +188,6 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-.mypage
-  $side-bar-width: 256px
-  $main-width: calc(100% - #{$side-bar-width})
-  &__header
-    padding-left: $side-bar-width
-  &__side
-    display: block
-  &__main
-    margin-top: 2rem
-    width: $main-width
-    padding-left: $side-bar-width
-    display: block
-  &__img-container
-    display: block
-    margin: 0 auto
-  &__img
-    display: flex
-    flex-wrap: wrap
-    &__body
-      display: block
-      border: 1px solid #000
-      width: 200px
-      margin: 0 0.5rem 1rem
-.el-input
-  width: 200px
-  margin-bottom: 1rem
 .settings
   $side-bar-width: 256px
   $main-width: calc(100% - #{$side-bar-width})
@@ -176,7 +195,8 @@ export default {
     display: flex
     justify-content: center
     align-items: center
+  &__input
+    width: 200px
   &__button
     margin-bottom: 1rem
-
 </style>

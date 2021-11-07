@@ -53,7 +53,6 @@ def api_get_status():
 
 @app.route('/api/users/<user_id>', methods=['GET'])
 def api_get_user(user_id):
-    print("user_id:" + user_id)
     return jsonify(get_user_by_id(user_id))
 
 # 新規登録の際に利用

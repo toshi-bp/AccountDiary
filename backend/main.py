@@ -40,7 +40,7 @@ def login():
     except:
         print("error")
         return jsonify( {"message": "An error occurred"} ), 500
-    print("create toke")
+    print("create token")
     access_token = create_access_token(identity=result["id"])
     print(access_token)
     update_user_jti(result, access_token)
@@ -62,7 +62,7 @@ def api_add_user():
     print(user)
     return jsonify(insert_user(user))
 
-@app.route('/api/users/update', methods=['PUT'])
+@app.route('/api/users/update', methods=['POST'])
 def api_update_user():
     user = request.get_json()
     return jsonify(update_user(user))
@@ -85,7 +85,7 @@ def api_add_image():
     image = request.get_json()
     return jsonify(insert_image(image))
 
-@app.route('/api/images/update', methods=['PUT'])
+@app.route('/api/images/update', methods=['POST'])
 def api_update_image():
     image = request.get_json()
     return jsonify(update_image(image))
@@ -108,7 +108,7 @@ def api_add_history():
     history = request.get_json()
     return jsonify(insert_history(history))
 
-@app.route('/api/histories/update', methods=['PUT'])
+@app.route('/api/histories/update', methods=['POST'])
 def api_update_histories_category():
     history = request.get_json()
     return jsonify(update_hisotries_category(history))
@@ -136,24 +136,25 @@ def api_delete_category(user_id):
     return jsonify(delete_categories(user_id))
 
 ##パスワードのアップデート
-@app.route('/api/users/update', methods=['PUT'])
-def api_update_user_pwd():
+@app.route('/api/users/update_pass/<user_id>', methods=['PATCH'])
+def api_update_user_pwd(user_id):
     re = request.get_json()
     user_id = re["user_id"]
     password = re["password"]
-    return jsonify(api_update_user_pwd(user_id, password))
+    return jsonify(update_user_pwd(user_id, password))
 
 #予算のアップデート
-@app.route('/api/users/update', methods=['PUT'])
-def api_update_user_money():
+@app.route('/api/users/update_money/<user_id>', methods=['PATCH'])
+def api_update_user_money(user_id):
     re = request.get_json()
+    print(re)
     user_id = re["user_id"]
     money = re["money"]
     type = re["type"]
-    return jsonify(api_update_user_money(user_id, money, type))
+    return jsonify(update_user_money(user_id, money, type))
 
 # #カテゴリのアップデート→なし
-# @app.route('/api/histories/update', methods=['PUT'])
+# @app.route('/api/histories/update', methods=['POST'])
 # def api_update_hisotries_category():
 #     history = request.get_json()
 #     return jsonify(api_update_hisotries_category(history))

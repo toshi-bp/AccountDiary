@@ -24,9 +24,9 @@ def insert_user(user):
 def insert_image(image):
     inserted_image = {}
     # この段階でimageUrlの書き換えを行う
-    code = base64.b64decode(image['image_url'].split(',')[1])
-    image_decoded = Image.open(BytesIO(code))
-    image_decoded.save('./uploads' + '/' + image['image_url'])
+    # code = base64.b64decode(image['image_url'].split(',')[1])
+    # image_decoded = Image.open(BytesIO(code))
+    image["image_url"].save('./uploads' + '/' + image['image_url'])
     try:
         conn = connect_to_db()
         cur = conn.cursor()
@@ -36,7 +36,7 @@ def insert_image(image):
         )
         conn.commit()
         # TODO:返り値がただ一つになるようにidとdiary or image_urlでデータを絞るようにする
-        inserted_image = get_images_by_id(cur.lastrowid)
+        inserted_image = get_images_by_id_and_image_url(image["user_id"], image["image_url"])
     except:
         conn().rollback()
     finally:
@@ -54,7 +54,6 @@ def insert_history(history):
         )
         conn.commit()
         inserted_history = get_histories_by_id_and_diary(history["user_id"], history["action"])
-        print(inserted_history)
     except:
         conn().rollback()
     finally:

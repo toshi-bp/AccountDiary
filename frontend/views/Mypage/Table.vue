@@ -117,6 +117,7 @@ export default {
   $main-width: calc(100% - #{$side-bar-width})
   &__main
     margin-top: 2rem
+    margin-left: 3rem
     width: $main-width
     padding-left: $side-bar-width
     display: block

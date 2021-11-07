@@ -120,7 +120,7 @@ export default {
         },
         responseType: 'json'
       })
-      axios.put(
+      axios.patch(
         '/api/categories/update',{}
       )
     },
@@ -135,7 +135,7 @@ export default {
         responseType: 'json'
       })
       // type→incomeとする
-      axios.put(
+      axios.patch(
         '/api/users/update',
         {
           user_id: this.userId,
@@ -160,7 +160,7 @@ export default {
         responseType: 'json'
       })
       // パスワードの更新
-      axios.put(
+      axios.patch(
         '/api/users/update',
         {
           user_id: this.userId,

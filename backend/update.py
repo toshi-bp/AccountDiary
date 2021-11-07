@@ -67,24 +67,35 @@ def update_user_pwd(user_id, password):
     return updated_user
 
 # 予算の変更
-def update_user_money(user_id, money, type):
+def update_user_money(user_id, change_money, type):
     updated_user = {}
+    print("type:")
+    print(type)
+    user_data = get_user_by_id(user_id)
+    user_money = user_data["money"]
+    user_used_money = user_data["used_money"]
     """
     if income
-        money += money
+        money += change_money
     else
-        money -= money
-        used_money += money
+        used_money += change_money
+    get_data関数を用いてデータを取得し, 計算した値を格納することとする
     """
     try:
         conn = connect_to_db()
         cur = conn.cursor()
         if (type == 'income'):
-            cur.execute("UPDATE users SET money = ? WHERE id = ?", (money, user_id))
+            result = user_money + change_money
+            print('result:')
+            print(result)
+            cur.execute("UPDATE users SET money = ? WHERE id = ?", (result, user_id))
             conn.commit()
             updated_user = get_user_by_id(user_id)
         elif (type == 'expenditure'):
-            cur.execute("UPDATE users SET money = ? WHERE id = ?", (money, user_id))
+            used_result = user_used_money + change_money
+            print('used_result:')
+            print(used_result)
+            cur.execute("UPDATE users SET used_money = ? WHERE id = ?", (used_result, user_id))
             conn.commit()
             updated_user = get_user_by_id(user_id)
     except:

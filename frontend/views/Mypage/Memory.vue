@@ -1,98 +1,93 @@
 <template>
   <div>
-    <center>
+    <div>
+      <side-bar
+        :userId="this.userId"
+        :money="userData.money"
+        :used_money="userData.used_money"
+      />
+    </div>
+    <div>
+      <center>
+        <div>
+          <el-alert :title="alertMessage" :type="alertType"></el-alert>
+        </div>
+      <h3>記録</h3>
+      <!-- 支出収入選択 -->
+      支出収入を選択してね
       <div>
-        <el-alert :title="alertMessage" :type="alertType"></el-alert>
+        <el-select v-model="type" placeholder="Select">
+          <el-option
+            v-for="item in types"
+            :key="item.id"
+            :label="item.label"
+            :value="item.value"
+          >
+          </el-option>
+        </el-select>
       </div>
-    <h3>記録</h3>
-    <!-- 支出収入選択 -->
-    支出収入を選択してね
-    <div>
-      <el-select v-model="type" placeholder="Select">
-        <el-option
-          v-for="item in types"
-          :key="item.id"
-          :label="item.label"
-          :value="item.value"
-        >
-        </el-option>
-      </el-select>
-    </div>
-    <!-- 日付入力 -->
-    日付を選択してね
-    <div class="demo-date-picker">
-      <div class="block">
-        <span class="demonstration"></span>
-        <el-date-picker
-          v-model="date"
-          type="date"
-          placeholder="Pick a day"
-          :disabled-date="disabledDate"
-          :shortcuts="shortcuts"
-        >
-        </el-date-picker>
+      <!-- 日付入力 -->
+      日付を選択してね
+      <div class="demo-date-picker">
+        <div class="block">
+          <span class="demonstration"></span>
+          <el-date-picker
+            v-model="date"
+            type="date"
+            placeholder="Pick a day"
+            :disabled-date="disabledDate"
+            :shortcuts="shortcuts"
+          >
+          </el-date-picker>
+        </div>
       </div>
+      <!-- 金額入力 -->
+      金額を入力してね
+      <div>
+        <el-input-number v-model="cost" :step="100" />
+      </div>
+      <!-- カテゴリ選択 -->
+      カテゴリを選択してね
+      <div>
+        <el-select v-model="category" placeholder="Select">
+          <el-option
+            v-for="item in categoryFilter"
+            :key="item.type"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+      </div>
+      <!-- 場所入力 -->
+      場所を入力してね
+      <div class="memory__input">
+        <el-input v-model="place" placeholder="Please input" />
+      </div>
+      <!-- ひとこと入力 -->
+      ひとことを入力してね
+      <div class="memory__input">
+        <el-input v-model="diary" placeholder="Please input" />
+      </div>
+      <div class="memory__image">
+        <input type="file" accept="image/*" @change="onUploadImage"/>
+        <!-- <el-button size="small" type="primary">Click to upload</el-button> -->
+      </div>
+      <div>
+        <!--思い出のスコアを選択-->
+        <p>思い出のスコアを選択してください</p>
+        <el-rate v-model="score"></el-rate>
+        score:{{ score }}
+      </div>
+      <div class="memory__button">
+        <el-button type="primary" plain @click="upload">保存</el-button>
+      </div>
+      </center>
     </div>
-    <!-- 金額入力 -->
-    金額を入力してね
-    <div>
-      <el-input-number v-model="cost" :step="100" />
-    </div>
-    <!-- カテゴリ選択 -->
-    カテゴリを選択してね
-    <div>
-      <el-select v-model="category" placeholder="Select">
-        <el-option
-          v-for="item in categoryFilter"
-          :key="item.type"
-          :label="item.label"
-          :value="item.value">
-        </el-option>
-      </el-select>
-    </div>
-    <!-- 場所入力 -->
-    場所を入力してね
-    <div class="memory__input">
-      <el-input v-model="place" placeholder="Please input" />
-    </div>
-    <!-- ひとこと入力 -->
-    ひとことを入力してね
-    <div class="memory__input">
-      <el-input v-model="diary" placeholder="Please input" />
-    </div>
-    <div>
-      <el-upload
-        class="upload-demo"
-        v-model="filename"
-        :on-preview="handlePreview"
-        :on-remove="handleRemove"
-        :before-remove="beforeRemove"
-        :limit="1"
-        :show-file-list="true"
-        action="https://jsonplaceholder.typicode.com/posts/"
-      >
-        <el-button size="small" type="primary">Click to upload</el-button>
-        <template #tip>
-          <div class="el-upload__tip">
-            jpg/png files with a size less than 500kb
-          </div>
-        </template>
-      </el-upload>
-    </div>
-    <div>
-      <!--思い出のスコアを選択-->
-      <p>思い出のスコアを選択してください</p>
-      <el-rate v-model="score"></el-rate>
-      score:{{ score }}
-    </div>
-    <div class="memory__button">
-      <el-button type="primary" plain @click="upload">保存</el-button>
-    </div>
-    </center>
   </div>
 </template>
 
 <script>
+import SideBar from '../../src/components/SideBar.vue'
 import Axios from 'axios'
 
 export default {
@@ -151,12 +146,25 @@ export default {
       default: localStorage.getItem('userId')
     }
   },
+  components: {
+    SideBar,
+  },
   computed: {
     categoryFilter() {
       return this.categories.filter(item => item.type === this.type)
     }
   },
   methods: {
+    async onUploadImage(e) {
+      const file = e.target.files[0]
+      let reader = new FileReader
+      reader.onload = (e) => {
+        this.filename = e.target.result
+      }
+      reader.readAsDataURL(file)
+      let params = new FormData
+      params.append('image', this.filename)
+    },
     saveUserId() {
       localStorage.setItem('userId', this.userId)
     },
@@ -214,7 +222,7 @@ export default {
           '/api/images/add',
           {
             user_id: self.userId,
-            image_url: act_time, //要修正
+            image_url: self.filename,
             act_time: act_time,
             update_time: act_time,
             diary: self.diary,
@@ -231,8 +239,8 @@ export default {
         })
       }
       // usersのmoneyをアップデート
-      await axios.put(
-        '/api/users/update',
+      await axios.patch(
+        `/api/users/update_money/${self.userId}`,
         {
           user_id: self.userId,
           money: self.cost,
@@ -240,9 +248,7 @@ export default {
         }
       ).then(res => {
         console.log(res.data)
-      }).catch(
-        console.log('error')
-      )
+      })
     }
   },
   mounted: async function() {
@@ -284,4 +290,3 @@ export default {
   &__button
     margin-top: 1.5rem
 </style>
-

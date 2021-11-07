@@ -37,8 +37,6 @@ def get_user_by_id(user_id):
         cur = conn.cursor()
         cur.execute("SELECT * FROM users WHERE id = ?", (user_id,))
         row = cur.fetchone()
-        print("row:")
-        print(row)
 
         # 辞書型に変換
         user["id"] = row["id"]
@@ -131,6 +129,27 @@ def get_images_by_id(user_id):
         images = []
     return images
 
+def get_images_by_id_and_image_url(user_id, image_url):
+    image = {}
+    try:
+        conn = connect_to_db()
+        conn.row_factory = sqlite3.Row
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM images WHERE user_id = ? AND image_url = ?", (user_id, image_url))
+        row = cur.fetchone()
+
+        image["id"] = row["id"]
+        image["user_id"] = row["user_id"]
+        image["image_url"] = row["image_url"]
+        image["act_time"] = row["act_time"]
+        image["update_time"] = row["update_time"]
+        image["update_time"] = row["update_time"]
+        image["diary"] = row["diary"]
+        image["score"] = row["score"]
+    except:
+        image = {}
+    return image
+
 def get_histories():
     histories = []
     try:
@@ -181,8 +200,6 @@ def get_histories_by_id(user_id):
             history["category"] = row["category"]
             history["place"] = row["place"]
             histories.append(history)
-        print('histories')
-        print(histories)
     except:
         histories = []
     return histories

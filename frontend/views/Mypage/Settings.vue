@@ -1,7 +1,10 @@
 <template>
 <div>
   <div>
-    <SideBar/>
+    <SideBar
+      :money="userData.money"
+      :used_money="userData.used_money"
+    />
   </div>
   <div class="settings__main">
     <center>
@@ -25,7 +28,7 @@
     <hr size="5" noshade="" color="#000">
     <h1>予算の設定</h1>
     <div class="settings__input">
-      <el-input v-model="money" placeholder="edit" />
+      <el-input v-model="money" placeholder="edit" /> 円
     </div>
     <div class="settings__button">
       <el-button @click="setMoney">変更する</el-button>
@@ -141,6 +144,8 @@ export default {
 
 <style lang="sass" scoped>
 .mypage
+  $side-bar-width: 256px
+  $main-width: calc(100% - #{$side-bar-width})
   &__header
     padding-left: $side-bar-width
   &__side

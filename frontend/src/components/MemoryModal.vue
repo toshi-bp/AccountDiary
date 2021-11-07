@@ -9,12 +9,11 @@
       <div>
         <img :src="imageUrl"/>
       </div>
+      <h3>{{ date }}</h3>
       <h3>{{ title }}：{{ cost }}円</h3>
+      <h4>場所: {{ place }}</h4>
       <div>
         <el-rate v-model="score"></el-rate>
-      </div>
-      <div v-for="hashTag in hashTags" :key="hashTag">
-        <h4>{{ hashTag }}</h4>
       </div>
       <div>
         <p>{{ description }}</p>
@@ -30,7 +29,7 @@ export default {
       type: Boolean
     },
     date: {
-      type: Date,
+      type: String,
     },
     name: {
       type: String,
@@ -44,18 +43,14 @@ export default {
     cost: {
       type: Number
     },
-    hashTags: {
-      type: Array
-    },
     description: {
+      type: String,
+    },
+    place: {
       type: String,
     },
   },
   computed: {
-    getMonth: function(date) {
-      return date.getMonth()
-    },
-    
   }
 }
 </script>

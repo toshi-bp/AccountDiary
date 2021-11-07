@@ -42,27 +42,22 @@
     カテゴリを選択してね
     <div>
       <el-select v-model="category" placeholder="Select">
-      <el-option-group
-          v-for="group in options"
-          :key="group.label"
-          :label="group.label">
         <el-option
-          v-for="item in group.options"
-          :key="item.value"
+          v-for="item in categoryFilter"
+          :key="item.type"
           :label="item.label"
           :value="item.value">
         </el-option>
-      </el-option-group>
       </el-select>
     </div>
     <!-- 場所入力 -->
     場所を入力してね
-    <div>
+    <div class="memory__input">
       <el-input v-model="place" placeholder="Please input" />
     </div>
     <!-- ひとこと入力 -->
     ひとことを入力してね
-    <div>
+    <div class="memory__input">
       <el-input v-model="diary" placeholder="Please input" />
     </div>
     <div>
@@ -86,69 +81,32 @@
       </el-upload>
     </div>
     <div>
-      <el-row>
-        <el-button type="primary" plain @click="upload">保存</el-button>
-      </el-row>
+      <el-button type="primary" plain @click="upload">保存</el-button>
     </div>
     </center>
   </div>
 </template>
 
 <script>
-// import { reactive, toRefs } from 'vue'
 import Axios from 'axios'
 
 export default {
-  // setup() {
-  //   const state = reactive({
-  //     disabledDate(time) {
-  //       return time.getTime() > Date.now()
-  //     },
-  //     shortcuts: [
-  //       {
-  //         text: 'Today',
-  //         value: new Date(),
-  //       },
-  //       {
-  //         text: 'Yesterday',
-  //         value: () => {
-  //           const date = new Date()
-  //           date.setTime(date.getTime() - 3600 * 1000 * 24)
-  //           return date
-  //         },
-  //       },
-  //       {
-  //         text: 'A week ago',
-  //         value: () => {
-  //           const date = new Date()
-  //           date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
-  //           return date
-  //         },
-  //       },
-  //     ],
-  //     value1: '',
-  //     value2: '',
-  //   })
-  //   return {
-  //     ...toRefs(state),
-  //   }
-  // },
   // 支出or収入
   data() {
     return {
       types: [{
         id: 1,
         value: 'income',
-        label: '支出'
+        label: '収入'
       }, {
         id: 2,
         value: 'expenditure',
-        label: '収入'
+        label: '支出'
       }
       ],
       value: '',
-      // ↓収入or支出
-      type: '',
+      // ↓収入or支出(income or expenditure)
+      type: 'income',
       date: '',
       cost: 0,
       alertMessage: '',
@@ -156,21 +114,38 @@ export default {
       place: '',
       diary: '',
       category: '',
-      fileList: [
+      categories: [
         {
-          name: 'food.jpeg',
-          url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+          type: 'income',
+          label: '給与',
+          value: '給与',
         },
         {
-          name: 'food2.jpeg',
-          url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+          type: 'income',
+          label: 'その他の収入',
+          value: 'その他の収入',
         },
-      ],
+        {
+          type: 'expenditure',
+          label: '生活費',
+          value: '生活費',
+        },
+        {
+          type: 'expenditure',
+          label: '趣味・娯楽',
+          value: '趣味・娯楽',
+        },
+      ]
     }
   },
   props: {
     userId: {
       type: String
+    }
+  },
+  computed: {
+    categoryFilter() {
+      return this.categories.filter(item => item.type === this.type)
     }
   },
   methods: {
@@ -191,6 +166,12 @@ export default {
     //   return this.$confirm(`Cancel the transfert of ${file.name} ?`)
     // },
     upload () {
+      // 日付を文字列に変換
+      const year = this.date.getFullYear()
+      const month = this.date.getMonth() + 1
+      const date = this.date.getDate()
+      const act_time = year.toString() + '/' + month.toString() + '/' + date.toString()
+      console.log(act_time)
       // TODO:公開する際にurlを変更
       const BASE_URL = "http://localhost:5000"
       const axios = Axios.create({
@@ -206,6 +187,14 @@ export default {
         '/api/histories/add',
         {
           // 登録するデータ
+          id: 0,
+          user_id: self.userId,
+          action: self.diary,
+          result: self.cost,
+          act_time: act_time,
+          update_time: act_time,
+          category: self.category,
+          place: self.place
         }
       )
       .then (res => {
@@ -218,14 +207,18 @@ export default {
         self.alertMessage = 'エラーが発生しました'
       })
     }
-  }
+  },
+  mounted: async function() {
+    // TODO:ページを開いた際にそれぞれのユーザーのカテゴリーを取得する
+  },
 }
 </script>
 
 <style lang="sass" scoped>
 .memory
   // 何か書く
-    &__input
-      // 何か書く
+  &__input
+    width: 250px
+    margin-bottom: 1rem
 </style>
 

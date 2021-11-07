@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, redirect
+from flask import Flask, render_template, request, jsonify, redirect, send_from_directory, url_for
 from flask_jwt_extended import JWTManager, create_access_token
 from flask_cors import CORS
 
@@ -94,6 +94,8 @@ def api_add_image():
     code = base64.b64decode(image['image_url'].split(',')[1])
     image_decoded = Image.open(BytesIO(code))
     image_decoded.save(Path(app.config['UPLOAD_FOLDER']) / image['file_name'])
+    image["image_url"] = url_for('uploaded_image', file_name=image["file_name"])
+    print(image["image_url"])
     return jsonify(insert_image(image))
 
 @app.route('/api/images/update', methods=['POST'])
@@ -163,6 +165,11 @@ def api_update_user_money(user_id):
     money = re["money"]
     type = re["type"]
     return jsonify(update_user_money(user_id, money, type))
+
+# アップロードされた画像の表示に利用
+@app.route('/images/<file_name>')
+def uploaded_image(file_name):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], file_name)
 
 # #カテゴリのアップデート→なし
 # @app.route('/api/histories/update', methods=['POST'])

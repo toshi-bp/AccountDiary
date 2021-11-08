@@ -2,21 +2,24 @@
   <div>
     <!-- 写真をクリックしたらその詳細がモーダルとして出てくるやつ -->
     <el-dialog
-      :title="name"
-      :v-model:visible="$props.isVisible"
+      v-model="memoryVisible"
+      :title="place"
       width="80%"
+      :before-close="handleClose"
     >
       <div>
-        <img :src="imageUrl"/>
+        <img :src="`http://localhost:5000${imageUrl}`"/>
       </div>
       <h3>{{ date }}</h3>
-      <h3>{{ title }}：{{ cost }}円</h3>
-      <h4>場所: {{ place }}</h4>
+      <h3>{{ cost }}円</h3>
       <div>
-        <el-rate v-model="score"></el-rate>
+        <el-rate v-model="memoryScore" disabled></el-rate>
       </div>
       <div>
         <p>{{ description }}</p>
+      </div>
+      <div>
+        <el-button @click="closeModal">Close</el-button>
       </div>
     </el-dialog>
   </div>
@@ -24,6 +27,12 @@
 
 <script>
 export default {
+  data () {
+    return {
+      memoryScore: this.score,
+      memoryVisible: this.isVisible
+    }
+  },
   props: {
     isVisible: {
       type: Boolean
@@ -49,8 +58,14 @@ export default {
     place: {
       type: String,
     },
+    score: {
+      type: Number
+    }
   },
-  computed: {
+  methods: {
+    closeModal() {
+      this.$emit('close')
+    }
   }
 }
 </script>

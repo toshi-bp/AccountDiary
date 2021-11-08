@@ -20,20 +20,40 @@
               <img
                 :src="`http://localhost:5000${image.image_url}`" alt="写真"
                 class="mypage__img__body"
-                @click="onModal"
+                @click="visible = true"
               />
-              <div>
-                <!-- <memory-modal
-                  :cost="1000"
-                  :description="'今日はタカシとカレー。美味しかった。'"
-                  :date="new Date('July 20, 69 00:20:18')"
-                  :imageUrl="'https://1.bp.blogspot.com/-tVeC6En4e_E/X96mhDTzJNI/AAAAAAABdBo/jlD_jvZvMuk3qUcNjA_XORrA4w3lhPkdQCNcBGAsYHQ/s1048/onepiece01_luffy.png'"
-                  :hashTags="['タカシ', '洋風カレー']"
-                  :isVisible="visible"
-                  :name="'洋風カレー'"
-                  :title="'ABCカレー'"
-                /> -->
-              </div>
+              <el-dialog
+                v-model="visible"
+                :title="image.place"
+                width="80%"
+              >
+                <div class="mypage__modal">
+                  <div class="mypage__modal__img">
+                    <img :src="`http://localhost:5000${image.image_url}`"/>
+                  </div>
+                  <h3>{{ image.act_time }}</h3>
+                  <h3>{{ image.cost }}円</h3>
+                  <div>
+                    <el-rate v-model="image.score" disabled></el-rate>
+                  </div>
+                  <div>
+                    <p>{{ image.diary }}</p>
+                  </div>
+                  <div>
+                    <el-button @click="visible = false">Close</el-button>
+                  </div>
+                </div>
+              </el-dialog>
+              <!-- <memory-modal
+                :isVisible="visible"
+                :cost="image.cost"
+                :description="image.diary"
+                :date="image.act_time"
+                :imageUrl="image.image_url"
+                :place="image.place"
+                :score="image.score"
+                @close="visible = false"
+              /> -->
             </div>
           </div>
         </the-row>
@@ -145,5 +165,10 @@ export default {
       display: block
       border: 1px solid #000
       width: 200px
+      height: 200px
       margin: 0 0.5rem 1rem
+  &__modal
+    text-align: center
+    &__img
+      width: 70%
 </style>

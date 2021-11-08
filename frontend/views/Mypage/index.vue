@@ -20,16 +20,16 @@
               <img
                 :src="`http://localhost:5000${image.image_url}`" alt="写真"
                 class="mypage__img__body"
-                @click="visible = true"
+                @click="image.visible = true"
               />
               <el-dialog
-                v-model="visible"
+                v-model="image.visible"
                 :title="image.place"
                 width="80%"
               >
                 <div class="mypage__modal">
                   <div class="mypage__modal__img">
-                    <img :src="`http://localhost:5000${image.image_url}`"/>
+                    <img :src="`http://localhost:5000${image.image_url}`"  class="mypage__modal__img__body"/>
                   </div>
                   <h3>{{ image.act_time }}</h3>
                   <h3>{{ image.cost }}円</h3>
@@ -40,20 +40,10 @@
                     <p>{{ image.diary }}</p>
                   </div>
                   <div>
-                    <el-button @click="visible = false">Close</el-button>
+                    <el-button @click="image.visible = false">Close</el-button>
                   </div>
                 </div>
               </el-dialog>
-              <!-- <memory-modal
-                :isVisible="visible"
-                :cost="image.cost"
-                :description="image.diary"
-                :date="image.act_time"
-                :imageUrl="image.image_url"
-                :place="image.place"
-                :score="image.score"
-                @close="visible = false"
-              /> -->
             </div>
           </div>
         </the-row>
@@ -83,7 +73,6 @@ export default {
   },
   data () {
     return {
-      visible: false,
       imageData: [],
       userData: {},
       username: '',
@@ -132,7 +121,20 @@ export default {
     await axios.get(`/api/images/${this.userId}`).then(res => {
       console.log("image data")
       console.table(res.data)
-      this.imageData = res.data
+      const imageData = res.data
+      imageData.map((image) => {
+        this.imageData.push({
+          id: image.id,
+          act_time: image.act_time,
+          cost: image.cost,
+          diary: image.diary,
+          file_name: image.file_name,
+          image_url: image.image_url,
+          score: image.score,
+          user_id: image.user_id,
+          visible: false
+        })
+      })
     })
     // this.$store.commit("setUserId", this.userId)
     this.saveUserId()
@@ -170,5 +172,8 @@ export default {
   &__modal
     text-align: center
     &__img
-      width: 70%
+      display: block
+      text-align: center
+      &__body
+        max-width: 500px
 </style>

@@ -46,8 +46,8 @@ export default {
         {
           id: 1,
           title: "トップ",
-          path: "/mypage",
-          name: "Mypage"
+          path: "/mypage/",
+          name: "MyPage"
         },
         {
           id: 2,
@@ -117,7 +117,7 @@ export default {
   top: 0
   left: 0
   width: 256px
-  height: 100vh
+  min-height: 100vh
   background-color: #282a34
   // background-color: #9ce0e0
   &__list

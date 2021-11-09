@@ -1,60 +1,59 @@
 <template>
-
-<div>
   <div>
-    <sideBar
-      :userId="this.userId"
-      :used_money="userData.used_money"
-      :money="userData.money"
-    />
+    <div>
+      <sideBar
+        :userId="this.userId"
+        :used_money="userData.used_money"
+        :money="userData.money"
+      />
+    </div>
+    <div class="table__main">
+      <h3>{{ userData.name }}さんの行動履歴</h3>
+      <div class="table__center">
+        <el-table
+          :data="userHistory"
+          max-height="1000">
+          <el-table-column
+            prop="act_time"
+            label="日付"
+            width="100">
+          </el-table-column>
+          <el-table-column
+            prop="category"
+            label="カテゴリ"
+            width="120">
+          </el-table-column>
+          <el-table-column
+            prop="result"
+            label="金額"
+            width="120">
+          </el-table-column>
+          <el-table-column
+            prop="place"
+            label="場所"
+            width="120">
+          </el-table-column>
+          <!-- <el-table-column
+            prop="photo"
+            label="写真"
+            width="180">
+          </el-table-column> -->
+          <el-table-column
+            label="Operations"
+            width="120">
+            <template v-slot="scope">
+              <el-button
+                @prevent="deleteRow(scope.$index, tableData)"
+                type="text"
+                size="small">
+                編集
+              </el-button>
+            </template>
+          </el-table-column>
+          </el-table>
+        </div>
+    </div>
   </div>
-  <div class="table__main">
-    <div class="table__center">
-      <el-table
-        :data="userHistory"
-        max-height="1000">
-        <el-table-column
-          prop="act_time"
-          label="日付"
-          width="100">
-        </el-table-column>
-        <el-table-column
-          prop="category"
-          label="カテゴリ"
-          width="120">
-        </el-table-column>
-        <el-table-column
-          prop="result"
-          label="金額"
-          width="120">
-        </el-table-column>
-        <el-table-column
-          prop="place"
-          label="場所"
-          width="120">
-        </el-table-column>
-        <!-- <el-table-column
-          prop="photo"
-          label="写真"
-          width="180">
-        </el-table-column> -->
-        <el-table-column
-          label="Operations"
-          width="120">
-          <template v-slot="scope">
-            <el-button
-              @prevent="deleteRow(scope.$index, tableData)"
-              type="text"
-              size="small">
-              編集
-            </el-button>
-          </template>
-        </el-table-column>
-        </el-table>
-      </div>
-  </div>
-</div>
-
 </template>
 
 <script>

@@ -7,11 +7,10 @@
         :used_money="userData.used_money"
       />
     </div>
-    <div>
-      <center>
-        <div>
-          <el-alert :title="alertMessage" :type="alertType"></el-alert>
-        </div>
+    <div class="memory__main">
+      <div>
+        <el-alert :title="alertMessage" :type="alertType" v-if="alertType !== ''"></el-alert>
+      </div>
       <h3>記録</h3>
       <!-- 支出収入選択 -->
       支出収入を選択してね
@@ -66,7 +65,7 @@
       <!-- ひとこと入力 -->
       ひとことを入力してね
       <div class="memory__input">
-        <el-input v-model="diary" placeholder="Please input" />
+        <el-input v-model="diary" placeholder="Please input" autosize type="textarea"/>
       </div>
       <div class="memory__image">
         <input type="file" accept="image/*" @change="onUploadImage"/>
@@ -81,7 +80,6 @@
       <div class="memory__button">
         <el-button type="primary" plain @click="upload">保存</el-button>
       </div>
-      </center>
     </div>
   </div>
 </template>
@@ -289,10 +287,14 @@ export default {
 
 <style lang="sass" scoped>
 .memory
-  // 何か書く
+  $side-bar-width: 256px
+  $main-width: calc(100% - #{$side-bar-width})
+  &__main
+    padding-left: $side-bar-width
+    text-align: center
   &__input
     width: 250px
-    margin-bottom: 1rem
+    margin: 0 auto 1rem
   &__button
     margin-top: 1.5rem
 </style>

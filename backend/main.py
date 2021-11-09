@@ -142,6 +142,8 @@ def api_get_categories_by_id(user_id):
 @app.route('/api/categories/add', methods=['POST'])
 def api_add_category():
     category = request.get_json()
+    print("new category")
+    print(category)
     return jsonify(insert_category(category))
 
 @app.route('/api/categories/delete/<user_id>', methods=['DELETE'])

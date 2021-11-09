@@ -1,6 +1,11 @@
 <template>
   <div class="analytics">
     <div>
+      <side-bar
+        :userId="this.userId"
+      />
+    </div>
+    <div>
       <h3>円グラフ</h3>
       <chart-pie
         :chartData="hoge"
@@ -12,6 +17,7 @@
 
 <script>
 import ChartPie from '../../src/components/ChartPie.vue'
+import SideBar from '../../src/components/SideBar.vue'
 import Axios from 'axios'
 
 export default {
@@ -22,7 +28,8 @@ export default {
     }
   },
   components: {
-    ChartPie
+    ChartPie,
+    SideBar,
   },
   props: {
     userId: {

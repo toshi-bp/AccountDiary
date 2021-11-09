@@ -1,14 +1,13 @@
 <template>
-<div>
   <div>
-    <SideBar
-      :userId="this.userId"
-      :money="userData.money"
-      :used_money="userData.used_money"
-    />
-  </div>
-  <div class="settings__main">
-    <center>
+    <div>
+      <SideBar
+        :userId="this.userId"
+        :money="userData.money"
+        :used_money="userData.used_money"
+      />
+    </div>
+    <div class="settings__main">
       <div>
         <h1>カテゴリーの追加</h1>
         <h3>収入か支出を選択してください</h3>
@@ -31,46 +30,38 @@
           </el-button>
         </div>
       </div>
-    <!-- <h1>カテゴリー名の変更</h1>
-    <p><h10>------変更前------</h10></p>
-    <el-select v-model="category" placeholder="Select">
-      <el-option
-        v-for="item in userCategories"
-        :key="item"
-        :label="item.category"
-        :value="item.category">
-      </el-option>
-    </el-select>
-    <p><h10>------変更後------</h10></p>
-    <div class="settings__input">
-      <el-input v-model="changeCategory" placeholder="edit" />
+      <h1>予算の設定</h1>
+      <div class="settings__input">
+        <el-input v-model="money" placeholder="edit">
+          <template #append>円</template>
+        </el-input>
+      </div>
+      <div class="settings__button">
+        <el-button @click="setMoney">変更する</el-button>
+      </div>
+      <h1>個人情報</h1>
+      <p>------アカウント確認------</p>
+      <!--アカウント情報を掲載するテーブルの作成-->
+      <el-table
+        :data="userData"
+      >
+        <el-table-column
+          prop="name"
+          label="ユーザー名"
+        />
+        <el-table-column
+          prop="mail"
+          label="メールアドレス"
+        />
+      </el-table>
+      <p>------パスワード変更------</p>
+      <div class="settings_input">
+        <el-input v-model="password" placeholder="edit me" />
+      </div>
+      <div class="settings__button">
+        <el-button @click="changePassword">パスワード変更</el-button>
+      </div>
     </div>
-    <div class="settings__button">
-      <el-button @click="sendChangeCategory">送信する</el-button>
-    </div> -->
-    <hr size="5" noshade="" color="#000">
-    <h1>予算の設定</h1>
-    <div class="settings__input">
-      <el-input v-model="money" placeholder="edit" /> 円
-    </div>
-    <div class="settings__button">
-      <el-button @click="setMoney">変更する</el-button>
-    </div>
-    <hr size="5" noshade="" color="#000" >
-    <h1>個人情報</h1>
-    <p><h10>------アカウント確認------</h10></p>
-    <!--アカウント情報を掲載するテーブルの作成-->
-    <el-table></el-table>
-    <p><h10>------パスワード変更------</h10></p>
-    <div class="settings_input">
-      <el-input v-model="password" placeholder="edit me" />
-    </div>
-    <div class="settings__button">
-    <el-button @click="changePassword">パスワード変更</el-button>
-    </div>
-    <hr size="5" noshade="" color="#000">
-    </center>
-  </div>
   </div>
 </template>
 
@@ -78,6 +69,7 @@
 <script>
 import SideBar from '../../src/components/SideBar.vue'
 import Axios from 'axios'
+import crypto from 'crypto'
 
 export default {
   components:{
@@ -91,6 +83,7 @@ export default {
       money: 0,
       password: '',
       newCategory: '',
+      type: '',
       types: [{
         id: 1,
         value: 'income',
@@ -100,6 +93,7 @@ export default {
         value: 'expenditure',
         label: '支出'
       }],
+      addBudget: 'income',
     }
   },
   props: {
@@ -112,21 +106,7 @@ export default {
     saveUserId() {
       localStorage.setItem('userId', this.userId)
     },
-    sendChangeCategory() {
-      const BASE_URL = "http://localhost:5000"
-      let axios = Axios.create({
-        baseURL: BASE_URL,
-        headers: {
-          'Content-type': 'application/json',
-          'X-Requested-With': 'XMLHttpRequest'
-        },
-        responseType: 'json'
-      })
-      axios.patch(
-        '/api/categories/update',{}
-      )
-    },
-    setMoney() {
+    async setMoney() {
       const BASE_URL = "http://localhost:5000"
       let axios = Axios.create({
         baseURL: BASE_URL,
@@ -138,21 +118,19 @@ export default {
       })
       let self = this
       // type→incomeとする
-      axios.patch(
+      await axios.patch(
         `/api/users/update_money/${self.userId}`,
         {
           user_id: self.userId,
-          money: self.money,
-          type: 'income'
+          money: Number(self.money),
+          type: self.addBudget,
         }
       ).then(res => {
         console.log(res.data)
         console.log('money update is succeess!')
-      }).catch(
-        console.log('failed...')
-      )
+      })
     },
-    changePassword() {
+    async changePassword() {
       const BASE_URL = "http://localhost:5000"
       let axios = Axios.create({
         baseURL: BASE_URL,
@@ -163,12 +141,15 @@ export default {
         responseType: 'json'
       })
       // パスワードの更新
+      let sha256 = crypto.createHash('sha256')
+      sha256.update(this.password)
+      const hashPass = sha256.digest('base64')
       let self = this
-      axios.patch(
+      await axios.patch(
         `/api/users/update_pass/${self.userId}`,
         {
           user_id: self.userId,
-          password: self.password
+          password: hashPass
         }
       ).then(res => {
         console.log(res.data)
@@ -187,17 +168,18 @@ export default {
         },
         responseType: 'json'
       })
+      let self = this
       axios.post(
         '/api/categories/add',
         {
-          user_id: this.userId,
-          type: this.type,
-          category: this.newCategory,
-        }.then(res => {
-          console.table(res.data)
-        }).catch(
-          console.log('failed...')
-        )
+          user_id: self.userId,
+          type: self.type,
+          category: self.newCategory,
+        }
+      ).then(res => {
+        console.table(res.data)
+      }).catch(
+        console.log('category add failed...')
       )
     }
   },
@@ -212,14 +194,15 @@ export default {
       responseType: 'json'
     })
     // ユーザーデータの取得
+    console.log("userId:", this.userId)
     await axios.get(`/api/users/${this.userId}`).then(res => {
       console.log("user data")
       console.table(res.data)
       this.userData = res.data
     })
     // カテゴリーの取得
-    await axios(`/api/categories/${this.userId}`).then(res => {
-      console.log("user data")
+    await axios.get(`/api/categories/${this.userId}`).then(res => {
+      console.log("categories data")
       console.table(res.data)
       this.userCategories = res.data
     })
@@ -234,10 +217,14 @@ export default {
   $main-width: calc(100% - #{$side-bar-width})
   &__main
     display: flex
+    flex-direction: column
     justify-content: center
     align-items: center
+    padding-left: $side-bar-width
   &__input
     width: 200px
+    margin-bottom: 1rem
   &__button
     margin-bottom: 1rem
+    text-align: center
 </style>

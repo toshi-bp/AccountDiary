@@ -26,8 +26,10 @@
                 v-model="image.visible"
                 :title="image.place"
                 width="80%"
+                center
               >
                 <div class="mypage__modal">
+                  <h3>{{ image.place }}</h3>
                   <div class="mypage__modal__img">
                     <img :src="`http://localhost:5000${image.image_url}`"  class="mypage__modal__img__body"/>
                   </div>
@@ -170,10 +172,9 @@ export default {
       height: 200px
       margin: 0 0.5rem 1rem
   &__modal
-    text-align: center
     &__img
       display: block
       text-align: center
       &__body
-        max-width: 500px
+        max-width: 100%
 </style>

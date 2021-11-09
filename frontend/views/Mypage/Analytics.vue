@@ -9,20 +9,19 @@
     </div>
     <div class="analytics__main">
       <h3>円グラフ</h3>
-      <chart-pie
-        :labels="labels"
-        :moneyData="moneyData"
-        :colors="colors"
-      />
+        <DoughnutChart :chartData="chartData" :options="options"/>
     </div>
   </div>
 </template>
 
 <script>
 // コンポーネントをimportしない方針で進めてみる
-import ChartPie from '../../src/components/ChartPie.vue'
+// import ChartPie from '../../src/components/ChartPie.vue'
+import { DoughnutChart } from 'vue-chart-3'
+import { Chart, registerables } from 'chart.js'
 import SideBar from '../../src/components/SideBar.vue'
 import Axios from 'axios'
+Chart.register(...registerables)
 
 export default {
   data () {
@@ -35,11 +34,15 @@ export default {
       types: [],
       moneyData: [],
       colors: [],
+      options: {
+        responsive: true
+      },
     }
   },
   components: {
-    ChartPie,
+    // ChartPie,
     SideBar,
+    DoughnutChart,
   },
   props: {
     userId: {
@@ -88,10 +91,16 @@ export default {
       })
     })
     this.saveUserId()
-    console.log("money data:", this.moneyData)
-    console.log("labels:", this.labels)
-    console.log("types:", this.types)
-    console.log("colors", this.colors)
+    this.chartData = {
+      labels: this.labels,
+      datasets: [
+        {
+          data: this.moneyData,
+          backgroundColor: this.colors
+        }
+      ],
+    }
+    console.log("chart data:", this.chartData)
     // labels→カテゴリ配分
     // moneyData→使ったお金の配分
   }

@@ -29,7 +29,7 @@ export default {
   mounted() {
     this.chartData = {
       labels: this.labels,
-      dataSets: [
+      datasets: [
         {
           data: this.moneyData,
           backgroundColor: this.colors

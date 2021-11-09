@@ -42,18 +42,30 @@
       <h1>個人情報</h1>
       <p>------アカウント確認------</p>
       <!--アカウント情報を掲載するテーブルの作成-->
-      <el-table
-        :data="userData"
-      >
-        <el-table-column
-          prop="name"
-          label="ユーザー名"
-        />
-        <el-table-column
-          prop="mail"
-          label="メールアドレス"
-        />
-      </el-table>
+      <table class="settings__table">
+        <tbody>
+          <tr>
+            <td>ユーザー名</td>
+            <td>{{ userData.name }}</td>
+          </tr>
+          <tr>
+            <td>メールアドレス</td>
+            <td>{{ userData.mail }}</td>
+          </tr>
+          <tr>
+            <td>生年月日</td>
+            <td>{{ userData.birthday }}</td>
+          </tr>
+          <tr>
+            <td>性別</td>
+            <td>{{ showGender }}</td>
+          </tr>
+          <tr>
+            <td>電話番号</td>
+            <td>{{ userData.phonenumber }}</td>
+          </tr>
+        </tbody>
+      </table>
       <p>------パスワード変更------</p>
       <div class="settings_input">
         <el-input v-model="password" placeholder="edit me" />
@@ -100,6 +112,17 @@ export default {
     userId: {
       type: String,
       default: localStorage.getItem('userId')
+    }
+  },
+  computed: {
+    showGender() {
+      if (this.userData.gender === "male") {
+        return "男"
+      } else if (this.userData.gender === "female") {
+        return "女"
+      } else {
+        return "その他"
+      }
     }
   },
   methods: {
@@ -227,4 +250,10 @@ export default {
   &__button
     margin-bottom: 1rem
     text-align: center
+  &__table
+    border-collapse: collapse
+    line-height: 1.5rem
+    width: 60%
+    text-align: center
+    border: 1px solid #B3B3B3
 </style>

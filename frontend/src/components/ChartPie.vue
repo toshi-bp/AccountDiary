@@ -1,17 +1,39 @@
-<template>
-  <div></div>
-</template>
-
 <script>
-import { Pie } from 'vue-chartjs'
+import { Chart, registerables } from 'chart.js'
+import { DoughnutChart } from 'vue-chart-3'
+Chart.register(...registerables)
 export default {
-  extends: Pie,
-  props: {
-    chartData: {},
-    options: {},
+  data () {
+    return {
+      options: {
+        responsive: true
+      },
+      chartData: {},
+    }
   },
-  mounted () {
-    this.renderChart(this.chartData, this.options)
+  components: {
+    DoughnutChart
+  },
+  props: {
+    labels: [],
+    moneyData: [],
+    colors: [],
+  },
+  async mounted () {
+    this.chartData = {
+      labels: this.labels,
+      dataSets: [
+        {
+          label: "円グラフ",
+          data: this.moneyData,
+          backgroundColor: this.colors
+        }
+      ],
+      hoverOffset: 4
+    }
+    console.log("chart data")
+    console.table(this.chartData)
+    await this.renderChart(this.chartData, this.options)
   },
 }
 </script>

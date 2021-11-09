@@ -140,6 +140,7 @@ export default {
     })
     // this.$store.commit("setUserId", this.userId)
     this.saveUserId()
+    console.table(this.imageData)
     cookie.set(this.userData)
     cookie.set(this.imageData)
   },

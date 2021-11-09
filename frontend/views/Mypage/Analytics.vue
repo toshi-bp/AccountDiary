@@ -19,6 +19,7 @@
 </template>
 
 <script>
+// コンポーネントをimportしない方針で進めてみる
 import ChartPie from '../../src/components/ChartPie.vue'
 import SideBar from '../../src/components/SideBar.vue'
 import Axios from 'axios'
@@ -77,12 +78,12 @@ export default {
     await axios.get(`/api/histories/${this.userId}`).then(res => {
       console.log("history data")
       console.table(res.data)
-      const userHistory = res.data
+      const history = res.data
       // this.userHistory = res.data
-      userHistory.map((history) => {
-        this.moneyData.push(history.result)
-        this.labels.push(history.category)
-        this.types.push(history.type)
+      history.map((h) => {
+        this.moneyData.push(h.result)
+        this.labels.push(h.category)
+        this.types.push(h.type)
         this.colors.push(this.randomColor)
       })
     })

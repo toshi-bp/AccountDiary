@@ -1,7 +1,14 @@
+<template>
+  <div>
+    あああ
+    <DoughnutChart :chartData="chartData" :options="options"/>
+    いいい
+  </div>
+</template>
 <script>
-import { Chart, registerables } from 'chart.js'
+// import { Chart, registerables } from 'chart.js'
 import { DoughnutChart } from 'vue-chart-3'
-Chart.register(...registerables)
+// Chart.register(...registerables)
 export default {
   data () {
     return {
@@ -15,16 +22,15 @@ export default {
     DoughnutChart
   },
   props: {
-    labels: [],
-    moneyData: [],
-    colors: [],
+    labels: {},
+    moneyData: {},
+    colors: {},
   },
-  async mounted () {
+  mounted() {
     this.chartData = {
       labels: this.labels,
       dataSets: [
         {
-          label: "円グラフ",
           data: this.moneyData,
           backgroundColor: this.colors
         }
@@ -33,7 +39,7 @@ export default {
     }
     console.log("chart data")
     console.table(this.chartData)
-    await this.renderChart(this.chartData, this.options)
+    // await this.renderChart(this.chartData, this.options)
   },
 }
 </script>

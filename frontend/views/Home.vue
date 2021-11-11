@@ -15,8 +15,17 @@
     <el-main>
       <p>
         <el-carousel :interval="5000" arrow="always">
-          <el-carousel-item v-for="item in 4" :key="item">
-            <h3>{{ item }}</h3>
+          <el-carousel-item>
+            <img src="@/assets/img/ex_graph.png" alt="Logo" class="main__logo1">
+          </el-carousel-item>
+          <el-carousel-item>
+            Slide2
+          </el-carousel-item>          
+          <el-carousel-item>
+            Slide3
+          </el-carousel-item>
+          <el-carousel-item>
+            Slide4
           </el-carousel-item>
         </el-carousel>
       </p>
@@ -72,5 +81,9 @@ export default {};
 
 .bg-purple-light {
   background: #a7f7e9;
+}
+.main__logo1{
+  width:100%;
+  height:100%;
 }
 </style>

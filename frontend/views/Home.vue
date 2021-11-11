@@ -48,7 +48,14 @@
             </el-carousel></div
         ></el-col>
       </el-row>
-      <h2 class="head2">皆さんもお悩みなのではないでしょうか？</h2>
+
+    </el-main>
+                <img
+                  src="@/assets/img/onayami.png"
+                  alt="Logo"
+                  class="main__logo1"
+                />
+      <el-main>
       <p>
         <el-row>
           <el-col :xs="8" :sm="6" :md="4" :lg="3" :xl="1"><div></div></el-col>
@@ -74,37 +81,59 @@
           <i> 皆さん、家計簿めんどくさいですよね。</i>
         </font>
       </p>
-      <p>
+            <p>
         <font size="5" color="#000000" face="San Francisco UI">
-          <i> 皆さん、家計簿めんどくさいですよね。</i>
+          <i> 家計簿の現状。ご存知ですか？</i>
         </font>
       </p>
       <p>
-        <font size="5" color="#000000" face="San Francisco UI">
-          <i> 皆さん、家計簿めんどくさいですよね。</i>
-        </font>
-      </p>
-      <p>
-        <font size="5" color="#000000" face="San Francisco UI">
-          <i> 皆さん、家計簿めんどくさいですよね。</i>
-        </font>
-      </p>
-      <p>
-        <font size="5" color="#000000" face="San Francisco UI">
-          <i> 皆さん、家計簿めんどくさいですよね。</i>
-        </font>
-      </p>
-      <section>
-        <h2 class="head2">nikki de kakeibo 使い方</h2>
-        <p></p>
+        <el-row :gutter="20">
+          <el-col :span="12" :offset="6"
+            ><div>
+              <img
+                src="@/assets/img/kakeibo1.png"
+                alt="Logo"
+                class="main__logo1"
+              /></div
+          ></el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="12" :offset="6"
+            ><div>
+              <img
+                src="@/assets/img/kakeibo2.png"
+                alt="Logo"
+                class="main__logo1"
+              /></div
+          ></el-col>
+        </el-row>
         <el-row :gutter="20">
           <el-col :span="18" :offset="3"
-            ><div class="head4">登録編</div></el-col
-          >
+            ><div>
+              <img
+                src="@/assets/img/kakeibo3.png"
+                alt="Logo"
+                class="main__logo1"
+              /></div
+          ></el-col>
         </el-row>
+      </p>
+
+
+    </el-main>
+              <img
+                src="@/assets/img/howuse.png"
+                alt="Logo"
+                class="main__logo1"
+              />
+    <el-use class="howuse">
+      <section>
         <p></p>
+        <el-row :gutter="20">
+          <el-col :span="20" :offset="2"><h3 class="head4">登録編</h3></el-col>
+        </el-row>
         <el-row>
-          <el-col :span="12"
+          <el-col :span="8" :offset="3"
             ><div>
               <img
                 src="@/assets/img/login.jpg"
@@ -122,7 +151,7 @@
           <el-col :span="12"
             ><div><h1>登録が済んでない人は登録から！</h1></div></el-col
           >
-          <el-col :span="12"
+          <el-col :span="10"
             ><div>
               <img
                 src="@/assets/img/register.jpg"
@@ -132,13 +161,13 @@
           ></el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="18" :offset="3"
+          <el-col :span="20" :offset="2"
             ><div class="head4">マイページ編</div></el-col
           >
         </el-row>
         <p></p>
         <el-row>
-          <el-col :span="12"
+          <el-col :span="8" :offset="3"
             ><div>
               <img
                 src="@/assets/img/ex_Mypage.png"
@@ -149,7 +178,7 @@
           <el-col :span="12"
             ><div>
               <h1>こちらはホーム画面！</h1>
-              <h3>既に登録した画像はここから見れるよ！</h3>
+              <h3>既に登録した画像はここから見れる！</h3>
             </div></el-col
           >
         </el-row>
@@ -157,7 +186,7 @@
           <el-col :span="12"
             ><div><h1>まずは記録をしよう！</h1></div></el-col
           >
-          <el-col :span="12"
+          <el-col :span="8"
             ><div>
               <img
                 src="@/assets/img/nyuryoku.jpg"
@@ -167,7 +196,7 @@
           ></el-col>
         </el-row>
         <el-row>
-          <el-col :span="12"
+          <el-col :span="8" :offset="3"
             ><div>
               <img
                 src="@/assets/img/ex_table.png"
@@ -177,7 +206,7 @@
           ></el-col>
           <el-col :span="12"
             ><div>
-              <h1>登録したものを使って行動履歴が見れるよ！</h1>
+              <h1>登録したものを使って行動履歴が見れる！</h1>
             </div></el-col
           >
         </el-row>
@@ -185,7 +214,7 @@
           <el-col :span="12"
             ><div><h1>使ったものをグラフ表示にする事が可能！</h1></div></el-col
           >
-          <el-col :span="12"
+          <el-col :span="8"
             ><div>
               <img
                 src="@/assets/img/ex_graph.png"
@@ -195,8 +224,9 @@
           ></el-col>
         </el-row>
       </section>
-
-            <p>
+    </el-use>
+    <el-main>
+      <p>
         <font size="10" color="#000000" face="San Francisco UI">
           <i> さぁ、思い出のnikkiをしながらkakeiboを</i>
         </font>
@@ -257,7 +287,12 @@ export default {};
   text-align: center;
   line-height: 160px;
 }
-
+.howuse {
+  background-color: #ecf0f7;
+  color: #333;
+  text-align: center;
+  line-height: 160px;
+}
 .el-carousel__item h3 {
   color: #475669;
   font-size: 18px;

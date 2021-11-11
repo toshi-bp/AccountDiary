@@ -11,7 +11,7 @@
         :userId="userId"
       />
       <div class="mypage__main">
-        <h4>{{ userData.name }}さんのマイページ</h4>
+        <h3 class="mypage__username">{{ userData.name }}さんのマイページ</h3>
         <the-row>
           <div
             v-for="image in imageData" :key="image.id"
@@ -178,4 +178,6 @@ export default {
       text-align: center
       &__body
         max-width: 100%
+  &__username
+    font-size: 1.5rem
 </style>

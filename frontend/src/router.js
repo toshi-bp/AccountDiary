@@ -13,7 +13,8 @@ import Home from '../views/Home'
 const routes = [
   {
     path: '/',
-    redirect: '/login'
+    name: 'Index',
+    component: Home
   },
   {
     path: '/login',

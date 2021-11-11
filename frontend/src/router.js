@@ -7,6 +7,8 @@ import Memory from '../views/Mypage/Memory'
 import Table from '../views/Mypage/Table'
 import Analytics from '../views/Mypage/Analytics'
 import Settings from '../views/Mypage/Settings'
+import Home from '../views/Home'
+
 
 const routes = [
   {
@@ -51,6 +53,12 @@ const routes = [
     path: '/mypage/settings',
     name: 'Settings',
     component: Settings,
+    props: true,
+  },
+  {
+    path: '/home',
+    name: 'Home',
+    component: Home,
     props: true,
   }
 ]

@@ -72,7 +72,8 @@ export default {
   methods: {
     login () {
       // BASE_URL→公開時とlocalhost時で適宜変更する必要がある
-      const BASE_URL = "http://localhost:5000"
+      const BASE_URL = 'https://nikkidekakeibo.azurewebsites.net/'
+      // const BASE_URL = "http://localhost:5000"
       let sha256 = crypto.createHash('sha256')
       sha256.update(this.password)
       const hashPass = sha256.digest('base64')

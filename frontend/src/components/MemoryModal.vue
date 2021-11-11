@@ -8,7 +8,8 @@
       :before-close="handleClose"
     >
       <div>
-        <img :src="`http://localhost:5000${imageUrl}`"/>
+        <img :src="`https://nikkidekakeibo.herokuapp.com${imageUrl}`"/>
+        <!-- <img :src="`http://localhost:5000${imageUrl}`"/> -->
       </div>
       <h3>{{ date }}</h3>
       <h3>{{ cost }}円</h3>

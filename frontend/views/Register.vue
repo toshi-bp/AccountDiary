@@ -104,7 +104,8 @@ export default {
   },
   methods: {
     register () {
-      const BASE_URL = 'http://localhost:5000'
+      const BASE_URL = 'https://nikkidekakeibo.herokuapp.com'
+      // const BASE_URL = 'http://localhost:5000'
       if (this.mail === '' || this.birthday === '' || this.name === '') {
         this.alertType = 'error'
         this.alertMessage = '全ての項目に入力をしてください'

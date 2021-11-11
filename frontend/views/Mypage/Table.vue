@@ -84,7 +84,8 @@ export default {
   },
   mounted: async function () {
     console.log("user id:" + this.userId)
-    const BASE_URL = "http://localhost:5000"
+    // const BASE_URL = "http://localhost:5000"
+    const BASE_URL = 'https://nikkidekakeibo.herokuapp.com'
     let axios = Axios.create({
       baseURL: BASE_URL,
       headers: {

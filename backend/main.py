@@ -27,7 +27,7 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 @app.route('/')
 def redirect_login():
     # return redirect('http://localhost:5000/login)
-    return redirect('https://nikkidekakeibo.herokuapp.com/login')
+    return redirect('https://nikkidekakeibo.azurewebsites.net/login')
 
 # 認証部分
 @app.route('/api/login', methods=['POST'])

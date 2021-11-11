@@ -62,7 +62,7 @@ export default {
   },
   mounted: async function() {
     // const BASE_URL = "http://localhost:5000"
-    const BASE_URL = 'https://nikkidekakeibo.herokuapp.com'
+    const BASE_URL = 'https://nikkidekakeibo.azurewebsites.net/'
     let axios = Axios.create({
       baseURL: BASE_URL,
       headers: {

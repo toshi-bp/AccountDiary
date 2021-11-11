@@ -8,7 +8,7 @@
       :before-close="handleClose"
     >
       <div>
-        <img :src="`https://nikkidekakeibo.herokuapp.com${imageUrl}`"/>
+        <img :src="`https://nikkidekakeibo.azurewebsites.net/${imageUrl}`"/>
         <!-- <img :src="`http://localhost:5000${imageUrl}`"/> -->
       </div>
       <h3>{{ date }}</h3>

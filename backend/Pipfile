@@ -8,11 +8,13 @@ flask = "*"
 flask-sqlalchemy = "*"
 flask-cors = "*"
 flask-jwt-extended = "*"
+pillow = "*"
+gunicorn = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.8"
+python_version = "3.8.12"
 
 [scripts]
 start = "python main.py"

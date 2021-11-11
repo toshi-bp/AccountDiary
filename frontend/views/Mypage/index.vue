@@ -17,16 +17,16 @@
             v-for="image in imageData" :key="image.id"
           >
             <div class="mypage__img">
-              <img
+              <!-- <img
                 :src="`https://nikkidekakeibo.azurewebsites.net/${image.image_url}`" alt="写真"
                 class="mypage__img__body"
                 @click="image.visible = true"
-              />
-              <!-- <img
+              /> -->
+              <img
                 :src="`http://localhost:5000${image.image_url}`" alt="写真"
                 class="mypage__img__body"
                 @click="image.visible = true"
-              /> -->
+              />
               <el-dialog
                 v-model="image.visible"
                 :title="image.place"
@@ -36,8 +36,8 @@
                 <div class="mypage__modal">
                   <h3>{{ image.place }}</h3>
                   <div class="mypage__modal__img">
-                    <img :src="`https://nikkidekakeibo.azurewebsites.net/${image.image_url}`"  class="mypage__modal__img__body"/>
-                    <!-- <img :src="`http://localhost:5000${image.image_url}`"  class="mypage__modal__img__body"/> -->
+                    <!-- <img :src="`https://nikkidekakeibo.azurewebsites.net/${image.image_url}`"  class="mypage__modal__img__body"/> -->
+                    <img :src="`http://localhost:5000${image.image_url}`"  class="mypage__modal__img__body"/>
                   </div>
                   <h3>{{ image.act_time }}</h3>
                   <h3>{{ image.cost }}円</h3>
@@ -111,8 +111,8 @@ export default {
   // },
   mounted: async function () {
     // TODO:デプロイする際にurlを変更する
-    const BASE_URL = 'https://nikkidekakeibo.azurewebsites.net/'
-    // const BASE_URL = "http://localhost:5000"
+    // const BASE_URL = 'https://nikkidekakeibo.azurewebsites.net/'
+    const BASE_URL = "http://localhost:5000"
     cookie.set(this.userId)
     let axios = Axios.create({
       baseURL: BASE_URL,

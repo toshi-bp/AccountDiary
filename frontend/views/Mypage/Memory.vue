@@ -183,8 +183,8 @@ export default {
       const act_time = year.toString() + '/' + month.toString() + '/' + date.toString()
       console.log(act_time)
       // TODO:公開する際にurlを変更
-      // const BASE_URL = "http://localhost:5000"
-      const BASE_URL = 'https://nikkidekakeibo.azurewebsites.net/'
+      const BASE_URL = "http://localhost:5000"
+      // const BASE_URL = 'https://nikkidekakeibo.azurewebsites.net/'
       const axios = Axios.create({
         baseURL: BASE_URL,
         headers: {

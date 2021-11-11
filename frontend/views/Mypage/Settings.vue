@@ -130,8 +130,8 @@ export default {
       localStorage.setItem('userId', this.userId)
     },
     async setMoney() {
-      const BASE_URL = 'https://nikkidekakeibo.azurewebsites.net/'
-      // const BASE_URL = "http://localhost:5000"
+      // const BASE_URL = 'https://nikkidekakeibo.azurewebsites.net/'
+      const BASE_URL = "http://localhost:5000"
       let axios = Axios.create({
         baseURL: BASE_URL,
         headers: {
@@ -155,8 +155,8 @@ export default {
       })
     },
     async changePassword() {
-      // const BASE_URL = "http://localhost:5000"
-      const BASE_URL = 'https://nikkidekakeibo.azurewebsites.net/'
+      const BASE_URL = "http://localhost:5000"
+      // const BASE_URL = 'https://nikkidekakeibo.azurewebsites.net/'
       let axios = Axios.create({
         baseURL: BASE_URL,
         headers: {
@@ -184,8 +184,8 @@ export default {
       )
     },
     addCategory() {
-      // const BASE_URL = "http://localhost:5000"
-      const BASE_URL = 'https://nikkidekakeibo.azurewebsites.net/'
+      const BASE_URL = "http://localhost:5000"
+      // const BASE_URL = 'https://nikkidekakeibo.azurewebsites.net/'
       let axios = Axios.create({
         baseURL: BASE_URL,
         headers: {
@@ -210,8 +210,8 @@ export default {
     }
   },
   mounted: async function() {
-    // const BASE_URL = "http://localhost:5000"
-    const BASE_URL = 'https://nikkidekakeibo.azurewebsites.net/'
+    const BASE_URL = "http://localhost:5000"
+    // const BASE_URL = 'https://nikkidekakeibo.azurewebsites.net/'
     let axios = Axios.create({
       baseURL: BASE_URL,
       headers: {

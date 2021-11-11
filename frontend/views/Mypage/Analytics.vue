@@ -50,17 +50,15 @@ export default {
       default: localStorage.getItem('userId')
     }
   },
-  computed: {
+  methods: {
+    saveUserId() {
+      localStorage.setItem('userId', this.userId)
+    },
     randomColor() {
       const color = (Math.random() * 0xFFFFFF | 0).toString(16)
       const randomColor = "#" + ("000000" + color).slice(-6);
       return randomColor
     }
-  },
-  methods: {
-    saveUserId() {
-      localStorage.setItem('userId', this.userId)
-    },
   },
   mounted: async function() {
     const BASE_URL = "http://localhost:5000"
@@ -87,7 +85,9 @@ export default {
         this.moneyData.push(h.result)
         this.labels.push(h.category)
         this.types.push(h.type)
-        this.colors.push(this.randomColor)
+        const color = (Math.random() * 0xFFFFFF | 0).toString(16)
+        const randomColor = "#" + ("000000" + color).slice(-6);
+        this.colors.push(randomColor)
       })
     })
     this.saveUserId()

@@ -25,8 +25,8 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 
 # ログインページにリダイレクトするための関数
 @app.route('/')
-def redirect_login():
-    return redirect('http://localhost:5000/login')
+def redirect_home():
+    return redirect('http://localhost:5000/home')
     # return redirect('https://nikkidekakeibo.azurewebsites.net/login')
 
 # 認証部分

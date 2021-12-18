@@ -143,7 +143,7 @@
           ></el-col>
           <el-col :span="12"
             ><div>
-              <h1>まずは、ログインをしよう！</h1>
+              <router-link to="/login"><h1>まずは、ログインをしよう！</h1></router-link>
             </div></el-col
           >
         </el-row>

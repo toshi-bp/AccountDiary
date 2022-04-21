@@ -35,22 +35,15 @@ def login():
     user = request.get_json()
     username = user['username']
     password = user['password']
-    print("user:")
-    print(user)
     if username == "" or password == "":
         return jsonify({"message": "Format does not match"}), 400
     try:
         result = get_user_by_name_and_pwd(username, password)
-        print("result:")
-        print(result)
         if not result:
             return jsonify({"message": "username or password is wrong"}), 401
     except:
-        print("error")
         return jsonify( {"message": "An error occurred"} ), 500
-    print("create token")
     access_token = create_access_token(identity=result["id"])
-    print(access_token)
     update_user_jti(result, access_token)
     return jsonify(access_token=access_token, user_id=result["id"]), 200
 
@@ -67,7 +60,6 @@ def api_get_user(user_id):
 @app.route('/api/users/add', methods=['POST'])
 def api_add_user():
     user = request.get_json()
-    print(user)
     return jsonify(insert_user(user))
 
 @app.route('/api/users/update', methods=['POST'])
@@ -96,7 +88,6 @@ def api_add_image():
     image_decoded = Image.open(BytesIO(code))
     image_decoded.save(Path(app.config['UPLOAD_FOLDER']) / image['file_name'])
     image["image_url"] = url_for('uploaded_image', file_name=image["file_name"])
-    print(image["image_url"])
     return jsonify(insert_image(image))
 
 @app.route('/api/images/update', methods=['POST'])

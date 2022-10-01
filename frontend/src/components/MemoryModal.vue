@@ -9,7 +9,7 @@
     >
       <div>
         <!-- <img :src="`https://nikkidekakeibo.azurewebsites.net/${imageUrl}`"/> -->
-        <img :src="`http://localhost:5000${imageUrl}`"/>
+        <img :src="`http://127.0.0.1:5000${imageUrl}`" />
       </div>
       <h3>{{ date }}</h3>
       <h3>{{ cost }}円</h3>
@@ -28,21 +28,21 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       memoryScore: this.score,
       memoryVisible: this.isVisible
-    }
+    };
   },
   props: {
     isVisible: {
       type: Boolean
     },
     date: {
-      type: String,
+      type: String
     },
     name: {
-      type: String,
+      type: String
     },
     imageUrl: {
       type: String
@@ -54,10 +54,10 @@ export default {
       type: Number
     },
     description: {
-      type: String,
+      type: String
     },
     place: {
-      type: String,
+      type: String
     },
     score: {
       type: Number
@@ -65,12 +65,10 @@ export default {
   },
   methods: {
     closeModal() {
-      this.$emit('close')
+      this.$emit("close");
     }
   }
-}
+};
 </script>
 
-<style lang="sass" scoped>
-
-</style>
+<style lang="sass" scoped></style>

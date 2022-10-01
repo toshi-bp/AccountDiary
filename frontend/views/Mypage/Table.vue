@@ -10,105 +10,87 @@
     <div class="table__main">
       <h3>{{ userData.name }}さんの行動履歴</h3>
       <div class="table__center">
-        <el-table
-          :data="userHistory"
-          max-height="1000">
-          <el-table-column
-            prop="act_time"
-            label="日付"
-            width="100">
+        <el-table :data="userHistory" max-height="1000">
+          <el-table-column prop="act_time" label="日付" width="100">
           </el-table-column>
-          <el-table-column
-            prop="category"
-            label="カテゴリ"
-            width="120">
+          <el-table-column prop="category" label="カテゴリ" width="120">
           </el-table-column>
-          <el-table-column
-            prop="result"
-            label="金額"
-            width="120">
+          <el-table-column prop="result" label="金額" width="120">
           </el-table-column>
-          <el-table-column
-            prop="place"
-            label="場所"
-            width="120">
+          <el-table-column prop="place" label="場所" width="120">
           </el-table-column>
           <!-- <el-table-column
             prop="photo"
             label="写真"
             width="180">
           </el-table-column> -->
-          <el-table-column
-            label="Operations"
-            width="120">
+          <el-table-column label="Operations" width="120">
             <template v-slot="scope">
               <el-button
                 @prevent="deleteRow(scope.$index, tableData)"
                 type="text"
-                size="small">
+                size="small"
+              >
                 編集
               </el-button>
             </template>
           </el-table-column>
-          </el-table>
-        </div>
+        </el-table>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import SideBar from '../../src/components/SideBar.vue'
-import Axios from 'axios'
-
+import SideBar from "../../src/components/SideBar.vue";
+import Axios from "axios";
 
 export default {
-  components:{
-  SideBar,
+  components: {
+    SideBar
   },
   data() {
     return {
       userHistory: [],
-      userData: {},
-    }
+      userData: {}
+    };
   },
   props: {
     userId: {
       type: String,
-      default: localStorage.getItem('userId')
-    },
+      default: localStorage.getItem("userId")
+    }
   },
   methods: {
     saveUserId() {
-      localStorage.setItem('userId', this.userId)
+      localStorage.setItem("userId", this.userId);
     }
   },
-  mounted: async function () {
-    console.log("user id:" + this.userId)
-    const BASE_URL = "http://localhost:5000"
+  mounted: async function() {
+    console.log("user id:" + this.userId);
+    const BASE_URL = "http://127.0.0.1:5000";
     // const BASE_URL = 'https://nikkidekakeibo.azurewebsites.net/'
     let axios = Axios.create({
       baseURL: BASE_URL,
       headers: {
-        'Content-type': 'application/json',
-        'X-Requested-With': 'XMLHttpRequest'
+        "Content-type": "application/json",
+        "X-Requested-With": "XMLHttpRequest"
       },
-      responseType: 'json'
-    })
-    await axios.get(
-      `/api/users/${this.userId}`).then(res => {
-      console.log("user data")
-      console.table(res.data)
-      this.userData = res.data
-    })
-    await axios.get(
-      `/api/histories/${this.userId}`).then(res => {
-      console.log("history data")
-      console.table(res.data)
-      this.userHistory = res.data
-    })
-    this.saveUserId()
+      responseType: "json"
+    });
+    await axios.get(`/api/users/${this.userId}`).then(res => {
+      console.log("user data");
+      console.table(res.data);
+      this.userData = res.data;
+    });
+    await axios.get(`/api/histories/${this.userId}`).then(res => {
+      console.log("history data");
+      console.table(res.data);
+      this.userHistory = res.data;
+    });
+    this.saveUserId();
   }
-}
+};
 </script>
 
 <style lang="sass" scoped>

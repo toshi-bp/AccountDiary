@@ -9,7 +9,7 @@
     </div>
     <div class="analytics__main">
       <h3>円グラフ</h3>
-        <DoughnutChart :chartData="chartData" :options="options"/>
+      <DoughnutChart :chartData="chartData" :options="options" />
     </div>
   </div>
 </template>
@@ -17,14 +17,14 @@
 <script>
 // コンポーネントをimportしない方針で進めてみる
 // import ChartPie from '../../src/components/ChartPie.vue'
-import { DoughnutChart } from 'vue-chart-3'
-import { Chart, registerables } from 'chart.js'
-import SideBar from '../../src/components/SideBar.vue'
-import Axios from 'axios'
-Chart.register(...registerables)
+import { DoughnutChart } from "vue-chart-3";
+import { Chart, registerables } from "chart.js";
+import SideBar from "../../src/components/SideBar.vue";
+import Axios from "axios";
+Chart.register(...registerables);
 
 export default {
-  data () {
+  data() {
     return {
       loading: false,
       chartData: null,
@@ -36,62 +36,62 @@ export default {
       colors: [],
       options: {
         responsive: true
-      },
-    }
+      }
+    };
   },
   components: {
     // ChartPie,
     SideBar,
-    DoughnutChart,
+    DoughnutChart
   },
   props: {
     userId: {
       type: String,
-      default: localStorage.getItem('userId')
+      default: localStorage.getItem("userId")
     }
   },
   methods: {
     saveUserId() {
-      localStorage.setItem('userId', this.userId)
+      localStorage.setItem("userId", this.userId);
     },
     randomColor() {
-      const color = (Math.random() * 0xFFFFFF | 0).toString(16)
+      const color = ((Math.random() * 0xffffff) | 0).toString(16);
       const randomColor = "#" + ("000000" + color).slice(-6);
-      return randomColor
+      return randomColor;
     }
   },
   mounted: async function() {
-    const BASE_URL = "http://localhost:5000"
+    const BASE_URL = "http://127.0.0.1:5000";
     // const BASE_URL = 'https://nikkidekakeibo.azurewebsites.net/'
     let axios = Axios.create({
       baseURL: BASE_URL,
       headers: {
-        'Content-type': 'application/json',
-        'X-Requested-With': 'XMLHttpRequest'
+        "Content-type": "application/json",
+        "X-Requested-With": "XMLHttpRequest"
       },
-      responseType: 'json'
-    })
+      responseType: "json"
+    });
     // TODO:ユーザーデータ及び行動履歴データの取得
     await axios.get(`/api/users/${this.userId}`).then(res => {
-      console.log("user data")
-      console.table(res.data)
-      this.userData = res.data
-    })
+      console.log("user data");
+      console.table(res.data);
+      this.userData = res.data;
+    });
     await axios.get(`/api/histories/${this.userId}`).then(res => {
-      console.log("history data")
-      console.table(res.data)
-      const history = res.data
+      console.log("history data");
+      console.table(res.data);
+      const history = res.data;
       // this.userHistory = res.data
-      history.map((h) => {
-        this.moneyData.push(h.result)
-        this.labels.push(h.category)
-        this.types.push(h.type)
-        const color = (Math.random() * 0xFFFFFF | 0).toString(16)
+      history.map(h => {
+        this.moneyData.push(h.result);
+        this.labels.push(h.category);
+        this.types.push(h.type);
+        const color = ((Math.random() * 0xffffff) | 0).toString(16);
         const randomColor = "#" + ("000000" + color).slice(-6);
-        this.colors.push(randomColor)
-      })
-    })
-    this.saveUserId()
+        this.colors.push(randomColor);
+      });
+    });
+    this.saveUserId();
     this.chartData = {
       labels: this.labels,
       datasets: [
@@ -99,13 +99,13 @@ export default {
           data: this.moneyData,
           backgroundColor: this.colors
         }
-      ],
-    }
-    console.log("chart data:", this.chartData)
+      ]
+    };
+    console.log("chart data:", this.chartData);
     // labels→カテゴリ配分
     // moneyData→使ったお金の配分
   }
-}
+};
 </script>
 
 <style lang="sass" scoped>

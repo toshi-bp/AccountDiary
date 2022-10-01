@@ -18,7 +18,7 @@ app.config['SECRET_KEY'] = 'secret'
 UPLOAD_FOLDER = './uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 jwt = JWTManager(app)
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 
 # views読み込み
 # app.register_blueprint(auth)
@@ -26,7 +26,7 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 # ログインページにリダイレクトするための関数
 @app.route('/')
 def redirect_home():
-    return redirect('http://localhost:5000/home')
+    return redirect('http://127.0.0.1:5000/home')
     # return redirect('https://nikkidekakeibo.azurewebsites.net/login')
 
 # 認証部分

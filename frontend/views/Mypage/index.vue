@@ -13,9 +13,7 @@
       <div class="mypage__main">
         <h4>{{ userData.name }}さんのマイページ</h4>
         <the-row>
-          <div
-            v-for="image in imageData" :key="image.id"
-          >
+          <div v-for="image in imageData" :key="image.id">
             <div class="mypage__img">
               <!-- <img
                 :src="`https://nikkidekakeibo.azurewebsites.net/${image.image_url}`" alt="写真"
@@ -23,7 +21,8 @@
                 @click="image.visible = true"
               /> -->
               <img
-                :src="`http://localhost:5000${image.image_url}`" alt="写真"
+                :src="`http://127.0.0.1:5000${image.image_url}`"
+                alt="写真"
                 class="mypage__img__body"
                 @click="image.visible = true"
               />
@@ -37,7 +36,10 @@
                   <h3>{{ image.place }}</h3>
                   <div class="mypage__modal__img">
                     <!-- <img :src="`https://nikkidekakeibo.azurewebsites.net/${image.image_url}`"  class="mypage__modal__img__body"/> -->
-                    <img :src="`http://localhost:5000${image.image_url}`"  class="mypage__modal__img__body"/>
+                    <img
+                      :src="`http://127.0.0.1:5000${image.image_url}`"
+                      class="mypage__modal__img__body"
+                    />
                   </div>
                   <h3>{{ image.act_time }}</h3>
                   <h3>{{ image.cost }}円</h3>
@@ -61,77 +63,77 @@
 </template>
 
 <script>
-import Header from '../../src/components/Header.vue'
-import SideBar from '../../src/components/SideBar.vue'
-import TheRow from '../../src/components/TheRow.vue'
+import Header from "../../src/components/Header.vue";
+import SideBar from "../../src/components/SideBar.vue";
+import TheRow from "../../src/components/TheRow.vue";
 // import MemoryModal from '../../src/components/MemoryModal.vue'
 // import TheColumn from '../../src/components/TheColumn.vue'
 // import TheSection from '../../src/components/TheSection.vue'
-import Axios from 'axios'
-import cookie from 'js-cookie'
+import Axios from "axios";
+import cookie from "js-cookie";
 
 export default {
   components: {
     Header,
     SideBar,
-    TheRow,
+    TheRow
     // MemoryModal,
     // TheColumn,
     // TheSection,
   },
-  data () {
+  data() {
     return {
       imageData: [],
       userData: {},
-      username: '',
+      username: "",
       showConfirm: false
-    }
+    };
   },
   props: {
     userId: {
       type: String,
-      default: localStorage.getItem('userId')
+      default: localStorage.getItem("userId")
     }
   },
   methods: {
     onModal() {
-      this.visible = !this.visible
-      console.log(this.visible)
+      this.visible = !this.visible;
+      console.log(this.visible);
     },
     confirm(event) {
-      this.showConfirm = !this.showConfirm
-      event.returnValue = "リロードするとログイン画面に戻ります"
+      this.showConfirm = !this.showConfirm;
+      event.returnValue = "リロードするとログイン画面に戻ります";
     },
     saveUserId() {
-      localStorage.setItem('userId', this.userId)
+      localStorage.setItem("userId", this.userId);
     }
   },
   // created() {
   //   window.addEventListener("beforeunload", this.confirm)
   // },
-  mounted: async function () {
+  mounted: async function() {
     // TODO:デプロイする際にurlを変更する
     // const BASE_URL = 'https://nikkidekakeibo.azurewebsites.net/'
-    const BASE_URL = "http://localhost:5000"
-    cookie.set(this.userId)
+    const BASE_URL = "http://127.0.0.1:5000";
+    cookie.set(this.userId);
     let axios = Axios.create({
       baseURL: BASE_URL,
       headers: {
-        'Content-type': 'application/json',
-        'X-Requested-With': 'XMLHttpRequest'
+        "Content-type": "application/json",
+        "X-Requested-With": "XMLHttpRequest"
       },
-      responseType: 'json'
-    })
+      responseType: "json"
+    });
     await axios.get(`/api/users/${this.userId}`).then(res => {
-      console.log("user data")
-      console.table(res.data)
-      this.userData = res.data
-    })
+      console.log("user data");
+      console.table(res.data);
+      this.userData = res.data;
+    });
     await axios.get(`/api/images/${this.userId}`).then(res => {
-      console.log("image data")
-      console.table(res.data)
-      const imageData = res.data
-      imageData.map((image) => {
+      console.log("image data");
+      console.table(res.data);
+      const imageData = res.data;
+      imageData.map(image => {
         this.imageData.push({
           id: image.id,
           act_time: image.act_time,
@@ -142,16 +144,16 @@ export default {
           score: image.score,
           user_id: image.user_id,
           visible: false
-        })
-      })
-    })
+        });
+      });
+    });
     // this.$store.commit("setUserId", this.userId)
-    this.saveUserId()
-    console.table(this.imageData)
-    cookie.set(this.userData)
-    cookie.set(this.imageData)
-  },
-}
+    this.saveUserId();
+    console.table(this.imageData);
+    cookie.set(this.userData);
+    cookie.set(this.imageData);
+  }
+};
 </script>
 
 <style lang="sass" scoped>

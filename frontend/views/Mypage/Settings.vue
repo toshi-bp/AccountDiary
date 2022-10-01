@@ -77,165 +77,162 @@
   </div>
 </template>
 
-
 <script>
-import SideBar from '../../src/components/SideBar.vue'
-import Axios from 'axios'
-import crypto from 'crypto'
+import SideBar from "../../src/components/SideBar.vue";
+import Axios from "axios";
+import crypto from "crypto";
 
 export default {
-  components:{
-    SideBar,
+  components: {
+    SideBar
   },
   data() {
     return {
       userData: {},
       userCategories: [],
-      changeCategory: '',
+      changeCategory: "",
       money: 0,
-      password: '',
-      newCategory: '',
-      type: '',
-      types: [{
-        id: 1,
-        value: 'income',
-        label: '収入'
-      }, {
-        id: 2,
-        value: 'expenditure',
-        label: '支出'
-      }],
-      addBudget: 'income',
-    }
+      password: "",
+      newCategory: "",
+      type: "",
+      types: [
+        {
+          id: 1,
+          value: "income",
+          label: "収入"
+        },
+        {
+          id: 2,
+          value: "expenditure",
+          label: "支出"
+        }
+      ],
+      addBudget: "income"
+    };
   },
   props: {
     userId: {
       type: String,
-      default: localStorage.getItem('userId')
+      default: localStorage.getItem("userId")
     }
   },
   computed: {
     showGender() {
       if (this.userData.gender === "male") {
-        return "男"
+        return "男";
       } else if (this.userData.gender === "female") {
-        return "女"
+        return "女";
       } else {
-        return "その他"
+        return "その他";
       }
     }
   },
   methods: {
     saveUserId() {
-      localStorage.setItem('userId', this.userId)
+      localStorage.setItem("userId", this.userId);
     },
     async setMoney() {
       // const BASE_URL = 'https://nikkidekakeibo.azurewebsites.net/'
-      const BASE_URL = "http://localhost:5000"
+      const BASE_URL = "http://127.0.0.1:5000";
       let axios = Axios.create({
         baseURL: BASE_URL,
         headers: {
-          'Content-type': 'application/json',
-          'X-Requested-With': 'XMLHttpRequest'
+          "Content-type": "application/json",
+          "X-Requested-With": "XMLHttpRequest"
         },
-        responseType: 'json'
-      })
-      let self = this
+        responseType: "json"
+      });
+      let self = this;
       // type→incomeとする
-      await axios.patch(
-        `/api/users/update_money/${self.userId}`,
-        {
+      await axios
+        .patch(`/api/users/update_money/${self.userId}`, {
           user_id: self.userId,
           money: Number(self.money),
-          type: self.addBudget,
-        }
-      ).then(res => {
-        console.log(res.data)
-        console.log('money update is succeess!')
-      })
+          type: self.addBudget
+        })
+        .then(res => {
+          console.log(res.data);
+          console.log("money update is succeess!");
+        });
     },
     async changePassword() {
-      const BASE_URL = "http://localhost:5000"
+      const BASE_URL = "http://127.0.0.1:5000";
       // const BASE_URL = 'https://nikkidekakeibo.azurewebsites.net/'
       let axios = Axios.create({
         baseURL: BASE_URL,
         headers: {
-          'Content-type': 'application/json',
-          'X-Requested-With': 'XMLHttpRequest'
+          "Content-type": "application/json",
+          "X-Requested-With": "XMLHttpRequest"
         },
-        responseType: 'json'
-      })
+        responseType: "json"
+      });
       // パスワードの更新
-      let sha256 = crypto.createHash('sha256')
-      sha256.update(this.password)
-      const hashPass = sha256.digest('base64')
-      let self = this
-      await axios.patch(
-        `/api/users/update_pass/${self.userId}`,
-        {
+      let sha256 = crypto.createHash("sha256");
+      sha256.update(this.password);
+      const hashPass = sha256.digest("base64");
+      let self = this;
+      await axios
+        .patch(`/api/users/update_pass/${self.userId}`, {
           user_id: self.userId,
           password: hashPass
-        }
-      ).then(res => {
-        console.log(res.data)
-        console.log('password update is succeess!')
-      }).catch(
-        console.log('failed...')
-      )
+        })
+        .then(res => {
+          console.log(res.data);
+          console.log("password update is succeess!");
+        })
+        .catch(console.log("failed..."));
     },
     addCategory() {
-      const BASE_URL = "http://localhost:5000"
+      const BASE_URL = "http://127.0.0.1:5000";
       // const BASE_URL = 'https://nikkidekakeibo.azurewebsites.net/'
       let axios = Axios.create({
         baseURL: BASE_URL,
         headers: {
-          'Content-type': 'application/json',
-          'X-Requested-With': 'XMLHttpRequest'
+          "Content-type": "application/json",
+          "X-Requested-With": "XMLHttpRequest"
         },
-        responseType: 'json'
-      })
-      let self = this
-      axios.post(
-        '/api/categories/add',
-        {
+        responseType: "json"
+      });
+      let self = this;
+      axios
+        .post("/api/categories/add", {
           user_id: self.userId,
           type: self.type,
-          category: self.newCategory,
-        }
-      ).then(res => {
-        console.table(res.data)
-      }).catch(
-        console.log('category add failed...')
-      )
+          category: self.newCategory
+        })
+        .then(res => {
+          console.table(res.data);
+        })
+        .catch(console.log("category add failed..."));
     }
   },
   mounted: async function() {
-    const BASE_URL = "http://localhost:5000"
+    const BASE_URL = "http://127.0.0.1:5000";
     // const BASE_URL = 'https://nikkidekakeibo.azurewebsites.net/'
     let axios = Axios.create({
       baseURL: BASE_URL,
       headers: {
-        'Content-type': 'application/json',
-        'X-Requested-With': 'XMLHttpRequest'
+        "Content-type": "application/json",
+        "X-Requested-With": "XMLHttpRequest"
       },
-      responseType: 'json'
-    })
+      responseType: "json"
+    });
     // ユーザーデータの取得
-    console.log("userId:", this.userId)
+    console.log("userId:", this.userId);
     await axios.get(`/api/users/${this.userId}`).then(res => {
-      console.log("user data")
-      console.table(res.data)
-      this.userData = res.data
-    })
+      console.log("user data");
+      console.table(res.data);
+      this.userData = res.data;
+    });
     // カテゴリーの取得
     await axios.get(`/api/categories/${this.userId}`).then(res => {
-      console.log("categories data")
-      console.table(res.data)
-      this.userCategories = res.data
-    })
-    this.saveUserId()
+      console.log("categories data");
+      console.table(res.data);
+      this.userCategories = res.data;
+    });
+    this.saveUserId();
   }
-}
+};
 </script>
 
 <style lang="sass" scoped>
